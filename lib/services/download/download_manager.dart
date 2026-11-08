@@ -143,6 +143,9 @@ class DownloadManager implements IDownloadManager {
   final Map<String, DownloadTask> _activeTasks = {};
   final List<DownloadRequest> _queue = [];
   final Map<String, _SpeedTracker> _speedTrackers = {};
+  // 每个 key 当前 worker 的 Future：换源/重试时等待旧 worker 收尾，
+  // 避免新旧两个 worker 并发写同一分片/.tmp 文件产出交错损坏的成片。
+  final Map<String, Future<void>> _activeWorkers = {};
   int maxParallelEpisodes = 2;
   int maxParallelSegments = 3;
   int _runningCount = 0;
@@ -255,10 +258,55 @@ class DownloadManager implements IDownloadManager {
         pluginName, episodeNumber);
   }
 
+  /// 启动一个 episode worker 并登记其 Future，收尾时按所有权清理。
+  void _launchWorker({
+    required DownloadTask task,
+    required int bangumiId,
+    required String pluginName,
+    required String m3u8Url,
+    required Map<String, String> httpHeaders,
+    required bool adBlockerEnabled,
+    required DownloadEpisode episode,
+  }) {
+    final key = _taskKey(task.recordKey, task.episodeNumber);
+    final future = _runEpisodeDownload(
+      task: task,
+      bangumiId: bangumiId,
+      pluginName: pluginName,
+      m3u8Url: m3u8Url,
+      httpHeaders: httpHeaders,
+      adBlockerEnabled: adBlockerEnabled,
+      episode: episode,
+    );
+    _activeWorkers[key] = future;
+    future.whenComplete(() {
+      if (identical(_activeWorkers[key], future)) {
+        _activeWorkers.remove(key);
+      }
+    });
+  }
+
+  /// 等待该 key 上仍在收尾的旧 worker 退出（若有），保证同一集串行下载。
+  Future<void> _awaitRetiringWorker(String key) async {
+    final oldWorker = _activeWorkers[key];
+    if (oldWorker != null) {
+      try {
+        await oldWorker;
+      } catch (_) {}
+    }
+  }
+
   @override
   Future<void> enqueue(DownloadRequest request) async {
     final key = _taskKey(request.recordKey, request.episodeNumber);
-    if (_activeTasks.containsKey(key)) return;
+    final existing = _activeTasks[key];
+    if (existing != null) {
+      if (!existing.cancelToken.isCancelled) {
+        return;
+      }
+      // 暂停后立刻重试：旧 worker 正在收尾，等它退出再启动而不是静默丢弃请求。
+      await _awaitRetiringWorker(key);
+    }
 
     final task = DownloadTask(
       recordKey: request.recordKey,
@@ -268,7 +316,7 @@ class DownloadManager implements IDownloadManager {
     if (_runningCount < maxParallelEpisodes) {
       _runningCount++;
       _activeTasks[key] = task;
-      _runEpisodeDownload(
+      _launchWorker(
         task: task,
         bangumiId: request.bangumiId,
         pluginName: request.pluginName,
@@ -288,12 +336,20 @@ class DownloadManager implements IDownloadManager {
   Future<void> enqueuePriority(DownloadRequest request) async {
     final key = _taskKey(request.recordKey, request.episodeNumber);
 
+    // 旧 worker 还在跑时必须先取消并等待收尾，否则新旧 worker 并发写同一
+    // .tmp/分片文件会产出交错损坏的成片。
+    final existing = _activeTasks[key];
+    if (existing != null && !existing.cancelToken.isCancelled) {
+      existing.isPaused = true;
+      existing.cancelToken.cancel('re-enqueued with priority');
+    }
+    await _awaitRetiringWorker(key);
+
     _queue.removeWhere(
       (r) =>
           r.recordKey == request.recordKey &&
           r.episodeNumber == request.episodeNumber,
     );
-    _activeTasks.remove(key);
 
     final task = DownloadTask(
       recordKey: request.recordKey,
@@ -303,7 +359,7 @@ class DownloadManager implements IDownloadManager {
     // Start immediately, bypassing the parallel limit (priority download)
     _runningCount++;
     _activeTasks[key] = task;
-    _runEpisodeDownload(
+    _launchWorker(
       task: task,
       bangumiId: request.bangumiId,
       pluginName: request.pluginName,
@@ -337,7 +393,7 @@ class DownloadManager implements IDownloadManager {
 
     if (_runningCount < maxParallelEpisodes) {
       _runningCount++;
-      _runEpisodeDownload(
+      _launchWorker(
         task: task,
         bangumiId: request.bangumiId,
         pluginName: request.pluginName,
@@ -379,7 +435,7 @@ class DownloadManager implements IDownloadManager {
       }
 
       _runningCount++;
-      _runEpisodeDownload(
+      _launchWorker(
         task: existingTask,
         bangumiId: request.bangumiId,
         pluginName: request.pluginName,
@@ -503,6 +559,34 @@ class DownloadManager implements IDownloadManager {
         }
       }
 
+      // 分片来源一致性：换源/重解析后旧分片不可复用（不同编码混流会花屏）。
+      // 记录分片 URI 指纹，与上次不一致时清掉旧分片全部重下。
+      final sourceFingerprint = '$m3u8Url\n'
+          '${segments.map((s) => s.uri).join('\n')}\n'
+          '${keys.map((k) => k.uri).join('\n')}';
+      final sourceFile = File(path.join(episodeDir, '.segments.source'));
+      final previousSource =
+          await sourceFile.exists() ? await sourceFile.readAsString() : null;
+      if (previousSource != null && previousSource != sourceFingerprint) {
+        KazumiLogger().i(
+            'DownloadManager: episode ${task.episodeNumber} source changed, discarding old segments');
+        await for (final entity in Directory(episodeDir).list()) {
+          final name = path.basename(entity.path);
+          if (name.startsWith('seg_') || name == 'playlist.m3u8') {
+            try {
+              await entity.delete();
+            } catch (_) {}
+          }
+        }
+      }
+      try {
+        await sourceFile.writeAsString(sourceFingerprint);
+      } catch (e) {
+        KazumiLogger().w(
+            'DownloadManager: failed to write segment source fingerprint',
+            error: e);
+      }
+
       final existingSegments = <int>{};
       var existingBytes = 0;
       for (int i = 0; i < segments.length; i++) {
@@ -554,22 +638,30 @@ class DownloadManager implements IDownloadManager {
             httpHeaders,
             task.cancelToken,
           ).then((bytes) {
-            sessionBytes += bytes;
-            episode.downloadedSegments++;
-            episode.totalBytes = existingBytes + sessionBytes;
-            episode.progressPercent =
-                episode.downloadedSegments / episode.totalSegments;
-            _speedTrackers[key]?.update(sessionBytes);
-            _notifyProgress(task, episode);
+            // 先释放槽位并记数，再通知 UI：进度回调抛错不能卡死 completer 或饿死并发池。
             completedCount++;
             semaphore.release();
-            if (completedCount + failedCount == pendingIndices.length) {
+            try {
+              sessionBytes += bytes;
+              episode.downloadedSegments++;
+              episode.totalBytes = existingBytes + sessionBytes;
+              episode.progressPercent =
+                  episode.downloadedSegments / episode.totalSegments;
+              _speedTrackers[key]?.update(sessionBytes);
+              _notifyProgress(task, episode);
+            } catch (e) {
+              KazumiLogger().w('DownloadManager: progress notify failed',
+                  error: e);
+            }
+            if (completedCount + failedCount >= pendingIndices.length &&
+                !completer.isCompleted) {
               completer.complete();
             }
           }).catchError((e) {
             failedCount++;
             semaphore.release();
-            if (completedCount + failedCount == pendingIndices.length) {
+            if (completedCount + failedCount >= pendingIndices.length &&
+                !completer.isCompleted) {
               completer.complete();
             }
           });
@@ -709,6 +801,17 @@ class DownloadManager implements IDownloadManager {
         } else {
           rethrow;
         }
+      }
+
+      // 服务器可能忽略 Range 头返回 200+全量内容：此时必须清零重下，
+      // 否则 append 模式会产出「半截旧数据 + 全量文件」的损坏视频。
+      if (useRange && (response.statusCode ?? 0) != 206) {
+        KazumiLogger().w(
+          'DownloadManager: server ignored Range header '
+          '(status ${response.statusCode}), restarting from scratch',
+        );
+        existingBytes = 0;
+        useRange = false;
       }
 
       final contentRange = response.headers.value('content-range');
