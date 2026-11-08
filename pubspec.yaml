@@ -124,18 +124,18 @@ flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
-  image_path: assets/images/logo/logo_android.png
-  image_path_android: assets/images/logo/cycani.png
-  image_path_ios: assets/images/logo/logo_ios.png
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: assets/images/logo/cycani.png
-  adaptive_icon_monochrome: assets/images/logo/cycani.png
+  image_path: assets/icon/moon_badge.png
+  image_path_android: assets/icon/moon_badge.png
+  image_path_ios: assets/icon/moon_badge.png
+  adaptive_icon_background: "#0F1A2E"
+  adaptive_icon_foreground: assets/icon/moon_foreground.png
+  adaptive_icon_monochrome: assets/icon/moon_monochrome.png
   macos:
     generate: true
-    image_path: assets/images/logo/logo_rounded.png
+    image_path: assets/icon/moon_badge.png
   windows:
     generate: true
-    image_path: assets/images/logo/cycani.png
+    image_path: assets/icon/moon_badge.png
     icon_size: 256
 
 flutter_native_splash:
@@ -144,8 +144,8 @@ flutter_native_splash:
   web: false
   color_ios: "#ffffff"
   color_dark_ios: "#212121"
-  image_ios: assets/images/logo/logo_ios.png
-  image_dark_ios: assets/images/logo/logo_ios.png
+  image_ios: assets/icon/moon_badge.png
+  image_dark_ios: assets/icon/moon_badge.png
 
 msix_config:
   display_name: 青月次元
