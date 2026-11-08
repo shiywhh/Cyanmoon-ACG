@@ -265,6 +265,7 @@ class _QingyueMyPageState extends State<QingyueMyPage> {
           QingyueDestination.theme => '/settings/theme',
           QingyueDestination.player => '/settings/player',
           QingyueDestination.danmaku => '/settings/danmaku/',
+          QingyueDestination.bangumiAccount => '/settings/bangumi',
           QingyueDestination.storage => '/settings/storage',
           _ => '/settings/about',
         });

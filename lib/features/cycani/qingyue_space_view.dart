@@ -15,6 +15,7 @@ enum QingyueDestination {
   account,
   storage,
   about,
+  bangumiAccount,
 }
 
 const _tileRadius = BorderRadius.all(Radius.circular(28));
@@ -530,6 +531,7 @@ class _PreferencesPanel extends StatelessWidget {
     ('外观', Icons.palette_rounded, QingyueDestination.theme),
     ('播放', Icons.play_circle_rounded, QingyueDestination.player),
     ('弹幕', Icons.subtitles_rounded, QingyueDestination.danmaku),
+    ('Bangumi', Icons.bookmarks_rounded, QingyueDestination.bangumiAccount),
   ];
 
   @override
