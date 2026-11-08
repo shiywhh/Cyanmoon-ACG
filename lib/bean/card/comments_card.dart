@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kazumi/bean/widget/bangumi_avatar.dart';
 import 'package:kazumi/modules/comments/comment_item.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:kazumi/bbcode/bbcode_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:kazumi/utils/date_time.dart';
 
@@ -111,7 +112,11 @@ class CommentsCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(item.comment.comment),
+            // 吐槽正文可能含 BBCode（图片/粗体/引用等），与角色页吐槽保持一致的渲染。
+            BBCodeWidget(
+              bbcode: item.comment.comment,
+              textScaler: MediaQuery.textScalerOf(context),
+            ),
           ],
         ),
       ),

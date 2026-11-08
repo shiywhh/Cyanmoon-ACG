@@ -58,6 +58,9 @@ abstract class _InfoController with Store {
 
   int _commentsOffset = 0;
 
+  // 评论请求代次：静默刷新与加载更多并发时，旧响应一律丢弃，防止列表交错/偏移错乱。
+  int _commentsRequestGeneration = 0;
+
   void clearComments() {
     commentsList.clear();
     _commentsOffset = 0;
@@ -154,23 +157,33 @@ abstract class _InfoController with Store {
     required bool refresh,
     required bool clearBeforeFetch,
   }) async {
+    final requestGeneration = ++_commentsRequestGeneration;
     if (refresh) {
       if (clearBeforeFetch) {
         clearComments();
       }
     }
     final offset = refresh ? 0 : _commentsOffset;
-    await BangumiApi.getBangumiCommentsByID(id, offset: offset).then((value) {
-      if (refresh && !clearBeforeFetch) {
+    final value = await BangumiApi.getBangumiCommentsByID(id, offset: offset);
+    // 已有更新的请求接管了列表（并发/换条目），本次响应作废。
+    if (requestGeneration != _commentsRequestGeneration ||
+        bangumiItem.id != id) {
+      return;
+    }
+    if (refresh && !clearBeforeFetch) {
+      // 静默刷新：仅当列表未深入翻页时整体替换为第一页；
+      // 深翻页状态下跳过，避免把已加载的 N 页截断回第 1 页导致滚动位置与数据丢失。
+      // （本人新评分不改变他人评论，且 _removeCurrentUserFromPublicComments 已就地隐藏自己的公开吐槽。）
+      if (commentsList.length <= value.commentList.length) {
         commentsList = ObservableList<CommentItem>.of(value.commentList);
-      } else {
-        commentsList.addAll(value.commentList);
+        _commentsOffset = value.commentList.length;
+        _removeCurrentUserFromPublicComments();
       }
-      _commentsOffset = refresh
-          ? value.commentList.length
-          : _commentsOffset + value.commentList.length;
+    } else {
+      commentsList.addAll(value.commentList);
+      _commentsOffset = _commentsOffset + value.commentList.length;
       _removeCurrentUserFromPublicComments();
-    });
+    }
     KazumiLogger().i(
         'InfoController: loaded comments list length ${commentsList.length}, offset $_commentsOffset');
   }
