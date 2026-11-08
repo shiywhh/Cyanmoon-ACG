@@ -161,7 +161,9 @@ class AutoUpdater {
   }
 
   Future<Map<String, dynamic>> _latestRelease() async {
-    final raw = await _downloadClient.getPlain(ApiEndpoints.latestAppMirror);
+    // 直读本仓库（shiywhh/Cyanmoon-ACG）的 GitHub Releases。
+    // 原 Kazumi 镜像后端服务的是上游版本，fork 不能用它做更新检查。
+    final raw = await _downloadClient.getPlain(ApiEndpoints.latestApp);
     final data = json.decode(raw);
     if (data is! Map) {
       throw Exception('Invalid update response');
