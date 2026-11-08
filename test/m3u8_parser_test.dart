@@ -215,5 +215,40 @@ seg_c.ts
       expect(resolved[3].uri, 'https://example.com/seg_c.ts');
       expect(resolved[4].uri, 'https://example.com/seg_00002.ts');
     });
+
+    // ── resolveUrl ─────────────────────────────────────────────────────────
+    test('resolveUrl keeps baseUrl query (signed CDN segments)', () {
+      expect(
+        M3u8Parser.resolveUrl(
+          'https://cdn.example.com/live/playlist.m3u8?sign=abc123',
+          'seg_001.ts',
+        ),
+        'https://cdn.example.com/live/seg_001.ts?sign=abc123',
+      );
+      expect(
+        M3u8Parser.resolveUrl(
+          'https://cdn.example.com/live/playlist.m3u8?sign=abc123',
+          '/hls/key_1.key',
+        ),
+        'https://cdn.example.com/hls/key_1.key?sign=abc123',
+      );
+    });
+
+    test('resolveUrl handles protocol-relative and absolute URLs', () {
+      expect(
+        M3u8Parser.resolveUrl(
+          'https://a.example.com/p/playlist.m3u8',
+          '//cdn.example.com/x/seg.ts',
+        ),
+        'https://cdn.example.com/x/seg.ts',
+      );
+      expect(
+        M3u8Parser.resolveUrl(
+          'https://a.example.com/p/playlist.m3u8?sign=1',
+          'https://other.example.com/seg.ts',
+        ),
+        'https://other.example.com/seg.ts',
+      );
+    });
   });
 }

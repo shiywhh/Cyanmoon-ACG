@@ -54,6 +54,9 @@ class M3u8MasterPlaylist {
   M3u8MasterPlaylist({required this.variants});
 
   M3u8Variant get bestVariant {
+    if (variants.isEmpty) {
+      throw StateError('M3U8 master playlist has no variants');
+    }
     return variants.reduce((a, b) => a.bandwidth > b.bandwidth ? a : b);
   }
 }
@@ -85,12 +88,24 @@ class M3u8Parser {
         relativeUrl.startsWith('https://')) {
       return relativeUrl;
     }
-    final baseUri = Uri.parse(baseUrl);
-    if (relativeUrl.startsWith('/')) {
-      return '${baseUri.scheme}://${baseUri.host}${baseUri.hasPort ? ':${baseUri.port}' : ''}$relativeUrl';
+    // 用 Uri.resolve（RFC 3986）统一处理根相对/协议相对/相对路径。
+    // 注意 Dart 的 resolve 不继承 base 的 query，而签名/鉴权型 CDN 的分片与
+    // 密钥 URI 依赖 playlist 的 sign/token 参数，需手动补继承（同源才继承）。
+    try {
+      final base = Uri.parse(baseUrl);
+      final resolved = base.resolve(relativeUrl);
+      if (!relativeUrl.contains('?') &&
+          base.hasQuery &&
+          !resolved.hasQuery &&
+          resolved.authority == base.authority) {
+        return resolved.replace(query: base.query).toString();
+      }
+      return resolved.toString();
+    } catch (_) {
+      // base 非法时退回手写拼接
+      final basePath = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
+      return '$basePath$relativeUrl';
     }
-    final basePath = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
-    return '$basePath$relativeUrl';
   }
 
   static M3u8MasterPlaylist parseMasterPlaylist(
@@ -156,7 +171,8 @@ class M3u8Parser {
         currentKey = _parseKey(line, baseUrl);
       } else if (line.startsWith('#EXTINF:')) {
         final durationStr = line.substring('#EXTINF:'.length).split(',')[0];
-        currentDuration = double.parse(durationStr);
+        // 畸形时长按 0 处理，不让单个坏标签中断整个播放列表解析
+        currentDuration = double.tryParse(durationStr) ?? 0;
       } else if (line.isNotEmpty && !line.startsWith('#')) {
         final uri = resolveUrl(baseUrl, line);
         segments.add(M3u8Segment(
