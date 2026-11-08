@@ -113,8 +113,9 @@ class _CatalogDetailPageState extends State<CatalogDetailPage> {
         ).any((m) => catalogRowKey(m) == entryKey),
       );
       matches = catalogList(group['catalog_members']);
+      // 全站点成员齐备时提前收手；Bangumi 暂不作为站点成员参与（S2+ 接入）。
       if (matches.map(catalogSource).toSet().length ==
-          CatalogSource.values.length)
+          CatalogSource.siteSources.length)
         break;
     }
     if (!mounted || catalogRowKey(widget.row) != entryKey) return;

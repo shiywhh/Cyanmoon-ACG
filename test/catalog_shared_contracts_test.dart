@@ -91,7 +91,12 @@ void main() {
     expect(giri['catalog_source'], isNot(xifan['catalog_source']));
   });
   test('three plugin descriptors use the same native playback contract', () {
-    for (final source in CatalogSource.values) {
+    // Bangumi 条目不是播放目标，不构造播放插件。
+    for (final source in const [
+      CatalogSource.cycani,
+      CatalogSource.xifan,
+      CatalogSource.giri,
+    ]) {
       final plugin = catalogPlugin(source);
       expect(plugin.name, source.label);
       expect(plugin.useWebview, isTrue);

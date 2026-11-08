@@ -1,14 +1,21 @@
 enum CatalogSource {
   cycani('次元城'),
   xifan('稀饭'),
-  giri('GiriGiri');
+  giri('GiriGiri'),
+  bangumi('Bangumi');
 
   const CatalogSource(this.label);
   final String label;
+
+  /// 参与三站聚合与站点选择器的来源集合。Bangumi 作为第四源已进入身份/
+  /// 聚合模型层，但各功能（周表/排行/搜索/追番库）按步骤逐步接入；
+  /// 接入前聚合遍历与 UI 选择器使用本列表，避免提前触碰未实现的分支。
+  static const List<CatalogSource> siteSources = [cycani, xifan, giri];
   Uri detail(int id) => Uri.parse(switch (this) {
     cycani => 'https://www.cycani.org/video/$id',
     xifan => 'https://next.xifanacg.com/anime/$id',
     giri => 'https://ani.girigirilove.com/detail/$id',
+    bangumi => 'https://bgm.tv/subject/$id',
   });
 }
 

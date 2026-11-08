@@ -35,7 +35,14 @@ void main() {
         final entry = SiteEntry(source, 123);
         expect(SiteEntry.fromLegacy(entry.legacyId), entry);
       }
-      for (final id in [0, 1, -1000000000, -2000000000, -3000000001]) {
+      for (final id in [
+        0,
+        1,
+        -1000000000,
+        -2000000000,
+        -3000000000, // bangumi 段 raw=0 仍非法
+        -4000000001, // index 4 越界
+      ]) {
         expect(SiteEntry.fromLegacy(id), isNull);
       }
     },

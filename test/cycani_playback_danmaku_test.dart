@@ -145,7 +145,12 @@ void main() {
     },
   );
 
-  for (final source in CatalogSource.values) {
+  // Bangumi 条目不是播放目标（播放经合并后的站点成员解析），不参与该组用例。
+  for (final source in const [
+    CatalogSource.cycani,
+    CatalogSource.xifan,
+    CatalogSource.giri,
+  ]) {
     test(
       'five-way merge from ${source.name} uses exact linked episode and stable IDs',
       () async {
@@ -157,6 +162,7 @@ void main() {
           CatalogSource.cycani => 'https://www.cycani.org/section/12',
           CatalogSource.xifan => 'https://next.xifanacg.com/anime/20/play/202',
           CatalogSource.giri => 'https://g.girigirilove.com/e2.m3u8',
+          CatalogSource.bangumi => '',
         };
         final result = await CatalogPlaybackDanmaku(
           source: source,

@@ -17,7 +17,12 @@ void main() {
   final api = CatalogAggregator.instance;
   final skip = enabled ? false : 'Set CATALOG_PUBLIC_LIVE=1 to use live APIs.';
 
-  for (final source in CatalogSource.values) {
+  // Bangumi 不在 live 站点链路测试范围（其数据经 BangumiApi，另有覆盖）。
+  for (final source in const [
+    CatalogSource.cycani,
+    CatalogSource.xifan,
+    CatalogSource.giri,
+  ]) {
     test(
       '${source.label}: homepage links to readable detail and comments',
       () async {
@@ -31,6 +36,7 @@ void main() {
           CatalogSource.cycani => 0,
           CatalogSource.xifan => 1000000000,
           CatalogSource.giri => 2000000000,
+          CatalogSource.bangumi => 3000000000,
         };
         expect(detail.id, entry.id + offset);
         expect(detail.title, isNot(anyOf(isEmpty, '未命名番剧')));
@@ -54,6 +60,7 @@ void main() {
         CatalogSource.giri => await api.giriRanking(
           catalogInt((await api.giriRankingGroups()).first['id']),
         ),
+        CatalogSource.bangumi => const <Map<String, dynamic>>[],
       };
       expect(rows.where((r) => CatalogVideo(r).id > 0), isNotEmpty);
     }, skip: skip);

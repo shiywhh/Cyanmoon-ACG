@@ -1,4 +1,5 @@
 import 'package:kazumi/services/network/catalog_image_url.dart';
+import 'package:kazumi/features/cycani/catalog_identity.dart';
 import 'package:kazumi/modules/bangumi/bangumi_item.dart';
 import 'package:kazumi/modules/roads/road_module.dart';
 
@@ -46,33 +47,43 @@ class CatalogVideo {
   List<CatalogJson> get sources => catalogList(json['play_from']);
 
   /// A separate ID namespace keeps existing Kazumi/Bangumi records intact.
-  BangumiItem toBangumi() => BangumiItem(
-    id: -id,
-    type: 2,
-    name: title,
-    nameCn: title,
-    summary: description,
-    airDate: '${json['publish_date'] ?? ''}',
-    airWeekday: catalogInt(json['weekday']),
-    rank: 0,
-    images: {
-      for (final key in ['large', 'common', 'medium', 'small', 'grid'])
-        key: cover,
-    },
-    tags: [],
-    metaTags: catalogUniqueLabels([
-      if (json['air'] is String && '${json['air']}'.trim().isNotEmpty)
-        '${json['air']}'.trim(),
-      if (total > 0) '$total 话',
-      for (final key in ['version', 'area', 'category'])
-        if (json[key] is String) '${json[key]}',
-    ]),
-    alias: ['${json['subtitle'] ?? ''}'],
-    ratingScore: double.tryParse('${json['score']}') ?? 0,
-    votes: catalogInt(json['score_num']),
-    votesCount: [],
-    info: 'cycani:$id',
-  );
+  ///
+  /// 按行内 catalog_source 生成站点感知的 BangumiItem（legacy 负 ID 编码），
+  /// 稀饭/Giri 行不再被硬编码成次元城身份；次元城行的编码与旧实现完全一致。
+  BangumiItem toBangumi() {
+    final source = CatalogSource.values.firstWhere(
+      (s) => s.name == '${json['catalog_source']}',
+      orElse: () => CatalogSource.cycani,
+    );
+    final entry = id > 0 ? SiteEntry(source, id) : null;
+    return BangumiItem(
+      id: entry?.legacyId ?? 0,
+      type: 2,
+      name: title,
+      nameCn: title,
+      summary: description,
+      airDate: '${json['publish_date'] ?? ''}',
+      airWeekday: catalogInt(json['weekday']),
+      rank: 0,
+      images: {
+        for (final key in ['large', 'common', 'medium', 'small', 'grid'])
+          key: cover,
+      },
+      tags: [],
+      metaTags: catalogUniqueLabels([
+        if (json['air'] is String && '${json['air']}'.trim().isNotEmpty)
+          '${json['air']}'.trim(),
+        if (total > 0) '$total 话',
+        for (final key in ['version', 'area', 'category'])
+          if (json[key] is String) '${json[key]}',
+      ]),
+      alias: ['${json['subtitle'] ?? ''}'],
+      ratingScore: double.tryParse('${json['score']}') ?? 0,
+      votes: catalogInt(json['score_num']),
+      votesCount: [],
+      info: entry?.key ?? '',
+    );
+  }
 }
 
 class CatalogEpisodes {

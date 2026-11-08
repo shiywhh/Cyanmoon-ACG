@@ -58,7 +58,7 @@ class _QingyueBootstrapState extends State<QingyueBootstrap> {
       ]);
       final plugins = inject<PluginsController>();
       await plugins.init();
-      for (final source in CatalogSource.values) {
+      for (final source in CatalogSource.siteSources) {
         await plugins.updatePlugin(catalogPlugin(source));
       }
       await inject<ShaderAssetService>().copyShadersToExternalDirectory();
@@ -1204,7 +1204,7 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
                   initialValue: activeSource,
                   onSelected: _selectSource,
                   itemBuilder: (_) => [
-                    for (final source in CatalogSource.values)
+                    for (final source in CatalogSource.siteSources)
                       PopupMenuItem(value: source, child: Text(source.label)),
                   ],
                   child: Row(

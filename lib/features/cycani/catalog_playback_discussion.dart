@@ -54,6 +54,9 @@ class CatalogDiscussionTarget {
                 videoId: entry.rawId,
                 playUrl: pageUrl,
               );
+      case CatalogSource.bangumi:
+        // Bangumi 条目不是播放目标（播放经合并后的站点成员解析），非讨论目标。
+        return null;
     }
   }
 
@@ -83,6 +86,9 @@ class CatalogDiscussionTarget {
       time,
       mode: mode,
       color: color,
+    ),
+    CatalogSource.bangumi => throw StateError(
+      'Bangumi 条目不支持站内弹幕发送（讨论经合并站点成员路由）',
     ),
   };
 }

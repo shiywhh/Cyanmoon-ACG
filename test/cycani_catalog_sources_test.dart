@@ -108,9 +108,9 @@ void main() {
       final api = _SearchFixture();
       Future<Set<CatalogSource>> sources(String query, int page) async =>
           (await api.search(query, page)).items.map(catalogSource).toSet();
-      expect(await sources('alpha', 1), CatalogSource.values.toSet());
+      expect(await sources('alpha', 1), CatalogSource.siteSources.toSet());
       api.failXifan = true;
-      expect(await sources('alpha', 1), CatalogSource.values.toSet());
+      expect(await sources('alpha', 1), CatalogSource.siteSources.toSet());
       expect(await sources('beta', 1), {
         CatalogSource.cycani,
         CatalogSource.giri,

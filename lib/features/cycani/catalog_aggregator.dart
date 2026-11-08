@@ -203,6 +203,21 @@ class CatalogAggregator {
       'air': row['vod_time'] ?? row['vod_remarks'],
       'catalog_source': source.name,
     },
+    CatalogSource.bangumi => {
+      // Bangumi v0 条目字段归一：raw subject id 即身份，bangumi_id 与 video_id 同值。
+      'video_id': row['id'],
+      'title': '${row['name_cn'] ?? ''}'.isNotEmpty
+          ? row['name_cn']
+          : row['name'],
+      'cover_url': catalogMap(row['images'])['large'] ?? '',
+      'description': row['summary'] ?? '',
+      'publish_date': row['date'] ?? '',
+      'weekday': row['weekday'] ?? 0,
+      'score': catalogMap(row['rating'])['score'] ?? 0,
+      'score_num': catalogMap(row['rating'])['total'] ?? 0,
+      'bangumi_id': row['id'],
+      'catalog_source': source.name,
+    },
   };
   List<CatalogJson> _rows(CatalogSource source, Object? data) => [
     for (final item in catalogList(data))
@@ -865,7 +880,7 @@ class CatalogAggregator {
   Future<List<CatalogJson>> mergedSchedule(int day) async {
     if (day < 1 || day > 7) throw ArgumentError.value(day);
     final sections = await Future.wait(
-      CatalogSource.values.map((source) async {
+      CatalogSource.siteSources.map((source) async {
         final key = (source, day);
         final diskKey = 'schedule-source:${source.name}:$day';
         try {
@@ -1076,7 +1091,7 @@ class CatalogAggregator {
 
   Future<CatalogPage> search(String keyword, int page) async {
     final results = await Future.wait(
-      CatalogSource.values.map((source) async {
+      CatalogSource.siteSources.map((source) async {
         final key = (source, keyword);
         final diskKey = 'search-source:${source.name}:$keyword';
         try {

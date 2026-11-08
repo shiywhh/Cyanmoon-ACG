@@ -60,6 +60,10 @@ class CatalogFollow {
         );
       case CatalogSource.giri:
         await SourceAccounts.instance.setGiriFollow(entry.rawId, state.index);
+      case CatalogSource.bangumi:
+        // 阶段二接入：Bangumi 收藏状态走 BangumiApi 收藏接口（S5 追番库融合时落地），
+        // UI 提供入口之前不可达。
+        throw UnimplementedError('CatalogFollow: bangumi source pending');
     }
   }
 }

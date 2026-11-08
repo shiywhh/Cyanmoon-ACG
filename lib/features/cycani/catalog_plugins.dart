@@ -7,6 +7,8 @@ Plugin catalogPlugin(CatalogSource source) {
     CatalogSource.cycani => '${CycaniApi.origin}/',
     CatalogSource.xifan => 'https://next.xifanacg.com/',
     CatalogSource.giri => 'https://ani.girigirilove.com/',
+    // Bangumi 条目不是播放目标（播放经合并后的站点成员解析），不应构造播放插件。
+    CatalogSource.bangumi => throw StateError('catalogPlugin: bangumi not playable'),
   };
   return Plugin.fromJson({
     'api': '9',

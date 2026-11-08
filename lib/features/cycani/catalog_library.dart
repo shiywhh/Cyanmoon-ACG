@@ -159,6 +159,9 @@ class CatalogLibrarySource {
             // giriFollows 无分页参数、单次返回全量，循环重拉只是重复请求。
             rows.addAll(await accounts.giriFollows());
           }
+        case CatalogSource.bangumi:
+          // 阶段二接入：Bangumi 收藏/观看历史聚合（S5 追番库融合时落地）。
+          throw UnimplementedError('CatalogLibrary: bangumi source pending');
       }
       return [
         for (final row in rows)
@@ -186,7 +189,7 @@ class CatalogLibrarySource {
     final cycani = api ?? CycaniApi.instance;
     final sites = accounts ?? SourceAccounts.instance;
     final results = await Future.wait([
-      for (final source in CatalogSource.values)
+      for (final source in CatalogSource.siteSources)
         _siteRows(
           source,
           cycani,
@@ -222,6 +225,9 @@ class CatalogLibrarySource {
         await SourceAccounts.instance.setXifanFollow(entry.rawId, status);
       case CatalogSource.giri:
         await SourceAccounts.instance.setGiriFollow(entry.rawId, status ?? 0);
+      case CatalogSource.bangumi:
+        // 阶段二接入：Bangumi 收藏状态写入走 BangumiApi（S5 追番库融合时落地）。
+        throw UnimplementedError('CatalogLibrary.writeFollow: bangumi pending');
     }
   }
 
