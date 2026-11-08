@@ -153,7 +153,9 @@ class CycaniRemoteDanmaku {
         ? id
         : (await _episodeIds(bangumiId))[episode] ?? 0;
     if (episodeId <= 0) {
-      _relayEpisodes.remove(bangumiId);
+      // 仅清除该集的映射（可能只是单集未收录/编号歧义），保留其余集数缓存，
+      // 避免每切一集都整番重拉 bgmtv 集数表。
+      (await _episodeIds(bangumiId)).remove(episode);
       return [];
     }
     final data = catalogMap(

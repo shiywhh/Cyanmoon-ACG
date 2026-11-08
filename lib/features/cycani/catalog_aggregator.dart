@@ -900,12 +900,26 @@ class CatalogAggregator {
   // 供周表卡片显示 GiriGiri 评分（数据来自 get_list，多数条目 > 0）。
   final _giriScores = <int, double>{};
   String? _giriScoresDay;
+  Future<void>? _giriScoresRefresh;
 
-  Future<void> _ensureGiriScores() async {
+  Future<void> _ensureGiriScores() {
     final now = DateTime.now();
     final day = '${now.year}-${now.month}-${now.day}';
+    if (_giriScoresDay == day) return Future.value();
+    // 并发去重（single-flight）：周表多个入口同时触发时共享同一次刷新，
+    // 避免重复发起最多 20 次分页请求、后进入者 clear 掉先进入者已填充的数据。
+    return _giriScoresRefresh ??= () async {
+      try {
+        await _loadGiriScores(day);
+      } finally {
+        _giriScoresRefresh = null;
+      }
+    }();
+  }
+
+  Future<void> _loadGiriScores(String day) async {
+    final now = DateTime.now();
     final diskKey = 'giri-score-index:${now.year}';
-    if (_giriScoresDay == day) return;
     _giriScores.clear();
 
     final cached = await CatalogDiskCache.read(diskKey);

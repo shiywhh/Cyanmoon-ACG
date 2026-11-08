@@ -149,12 +149,15 @@ class CatalogLibrarySource {
             if (batch.length < (history ? 30 : 100)) break;
           }
         case CatalogSource.giri:
-          for (var page = 1; rows.length < cap; page++) {
-            final batch = history
-                ? await accounts.giriHistory(page: page)
-                : await accounts.giriFollows();
-            rows.addAll(batch);
-            if (batch.length < 20) break;
+          if (history) {
+            for (var page = 1; rows.length < cap; page++) {
+              final batch = await accounts.giriHistory(page: page);
+              rows.addAll(batch);
+              if (batch.length < 20) break;
+            }
+          } else {
+            // giriFollows 无分页参数、单次返回全量，循环重拉只是重复请求。
+            rows.addAll(await accounts.giriFollows());
           }
       }
       return [

@@ -32,12 +32,16 @@ class CatalogDanmakuLoader {
     if (loadCached != null) {
       try {
         final cached = await loadCached();
-        if (cached != null && cached.isNotEmpty) {
+        final cachedFiltered =
+            cached?.where((e) => options.includes(e.source)).toList() ?? [];
+        if (cachedFiltered.isNotEmpty) {
           return DanmakuLoadResult.success(
-            danmakus: cached.where((e) => options.includes(e.source)).toList(),
+            danmakus: cachedFiltered,
             bangumiID: 0,
           );
         }
+        // 缓存存在但按当前来源设置过滤后为空（如旧缓存不含新增来源），
+        // 继续在线加载而不是返回空 success。
       } catch (_) {}
     }
     final names = [

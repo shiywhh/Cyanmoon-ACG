@@ -14,7 +14,16 @@ class CatalogAvatarStore extends ChangeNotifier {
   Future<void>? _ready;
   late Directory _root;
   final Map<String, String> _files = {};
-  Future<void> initialize() => _ready ??= _load();
+  Future<void> initialize() async {
+    _ready ??= _load();
+    try {
+      await _ready;
+    } catch (e) {
+      // 索引文件损坏时允许下次重试，而不是把失败缓存住让头像功能整个会话瘫痪。
+      _ready = null;
+      rethrow;
+    }
+  }
   Future<void> _load() async {
     _root = Directory('${(await _directory()).path}/cycani_avatars');
     await _root.create(recursive: true);
