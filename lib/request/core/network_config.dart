@@ -7,6 +7,14 @@ import 'package:kazumi/services/network/system_proxy_service.dart';
 import 'package:kazumi/services/storage/storage.dart';
 
 class NetworkConfig {
+  /// 允许自签证书的域名白名单（Bangumi 官方域名，镜像加速场景）。
+  /// 不再对所有主机放行：全局 bypass 会让携带 Bearer token 的请求暴露给
+  /// 任意中间人。白名单收窄到 token 所在域本身，攻击面不再放大。
+  static const Set<String> _badCertAllowedHosts = {
+    'api.bgm.tv',
+    'next.bgm.tv',
+  };
+
   const NetworkConfig({
     this.connectTimeout = const Duration(seconds: 12),
     this.receiveTimeout = const Duration(seconds: 12),
@@ -46,7 +54,8 @@ class NetworkConfig {
       client.findProxy = SystemProxyService.findProxy;
     }
     if (allowBadCertificates) {
-      client.badCertificateCallback = (cert, host, port) => true;
+      client.badCertificateCallback = (cert, host, port) =>
+          _badCertAllowedHosts.contains(host);
     }
     return client;
   }

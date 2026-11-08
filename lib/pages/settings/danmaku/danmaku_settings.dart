@@ -104,6 +104,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   void updateDanmakuArea(double i) async {
     await GStorage.putSetting<double>(SettingsKeys.danmakuArea, i);
+    if (!mounted) return;
     setState(() {
       defaultDanmakuArea = i;
     });
@@ -111,6 +112,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   void updateDanmakuOpacity(double i) async {
     await GStorage.putSetting<double>(SettingsKeys.danmakuOpacity, i);
+    if (!mounted) return;
     setState(() {
       defaultDanmakuOpacity = i;
     });
@@ -118,6 +120,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   void updateDanmakuFontSize(double i) async {
     await GStorage.putSetting<double>(SettingsKeys.danmakuFontSize, i);
+    if (!mounted) return;
     setState(() {
       defaultDanmakuFontSize = i;
     });
@@ -125,6 +128,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   void updateDanmakuDuration(double i) async {
     await GStorage.putSetting<double>(SettingsKeys.danmakuDuration, i);
+    if (!mounted) return;
     setState(() {
       defaultDanmakuDuration = i;
     });
@@ -132,6 +136,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   void updateDanmakuLineHeight(double i) async {
     await GStorage.putSetting<double>(SettingsKeys.danmakuLineHeight, i);
+    if (!mounted) return;
     setState(() {
       defaultDanmakuLineHeight = i;
     });
@@ -139,6 +144,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   void updateDanmakuFontWeight(int i) async {
     await GStorage.putSetting<int>(SettingsKeys.danmakuFontWeight, i);
+    if (!mounted) return;
     setState(() {
       defaultDanmakuFontWeight = i;
     });
@@ -146,6 +152,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   void updateDanmakuBorderSize(double i) async {
     await GStorage.putSetting<double>(SettingsKeys.danmakuBorderSize, i);
+    if (!mounted) return;
     setState(() {
       defaultdanmakuBorderSize = i;
     });

@@ -107,6 +107,7 @@ class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
       themeProvider.setThemeMode(ThemeMode.system);
     }
     await GStorage.putSetting(SettingsKeys.themeMode, theme);
+    if (!mounted) return;
     setState(() {
       defaultThemeMode = theme;
     });

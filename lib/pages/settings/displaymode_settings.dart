@@ -29,20 +29,30 @@ class _SetDisplayModeState extends State<SetDisplayMode> {
     });
   }
 
-  Future<void> fetchAll() async {
+  Future<void> fetchAll({bool save = false}) async {
     preferred = await FlutterDisplayMode.preferred;
     active = await FlutterDisplayMode.active;
-    await GStorage.putSetting(SettingsKeys.displayMode, preferred.toString());
-    setState(() {});
+    // 仅在用户显式选择时写回存储：打开页面不应把系统当前值覆写成"偏好"，
+    // 否则 init 的恢复逻辑被自己上一次的覆写架空。
+    if (save) {
+      await GStorage.putSetting(SettingsKeys.displayMode, preferred.toString());
+    }
+    if (mounted) setState(() {});
   }
 
   Future<void> init() async {
     try {
       modes = await FlutterDisplayMode.supported;
     } on PlatformException catch (_) {}
+    if (modes.isEmpty) return;
     var res = await getDisplayModeType(modes);
 
-    preferred = modes.toList().firstWhere((el) => el == res);
+    preferred = modes.toList().firstWhere(
+      (el) => el == res,
+      // 存储值与支持列表失配（换机/分辨率变化）或未保存过偏好时回退系统当前值，
+      // 不再 firstWhere 抛 StateError 使恢复静默失效。
+      orElse: () => modes.first,
+    );
     FlutterDisplayMode.setPreferredMode(preferred!);
   }
 
@@ -50,7 +60,10 @@ class _SetDisplayModeState extends State<SetDisplayMode> {
     var value = GStorage.getSetting(SettingsKeys.displayMode);
     DisplayMode f = DisplayMode.auto;
     if (value != null) {
-      f = modes.firstWhere((e) => e.toString() == value);
+      f = modes.firstWhere(
+        (e) => e.toString() == value,
+        orElse: () => DisplayMode.auto,
+      );
     }
     return f;
   }
@@ -71,7 +84,7 @@ class _SetDisplayModeState extends State<SetDisplayMode> {
                     await Future<dynamic>.delayed(
                       const Duration(milliseconds: 100),
                     );
-                    await fetchAll();
+                    await fetchAll(save: true);
                   },
                   tiles: modes
                       .map((e) => SettingsTile<DisplayMode>.radioTile(
