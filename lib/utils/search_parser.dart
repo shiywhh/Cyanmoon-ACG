@@ -301,8 +301,8 @@ class SearchParser {
     final year = int.parse(match.group(1)!);
     final quarter = int.parse(match.group(2)!);
     final startMonth = (quarter - 1) * 3 + 1;
-    final start = DateTime(year, startMonth - 1, 1);
-    final end = DateTime(year, startMonth + 2, 1);
+    final start = DateTime(year, startMonth, 1);
+    final end = DateTime(year, startMonth + 3, 1);
     return SearchDateRange(
       start: formatDateTime(start),
       end: formatDateTime(end),

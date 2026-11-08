@@ -779,25 +779,17 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
             }),
           ),
           if (selected.isNotEmpty && tab == 4)
-            PopupMenuButton<String>(
+            PopupMenuButton<int>(
               tooltip: '修改追番状态',
               onSelected: (v) => _manage(() async {
                 for (final entry in _selectedEntries()) {
-                  if (entry.source == CatalogSource.cycani) {
-                    await CatalogLibrarySource.writeFollow(
-                      entry,
-                      int.parse(v),
-                    );
-                  }
+                  await CatalogLibrarySource.writeFollow(entry, v);
                 }
               }),
-              itemBuilder: (_) => [
-                for (final e in {
-                  'watching': '正在追',
-                  'want': '准备追',
-                  'watched': '已追完',
-                }.entries)
-                  PopupMenuItem(value: e.key, child: Text(e.value)),
+              itemBuilder: (_) => const [
+                PopupMenuItem(value: 1, child: Text('正在追')),
+                PopupMenuItem(value: 2, child: Text('准备追')),
+                PopupMenuItem(value: 3, child: Text('已追完')),
               ],
               child: const Chip(label: Text('移动已选')),
             ),
