@@ -151,7 +151,12 @@ List<CatalogJson> mergeCatalogRows(List<CatalogJson> input) {
 }
 
 class CatalogAggregator {
-  CatalogAggregator({CycaniApi? cycani, Dio? xifan, Dio? giri})
+  CatalogAggregator({
+    CycaniApi? cycani,
+    Dio? xifan,
+    Dio? giri,
+    this.bangumiSearchFn,
+  })
     : _cycani = cycani ?? CycaniApi.instance,
       _xifan =
           xifan ??
@@ -164,9 +169,16 @@ class CatalogAggregator {
             'Origin': 'https://ani.girigirilove.com',
             'Referer': 'https://ani.girigirilove.com/home',
           });
-  static final instance = CatalogAggregator();
+  static final instance = CatalogAggregator(
+    bangumiSearchFn: (keyword, offset) =>
+        BangumiApi.bangumiSearch(keyword, offset: offset),
+  );
   final CycaniApi _cycani;
   final Dio _xifan, _giri;
+
+  /// Bangumi 关键词检索（可注入便于离线测试；null 时聚合搜索跳过 Bangumi）。
+  final Future<BangumiSearchPage?> Function(String keyword, int offset)?
+  bangumiSearchFn;
   late final Dio _xifanWeb = _client('https://next.xifanacg.com', {});
   static Dio _client(String origin, Map<String, String> headers) =>
       CatalogHttp.client(origin, headers);
@@ -1126,6 +1138,15 @@ class CatalogAggregator {
         hasMore: rows.isNotEmpty && page * size < catalogInt(info['total']),
       );
     }
+    if (source == CatalogSource.bangumi) {
+      final search = bangumiSearchFn;
+      if (search == null) return const CatalogPage([], hasMore: false);
+      const size = 20;
+      final result = await search(keyword, (page - 1) * size);
+      if (result == null) return const CatalogPage([], hasMore: false);
+      final rows = [for (final item in result.items) _bangumiRow(item)];
+      return CatalogPage(rows, hasMore: result.rawCount >= size);
+    }
     final safe = keyword.replaceAll(RegExp(r'["\\*%]'), ' ').trim();
     if (safe.isEmpty) return const CatalogPage([], hasMore: false);
     final rows = _rows(
@@ -1151,7 +1172,11 @@ class CatalogAggregator {
 
   Future<CatalogPage> search(String keyword, int page) async {
     final results = await Future.wait(
-      CatalogSource.siteSources.map((source) async {
+      // Bangumi 检索并入聚合搜索；未注入检索函数（离线测试）时自动跳过。
+      [
+        ...CatalogSource.siteSources,
+        if (bangumiSearchFn != null) CatalogSource.bangumi,
+      ].map((source) async {
         final key = (source, keyword);
         final diskKey = 'search-source:${source.name}:$keyword';
         try {

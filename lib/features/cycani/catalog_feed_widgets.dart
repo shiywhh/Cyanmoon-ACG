@@ -3,6 +3,7 @@ import 'catalog_disk_cache.dart';
 import 'catalog_aggregator.dart';
 import 'catalog_detail_page.dart';
 import 'dart:async';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kazumi/bean/card/bangumi_card.dart';
@@ -79,6 +80,16 @@ Future<void> _openCatalogRow(
 ) async {
   final item = row['video'] is Map ? catalogMap(row['video']) : row;
   if (id <= 0) return;
+  if (catalogSource(item) == CatalogSource.bangumi) {
+    // Bangumi 搜索结果直达应用内番剧详情页（资料/评分/吐槽）；
+    // 行内 bangumi_id 即原始 subject id（toBangumi 产物是 legacy 负编码，需改写）。
+    final video = CatalogVideo(item);
+    final subjectId = video.bangumiId > 0 ? video.bangumiId : video.id;
+    if (subjectId <= 0) return;
+    final bangumiItem = video.toBangumi()..id = subjectId;
+    await context.pushNamed('/info/', arguments: bangumiItem);
+    return;
+  }
   final series = catalogInt(item['xifan_series']);
   if (series > 0) {
     await Navigator.of(context).push(
