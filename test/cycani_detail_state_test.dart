@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/cycani_detail_page.dart';
-import 'package:kazumi/features/cycani/cycani_account_page.dart';
-import 'package:kazumi/pages/video/video_playback_args.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_detail_page.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_account_page.dart';
+import 'package:cyanmoon_acg/pages/video/video_playback_args.dart';
 import 'cycani_api_test.dart' show FakeAdapter, MemoryVault, ok;
 
 void main() {

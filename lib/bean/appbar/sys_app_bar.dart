@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/widget/embedded_native_control_area.dart';
-import 'package:kazumi/services/platform/desktop_window_config.dart';
+import 'package:cyanmoon_acg/bean/widget/embedded_native_control_area.dart';
+import 'package:cyanmoon_acg/services/platform/desktop_window_config.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 class SysAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? toolbarHeight;

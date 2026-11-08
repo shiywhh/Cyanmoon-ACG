@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/appbar/sys_app_bar.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/widget/empty_state_widget.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/pages/download/download_controller.dart';
-import 'package:kazumi/pages/download/download_widgets.dart';
-import 'package:kazumi/pages/video/video_playback_args.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/utils/format.dart';
+import 'package:cyanmoon_acg/bean/appbar/sys_app_bar.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/pages/download/download_controller.dart';
+import 'package:cyanmoon_acg/pages/download/download_widgets.dart';
+import 'package:cyanmoon_acg/pages/video/video_playback_args.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/utils/format.dart';
 
 class DownloadPage extends StatefulWidget {
   const DownloadPage({

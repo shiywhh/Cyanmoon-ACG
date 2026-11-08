@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:kazumi/request/config/api_endpoints.dart';
-import 'package:kazumi/request/core/ech_adapter.dart';
-import 'package:kazumi/services/network/bangumi_acceleration.dart';
-import 'package:kazumi/services/network/rules_mirror.dart';
+import 'package:cyanmoon_acg/request/config/api_endpoints.dart';
+import 'package:cyanmoon_acg/request/core/ech_adapter.dart';
+import 'package:cyanmoon_acg/services/network/bangumi_acceleration.dart';
+import 'package:cyanmoon_acg/services/network/rules_mirror.dart';
 
 class BangumiAccelerationInterceptor extends Interceptor {
   @override

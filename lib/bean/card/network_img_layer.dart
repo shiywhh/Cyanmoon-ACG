@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:kazumi/services/network/catalog_image_url.dart';
-import 'package:kazumi/services/network/proxy_aware_image_cache_manager.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/utils/constants.dart';
-import 'package:kazumi/utils/image_extension.dart';
+import 'package:cyanmoon_acg/services/network/catalog_image_url.dart';
+import 'package:cyanmoon_acg/services/network/proxy_aware_image_cache_manager.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
+import 'package:cyanmoon_acg/utils/image_extension.dart';
 
 class NetworkImgLayer extends StatelessWidget {
   const NetworkImgLayer({

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 
 void main() {

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:kazumi/services/network/proxy_aware_image_cache_manager.dart';
+import 'package:cyanmoon_acg/services/network/proxy_aware_image_cache_manager.dart';
 
 class SiteAvatar extends StatefulWidget {
   const SiteAvatar({super.key, this.path, this.url = '', this.size = 72});

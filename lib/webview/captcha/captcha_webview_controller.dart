@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:async';
 
-import 'package:kazumi/webview/captcha/impl/captcha_webview_inappwebview_impl.dart';
-import 'package:kazumi/webview/captcha/impl/captcha_webview_windows_impl.dart';
-import 'package:kazumi/webview/captcha/impl/captcha_webview_linux_impl.dart';
+import 'package:cyanmoon_acg/webview/captcha/impl/captcha_webview_inappwebview_impl.dart';
+import 'package:cyanmoon_acg/webview/captcha/impl/captcha_webview_windows_impl.dart';
+import 'package:cyanmoon_acg/webview/captcha/impl/captcha_webview_linux_impl.dart';
 
 abstract class CaptchaWebviewController<T> {
   /// WebView controller.

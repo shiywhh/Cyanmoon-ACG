@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/webview/captcha/captcha_webview_controller.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/webview/captcha/captcha_webview_controller.dart';
 import 'package:flutter_inappwebview_platform_interface/flutter_inappwebview_platform_interface.dart';
-import 'package:kazumi/utils/http_headers.dart';
+import 'package:cyanmoon_acg/utils/http_headers.dart';
 
 class CaptchaWebviewInAppWebviewImpl
     extends CaptchaWebviewController<PlatformInAppWebViewController> {

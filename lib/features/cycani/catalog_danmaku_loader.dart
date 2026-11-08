@@ -1,6 +1,6 @@
 import 'catalog_danmaku_codec.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
-import 'package:kazumi/pages/player/controller/player_danmaku_controller.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_danmaku_controller.dart';
 import 'catalog_models.dart';
 import 'catalog_danmaku_options.dart';
 

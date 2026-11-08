@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:antlr4/antlr4.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/bbcode/bbcode_elements.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/bbcode/bbcode_elements.dart';
 
 import 'generated/BBCodeListener.dart';
 import 'generated/BBCodeParser.dart';

@@ -2,21 +2,21 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:hive_ce/hive.dart';
-import 'package:kazumi/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/hive_registrar.g.dart';
-import 'package:kazumi/modules/history/history_module.dart';
-import 'package:kazumi/modules/collect/collect_module.dart';
-import 'package:kazumi/modules/collect/collect_change_module.dart';
-import 'package:kazumi/modules/collect/collect_sync_merger.dart';
-import 'package:kazumi/modules/search/search_history_module.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/services/storage/history_storage_coordinator.dart';
-import 'package:kazumi/services/download/download_path_migration.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/hive_registrar.g.dart';
+import 'package:cyanmoon_acg/modules/history/history_module.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_module.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_change_module.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_sync_merger.dart';
+import 'package:cyanmoon_acg/modules/search/search_history_module.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/services/storage/history_storage_coordinator.dart';
+import 'package:cyanmoon_acg/services/download/download_path_migration.dart';
 
-import 'package:kazumi/services/storage/settings_keys.dart';
-export 'package:kazumi/services/storage/settings_keys.dart';
+import 'package:cyanmoon_acg/services/storage/settings_keys.dart';
+export 'package:cyanmoon_acg/services/storage/settings_keys.dart';
 
 class GStorage {
   /// Don't use favorites box, it's replaced by collectibles.

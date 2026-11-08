@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:kazumi/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
 
 /// Android 后台下载服务
 ///

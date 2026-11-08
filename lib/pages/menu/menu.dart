@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/services.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/widget/embedded_native_control_area.dart';
-import 'package:kazumi/navigation.dart';
-import 'package:kazumi/pages/menu/route_visibility.dart';
-import 'package:kazumi/pages/router.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/widget/embedded_native_control_area.dart';
+import 'package:cyanmoon_acg/navigation.dart';
+import 'package:cyanmoon_acg/pages/menu/route_visibility.dart';
+import 'package:cyanmoon_acg/pages/router.dart';
 
 class ScaffoldMenu extends StatefulWidget {
   const ScaffoldMenu({super.key, required this.location});

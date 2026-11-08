@@ -1,17 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/widget/empty_state_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import 'package:kazumi/bean/card/user_comments_card.dart';
-import 'package:kazumi/bean/dialog/material_bottom_sheet.dart';
-import 'package:kazumi/bean/widget/connected_tabs.dart';
-import 'package:kazumi/bean/widget/error_widget.dart';
-import 'package:kazumi/modules/character/character_full_item.dart';
-import 'package:kazumi/modules/comments/comment_item.dart';
-import 'package:kazumi/pages/info/character_info_view.dart';
-import 'package:kazumi/request/apis/bangumi_api.dart';
+import 'package:cyanmoon_acg/bean/card/user_comments_card.dart';
+import 'package:cyanmoon_acg/bean/dialog/material_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/widget/connected_tabs.dart';
+import 'package:cyanmoon_acg/bean/widget/error_widget.dart';
+import 'package:cyanmoon_acg/modules/character/character_full_item.dart';
+import 'package:cyanmoon_acg/modules/comments/comment_item.dart';
+import 'package:cyanmoon_acg/pages/info/character_info_view.dart';
+import 'package:cyanmoon_acg/request/apis/bangumi_api.dart';
 
 class CharacterPage extends StatefulWidget {
   const CharacterPage({

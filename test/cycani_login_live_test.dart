@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
-import 'package:kazumi/features/cycani/catalog_paging.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_paging.dart';
 import 'cycani_api_test.dart' show MemoryVault;
 
 void main() {

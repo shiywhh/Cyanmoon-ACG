@@ -1,7 +1,7 @@
-import 'package:kazumi/services/network/catalog_image_url.dart';
-import 'package:kazumi/features/cycani/catalog_identity.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/services/network/catalog_image_url.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_identity.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
 
 typedef CatalogJson = Map<String, dynamic>;
 

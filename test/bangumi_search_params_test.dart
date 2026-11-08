@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/request/apis/bangumi_api.dart';
-import 'package:kazumi/utils/search_parser.dart';
+import 'package:cyanmoon_acg/request/apis/bangumi_api.dart';
+import 'package:cyanmoon_acg/utils/search_parser.dart';
 
 void main() {
   group('BangumiApi.buildBangumiSearchParams', () {

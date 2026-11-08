@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
 
 void main() {
   final realHttp = HttpOverrides.current;

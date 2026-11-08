@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_avatar_store.dart';
-import 'package:kazumi/features/cycani/qingyue_home_page.dart';
-import 'package:kazumi/features/cycani/catalog_search_page.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_avatar_store.dart';
+import 'package:cyanmoon_acg/features/cycani/qingyue_home_page.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_search_page.dart';
 import 'cycani_api_test.dart' show MemoryVault, FakeAdapter, ok;
 
 void main() {

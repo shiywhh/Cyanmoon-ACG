@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
-import 'package:kazumi/features/cycani/catalog_identity.dart';
-import 'package:kazumi/features/cycani/catalog_lru.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_cache.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_identity.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_lru.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_cache.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 
 class Paths extends PathProviderPlatform {

@@ -2,16 +2,16 @@ import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
-import 'package:kazumi/features/cycani/site_native_catalog.dart';
-import 'package:kazumi/features/cycani/cycani_remote_danmaku.dart';
-import 'package:kazumi/features/cycani/giri_danmaku.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_options.dart';
-import 'package:kazumi/features/cycani/catalog_playback_danmaku.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
-import 'package:kazumi/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/site_native_catalog.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_remote_danmaku.dart';
+import 'package:cyanmoon_acg/features/cycani/giri_danmaku.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_options.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_playback_danmaku.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
 import 'cycani_api_test.dart' show MemoryVault;
 
 DanmakuEntry row(String source, double time) => DanmakuEntry(

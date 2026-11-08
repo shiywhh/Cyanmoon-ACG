@@ -3,13 +3,13 @@
 // Check in to version control
 
 import 'package:hive_ce/hive_ce.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/modules/bangumi/bangumi_tag.dart';
-import 'package:kazumi/modules/collect/collect_change_module.dart';
-import 'package:kazumi/modules/collect/collect_module.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/modules/history/history_module.dart';
-import 'package:kazumi/modules/search/search_history_module.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_tag.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_change_module.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_module.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/modules/history/history_module.dart';
+import 'package:cyanmoon_acg/modules/search/search_history_module.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {

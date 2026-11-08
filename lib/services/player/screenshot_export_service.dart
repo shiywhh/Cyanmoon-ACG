@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:kazumi/services/player/screenshot_candidate.dart';
+import 'package:cyanmoon_acg/services/player/screenshot_candidate.dart';
 import 'package:path/path.dart' as path;
 
 class ScreenshotExportService {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/pages/info/info_module.dart';
+import 'package:cyanmoon_acg/pages/info/info_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/widget/error_widget.dart';
-import 'package:kazumi/bean/widget/image_preview.dart';
-import 'package:kazumi/features/cycani/qingyue_home_page.dart';
-import 'package:kazumi/features/cycani/catalog_detail_page.dart';
-import 'package:kazumi/pages/route_error_page.dart';
-import 'package:kazumi/pages/settings/settings_module.dart';
-import 'package:kazumi/pages/video/video_module.dart';
+import 'package:cyanmoon_acg/bean/widget/error_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/image_preview.dart';
+import 'package:cyanmoon_acg/features/cycani/qingyue_home_page.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_detail_page.dart';
+import 'package:cyanmoon_acg/pages/route_error_page.dart';
+import 'package:cyanmoon_acg/pages/settings/settings_module.dart';
+import 'package:cyanmoon_acg/pages/video/video_module.dart';
 
 final _imagePreviewTransition = CustomTransition(
   duration: const Duration(milliseconds: 220),

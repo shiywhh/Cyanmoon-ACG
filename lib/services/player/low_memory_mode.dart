@@ -1,4 +1,4 @@
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 enum LowMemoryMode {
   auto('auto'),

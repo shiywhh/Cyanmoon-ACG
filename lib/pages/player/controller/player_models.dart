@@ -1,4 +1,4 @@
-import 'package:kazumi/services/video_source/video_source_format.dart';
+import 'package:cyanmoon_acg/services/video_source/video_source_format.dart';
 
 class PlaybackInitParams {
   final String videoUrl;

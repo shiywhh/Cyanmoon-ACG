@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/pages/popular/popular_page.dart';
-import 'package:kazumi/pages/popular/popular_controller.dart';
+import 'package:cyanmoon_acg/pages/popular/popular_page.dart';
+import 'package:cyanmoon_acg/pages/popular/popular_controller.dart';
 
 final popularModule = createModule(
   path: '/popular',

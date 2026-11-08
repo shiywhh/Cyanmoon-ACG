@@ -1,7 +1,7 @@
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/modules/roads/road_module.dart';
-import 'package:kazumi/plugins/plugins.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/plugins/plugins.dart';
 
 /// Route arguments for '/video/'. Entry points hand playback context over
 /// through the route instead of pre-filling a shared controller, which lets

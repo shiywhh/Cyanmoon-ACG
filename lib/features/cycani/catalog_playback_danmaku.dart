@@ -1,7 +1,7 @@
 import 'catalog_danmaku_cache.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
-import 'package:kazumi/modules/roads/road_module.dart';
-import 'package:kazumi/pages/player/controller/player_danmaku_controller.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_danmaku_controller.dart';
 import 'cycani_api.dart';
 import 'catalog_aggregator.dart';
 import 'catalog_danmaku_loader.dart';

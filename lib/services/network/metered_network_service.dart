@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:kazumi/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
 
 class MeteredNetworkService {
   MeteredNetworkService._();

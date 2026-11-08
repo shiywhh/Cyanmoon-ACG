@@ -1,7 +1,7 @@
 import 'package:ech_http/ech_http.dart';
 import 'package:http/http.dart' as http;
-import 'package:kazumi/request/config/api_endpoints.dart';
-import 'package:kazumi/request/core/network_config.dart';
+import 'package:cyanmoon_acg/request/config/api_endpoints.dart';
+import 'package:cyanmoon_acg/request/core/network_config.dart';
 
 final _dohEndpoint = Uri.https('dns.alidns.com', '/resolve');
 const _hosts = {

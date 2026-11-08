@@ -1,12 +1,12 @@
 import 'catalog_detail_metadata.dart';
 import 'catalog_lru.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:kazumi/services/network/proxy_aware_image_cache_manager.dart';
+import 'package:cyanmoon_acg/services/network/proxy_aware_image_cache_manager.dart';
 import 'catalog_disk_cache.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/pages/video/video_playback_args.dart';
+import 'package:cyanmoon_acg/pages/video/video_playback_args.dart';
 import 'cycani_api.dart';
 import 'catalog_identity.dart';
 import 'catalog_models.dart';

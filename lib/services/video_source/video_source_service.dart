@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:kazumi/services/video_source/video_source_format.dart';
+import 'package:cyanmoon_acg/services/video_source/video_source_format.dart';
 
 /// 视频源类型
 enum VideoSourceType {

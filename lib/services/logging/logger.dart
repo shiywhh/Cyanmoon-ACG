@@ -87,7 +87,7 @@ class KazumiLogPrinter extends LogPrinter {
         .where((line) =>
             line.trim().isNotEmpty &&
             !line.contains('package:logger/') &&
-            !line.contains('package:kazumi/services/logging/logger.dart'))
+            !line.contains('package:cyanmoon_acg/services/logging/logger.dart'))
         .take(_fatalStackFrameLimit)
         .map((line) => '  ${line.trim()}');
   }

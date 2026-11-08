@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_account_widgets.dart';
-import 'package:kazumi/features/cycani/catalog_feed_widgets.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_account_widgets.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_feed_widgets.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

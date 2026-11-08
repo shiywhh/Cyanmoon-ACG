@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/widget/bangumi_avatar.dart';
-import 'package:kazumi/modules/staff/staff_item.dart';
+import 'package:cyanmoon_acg/bean/widget/bangumi_avatar.dart';
+import 'package:cyanmoon_acg/modules/staff/staff_item.dart';
 
 class StaffCard extends StatelessWidget {
   const StaffCard({

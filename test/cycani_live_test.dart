@@ -1,8 +1,8 @@
 // Opt-in, read-only integration checks. No real token is part of this file.
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
 
 class ExternalSessionVault implements CycaniVault {
   ExternalSessionVault(this.file);

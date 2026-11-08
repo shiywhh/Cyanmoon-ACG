@@ -1,11 +1,11 @@
 import 'package:hive_ce/hive.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/utils/constants.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/modules/history/history_module.dart';
-import 'package:kazumi/services/sync/history_sync_service.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/storage/history_storage_coordinator.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/modules/history/history_module.dart';
+import 'package:cyanmoon_acg/services/sync/history_sync_service.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/storage/history_storage_coordinator.dart';
 
 typedef HistoryProgressSyncAppender = Future<void> Function({
   required History history,

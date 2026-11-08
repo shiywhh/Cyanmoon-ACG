@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:kazumi/services/platform/tray_service.dart';
+import 'package:cyanmoon_acg/services/platform/tray_service.dart';
 
 class AppExit {
   AppExit._();

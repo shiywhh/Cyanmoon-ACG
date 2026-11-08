@@ -1,4 +1,4 @@
-import 'package:kazumi/features/cycani/catalog_playback_discussion.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_playback_discussion.dart';
 import 'dart:async';
 
 import 'package:canvas_danmaku/models/danmaku_content_item.dart';
@@ -8,30 +8,30 @@ import 'package:mobx/mobx.dart' as mobx;
 import 'package:screen_brightness_platform_interface/screen_brightness_platform_interface.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'package:kazumi/bean/appbar/drag_to_move_bar.dart' as dtb;
-import 'package:kazumi/bean/dialog/adaptive_bottom_sheet.dart';
-import 'package:kazumi/bean/widget/embedded_native_control_area.dart';
-import 'package:kazumi/bean/widget/loading_indicator.dart';
-import 'package:kazumi/bean/widget/media_error_widget.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/navigation.dart';
-import 'package:kazumi/pages/download/download_controller.dart';
-import 'package:kazumi/pages/download/download_episode_sheet.dart';
-import 'package:kazumi/pages/history/history_controller.dart';
-import 'package:kazumi/pages/player/episode_comments_sheet.dart';
-import 'package:kazumi/pages/player/player_controller.dart';
-import 'package:kazumi/pages/player/player_item.dart';
-import 'package:kazumi/pages/video/episode_selection_panel.dart';
-import 'package:kazumi/pages/video/player_content_tabs.dart';
-import 'package:kazumi/pages/video/video_controller.dart';
-import 'package:kazumi/pages/video/video_playback_args.dart';
-import 'package:kazumi/pages/video/video_page_layout.dart';
-import 'package:kazumi/pages/video/video_side_panel.dart';
-import 'package:kazumi/pages/video/video_system_bars.dart';
-import 'package:kazumi/services/player/pip_utils.dart';
-import 'package:kazumi/services/player/timed_shutdown_service.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/bean/appbar/drag_to_move_bar.dart' as dtb;
+import 'package:cyanmoon_acg/bean/dialog/adaptive_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/widget/embedded_native_control_area.dart';
+import 'package:cyanmoon_acg/bean/widget/loading_indicator.dart';
+import 'package:cyanmoon_acg/bean/widget/media_error_widget.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/navigation.dart';
+import 'package:cyanmoon_acg/pages/download/download_controller.dart';
+import 'package:cyanmoon_acg/pages/download/download_episode_sheet.dart';
+import 'package:cyanmoon_acg/pages/history/history_controller.dart';
+import 'package:cyanmoon_acg/pages/player/episode_comments_sheet.dart';
+import 'package:cyanmoon_acg/pages/player/player_controller.dart';
+import 'package:cyanmoon_acg/pages/player/player_item.dart';
+import 'package:cyanmoon_acg/pages/video/episode_selection_panel.dart';
+import 'package:cyanmoon_acg/pages/video/player_content_tabs.dart';
+import 'package:cyanmoon_acg/pages/video/video_controller.dart';
+import 'package:cyanmoon_acg/pages/video/video_playback_args.dart';
+import 'package:cyanmoon_acg/pages/video/video_page_layout.dart';
+import 'package:cyanmoon_acg/pages/video/video_side_panel.dart';
+import 'package:cyanmoon_acg/pages/video/video_system_bars.dart';
+import 'package:cyanmoon_acg/services/player/pip_utils.dart';
+import 'package:cyanmoon_acg/services/player/timed_shutdown_service.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 class VideoPage extends StatefulWidget {
   const VideoPage({

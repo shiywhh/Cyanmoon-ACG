@@ -1,10 +1,10 @@
-import 'package:kazumi/modules/search/plugin_search_module.dart';
-import 'package:kazumi/pages/info/info_controller.dart';
-import 'package:kazumi/plugins/plugins.dart';
-import 'package:kazumi/plugins/plugins_controller.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/plugin/rule_engine_models.dart';
-import 'package:kazumi/utils/async_session.dart';
+import 'package:cyanmoon_acg/modules/search/plugin_search_module.dart';
+import 'package:cyanmoon_acg/pages/info/info_controller.dart';
+import 'package:cyanmoon_acg/plugins/plugins.dart';
+import 'package:cyanmoon_acg/plugins/plugins_controller.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/plugin/rule_engine_models.dart';
+import 'package:cyanmoon_acg/utils/async_session.dart';
 
 class PluginSearchService {
   PluginSearchService({

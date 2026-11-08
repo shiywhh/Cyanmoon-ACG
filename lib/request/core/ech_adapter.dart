@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:ech_http/ech_http.dart';
 import 'package:http/http.dart' as http;
-import 'package:kazumi/request/core/network_config.dart';
-import 'package:kazumi/request/core/ech_transport.dart';
+import 'package:cyanmoon_acg/request/core/network_config.dart';
+import 'package:cyanmoon_acg/request/core/ech_transport.dart';
 
 const _echKey = 'ech';
 

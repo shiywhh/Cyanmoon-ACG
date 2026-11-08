@@ -2,7 +2,7 @@ import 'catalog_snapshot.dart';
 import 'dart:async';
 import 'catalog_disk_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/appbar/drag_to_move_bar.dart';
+import 'package:cyanmoon_acg/bean/appbar/drag_to_move_bar.dart';
 import 'cycani_api.dart';
 import 'catalog_aggregator.dart';
 import 'catalog_paging.dart';

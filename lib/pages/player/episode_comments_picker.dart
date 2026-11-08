@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/modules/bangumi/episode_item.dart';
+import 'package:cyanmoon_acg/modules/bangumi/episode_item.dart';
 
 class EpisodeCommentsPicker extends StatelessWidget {
   const EpisodeCommentsPicker({

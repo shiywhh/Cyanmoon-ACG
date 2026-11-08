@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:kazumi/modules/roads/road_module.dart';
-import 'package:kazumi/modules/search/plugin_search_module.dart';
-import 'package:kazumi/plugins/anti_crawler_config.dart';
-import 'package:kazumi/plugins/api_rule_config.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/modules/search/plugin_search_module.dart';
+import 'package:cyanmoon_acg/plugins/anti_crawler_config.dart';
+import 'package:cyanmoon_acg/plugins/api_rule_config.dart';
 
 typedef RuleCancelToken = CancelToken;
 

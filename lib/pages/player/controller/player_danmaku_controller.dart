@@ -1,14 +1,14 @@
-import 'package:kazumi/features/cycani/catalog_danmaku_options.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_options.dart';
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:canvas_danmaku/canvas_danmaku.dart' as canvas;
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
-import 'package:kazumi/pages/download/download_controller.dart';
-import 'package:kazumi/request/apis/danmaku_api.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/pages/download/download_controller.dart';
+import 'package:cyanmoon_acg/request/apis/danmaku_api.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 import 'package:mobx/mobx.dart';
-import 'package:kazumi/utils/danmaku.dart';
+import 'package:cyanmoon_acg/utils/danmaku.dart';
 
 part 'player_danmaku_controller.g.dart';
 

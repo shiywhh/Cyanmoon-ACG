@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:kazumi/request/core/dio_factory.dart';
-import 'package:kazumi/request/core/ech_transport.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/network/proxy_aware_image_cache_manager.dart';
+import 'package:cyanmoon_acg/request/core/dio_factory.dart';
+import 'package:cyanmoon_acg/request/core/ech_transport.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/network/proxy_aware_image_cache_manager.dart';
 
 // WebView proxies are configured separately by their platform controllers.
 class ProxyManager {

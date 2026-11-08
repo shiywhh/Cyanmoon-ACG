@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
-import 'package:kazumi/bean/widget/content_section.dart';
-import 'package:kazumi/bean/widget/state_presentation.dart';
-import 'package:kazumi/modules/my/watch_stats.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/bean/widget/content_section.dart';
+import 'package:cyanmoon_acg/bean/widget/state_presentation.dart';
+import 'package:cyanmoon_acg/modules/my/watch_stats.dart';
 import 'package:material_new_shapes/material_new_shapes.dart';
 
 enum QingyueDestination {

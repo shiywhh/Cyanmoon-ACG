@@ -2,16 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show FilteringTextInputFormatter;
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/settings/settings_detail_scaffold.dart';
-import 'package:kazumi/bean/settings/settings_dropdown_tile.dart';
-import 'package:kazumi/pages/player/controller/player_aspect_ratio.dart';
-import 'package:kazumi/pages/settings/low_memory_mode_settings.dart';
-import 'package:kazumi/utils/constants.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/services/player/pip_utils.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_detail_scaffold.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_dropdown_tile.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_aspect_ratio.dart';
+import 'package:cyanmoon_acg/pages/settings/low_memory_mode_settings.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/player/pip_utils.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 class PlayerSettingsPage extends StatefulWidget {
   const PlayerSettingsPage({super.key});

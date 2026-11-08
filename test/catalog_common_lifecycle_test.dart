@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:kazumi/features/cycani/catalog_action.dart';
-import 'package:kazumi/services/network/image_acceleration.dart';
-import 'package:kazumi/services/network/image_file_service.dart';
-import 'package:kazumi/services/network/image_file_response.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_action.dart';
+import 'package:cyanmoon_acg/services/network/image_acceleration.dart';
+import 'package:cyanmoon_acg/services/network/image_file_service.dart';
+import 'package:cyanmoon_acg/services/network/image_file_response.dart';
 
 void main() {
   test('image body idle timeout releases transport exactly once', () async {

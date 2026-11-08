@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/settings/settings_detail_scaffold.dart';
-import 'package:kazumi/bean/widget/error_widget.dart';
-import 'package:kazumi/bean/widget/state_presentation.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_detail_scaffold.dart';
+import 'package:cyanmoon_acg/bean/widget/error_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/state_presentation.dart';
 
 class RouteErrorPage extends StatelessWidget {
   const RouteErrorPage({super.key, required this.message});

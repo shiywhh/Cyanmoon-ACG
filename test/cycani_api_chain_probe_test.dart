@@ -4,13 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
-import 'package:kazumi/features/cycani/giri_danmaku.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
-import 'package:kazumi/features/cycani/site_native_catalog.dart';
-import 'package:kazumi/features/cycani/cycani_remote_danmaku.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/giri_danmaku.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/site_native_catalog.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_remote_danmaku.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
 
 /// Read-only probe of every public API chain the app uses, one request each,
 /// with per-request latency. Authenticated writes are never exercised;

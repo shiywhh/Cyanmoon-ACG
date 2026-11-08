@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
 import 'catalog_models.dart';
 
 String catalogAccountName(CatalogJson user, {String fallback = '账户'}) {

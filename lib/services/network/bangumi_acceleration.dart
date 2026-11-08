@@ -1,5 +1,5 @@
-import 'package:kazumi/services/network/acceleration_mode.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/network/acceleration_mode.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 enum BangumiAcceleration implements AccelerationMode {
   direct,

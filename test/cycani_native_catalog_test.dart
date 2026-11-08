@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
-import 'package:kazumi/features/cycani/site_native_catalog.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/site_native_catalog.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
 
 void main() {
   test(

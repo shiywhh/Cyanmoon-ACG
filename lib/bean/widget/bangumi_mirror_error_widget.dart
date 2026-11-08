@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/widget/error_widget.dart';
-import 'package:kazumi/services/network/bangumi_acceleration.dart';
+import 'package:cyanmoon_acg/bean/widget/error_widget.dart';
+import 'package:cyanmoon_acg/services/network/bangumi_acceleration.dart';
 
 class BangumiMirrorErrorWidget extends StatelessWidget {
   const BangumiMirrorErrorWidget({

@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:app_links/app_links.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/navigation.dart';
-import 'package:kazumi/request/apis/bangumi_api.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/utils/async_session.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/navigation.dart';
+import 'package:cyanmoon_acg/request/apis/bangumi_api.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/utils/async_session.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'kazumi_deep_link.dart';

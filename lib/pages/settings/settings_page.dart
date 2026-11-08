@@ -1,11 +1,11 @@
-import 'package:kazumi/features/cycani/cycani_profile_settings.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_profile_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:kazumi/bean/appbar/sys_app_bar.dart';
-import 'package:kazumi/bean/settings/settings_detail_scaffold.dart';
-import 'package:kazumi/bean/widget/content_section.dart';
-import 'package:kazumi/utils/constants.dart';
+import 'package:cyanmoon_acg/bean/appbar/sys_app_bar.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_detail_scaffold.dart';
+import 'package:cyanmoon_acg/bean/widget/content_section.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
 
 class _SettingsCategory {
   const _SettingsCategory({

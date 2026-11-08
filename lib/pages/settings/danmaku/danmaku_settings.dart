@@ -1,11 +1,11 @@
-import 'package:kazumi/features/cycani/catalog_danmaku_source_settings.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_source_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/settings/settings_detail_scaffold.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
-import 'package:kazumi/pages/settings/danmaku/danmaku_ch_convert_tile.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_detail_scaffold.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/pages/settings/danmaku/danmaku_ch_convert_tile.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 class DanmakuSettingsPage extends StatefulWidget {
   const DanmakuSettingsPage({super.key});

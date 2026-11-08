@@ -1,7 +1,7 @@
 import 'dart:math';
-import 'package:kazumi/request/apis/bangumi_api.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/services/network/bangumi_acceleration.dart';
+import 'package:cyanmoon_acg/request/apis/bangumi_api.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/services/network/bangumi_acceleration.dart';
 import 'package:mobx/mobx.dart';
 
 part 'popular_controller.g.dart';

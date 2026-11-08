@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:webview_windows/webview_windows.dart';
-import 'package:kazumi/webview/video/video_webview_controller.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/services/network/proxy_utils.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/video_source/video_source_format.dart';
+import 'package:cyanmoon_acg/webview/video/video_webview_controller.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/network/proxy_utils.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/video_source/video_source_format.dart';
 
 class VideoWebviewWindowsImpl
     extends VideoWebviewController<WebviewController> {

@@ -1,7 +1,7 @@
 import 'package:hive_ce/hive.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/utils/file_system.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/utils/file_system.dart';
 import 'package:path/path.dart' as path;
 
 /// iOS can move an app's data container on update. Download files move with it,

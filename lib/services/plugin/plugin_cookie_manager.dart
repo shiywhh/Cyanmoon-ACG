@@ -1,5 +1,5 @@
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:kazumi/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
 
 /// 每条规则的 Cookie 管理器
 ///

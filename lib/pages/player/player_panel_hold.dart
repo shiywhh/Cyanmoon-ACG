@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/widget/collect_button.dart';
-import 'package:kazumi/bean/widget/kazumi_menu.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/bean/widget/collect_button.dart';
+import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 
 /// A one-shot lease that keeps the player panel visible until released.
 class PlayerPanelHold {

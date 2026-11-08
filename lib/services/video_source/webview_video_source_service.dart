@@ -1,8 +1,8 @@
-import 'package:kazumi/features/cycani/catalog_playback_resolvers.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_playback_resolvers.dart';
 import 'dart:async';
 
-import 'package:kazumi/webview/video/video_webview_controller.dart';
-import 'package:kazumi/services/video_source/video_source_service.dart';
+import 'package:cyanmoon_acg/webview/video/video_webview_controller.dart';
+import 'package:cyanmoon_acg/services/video_source/video_source_service.dart';
 
 /// WebView 视频源解析服务
 ///

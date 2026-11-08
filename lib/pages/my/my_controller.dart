@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/modules/my/watch_stats.dart';
-import 'package:kazumi/modules/danmaku/danmaku_shield_rule.dart';
-import 'package:kazumi/repositories/danmaku_shield_repository.dart';
-import 'package:kazumi/repositories/download_repository.dart';
-import 'package:kazumi/repositories/history_repository.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/update/auto_updater.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/modules/my/watch_stats.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_shield_rule.dart';
+import 'package:cyanmoon_acg/repositories/danmaku_shield_repository.dart';
+import 'package:cyanmoon_acg/repositories/download_repository.dart';
+import 'package:cyanmoon_acg/repositories/history_repository.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/update/auto_updater.dart';
 import 'package:mobx/mobx.dart';
 
 part 'my_controller.g.dart';

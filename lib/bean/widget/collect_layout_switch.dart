@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/modules/collect/collect_layout.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_layout.dart';
 
 /// 卡片/列表布局切换分段按钮，追番页与时间表页共用同一样式。
 class CollectLayoutSwitch extends StatelessWidget {

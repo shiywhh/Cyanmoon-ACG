@@ -1,15 +1,15 @@
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
-import 'package:kazumi/modules/roads/road_module.dart';
-import 'package:kazumi/modules/search/plugin_search_module.dart';
-import 'package:kazumi/plugins/anti_crawler_config.dart';
-import 'package:kazumi/plugins/api_rule_config.dart';
-import 'package:kazumi/request/config/api_endpoints.dart';
-import 'package:kazumi/services/plugin/api_rule_engine.dart';
-import 'package:kazumi/utils/episode_url.dart';
-import 'package:kazumi/utils/http_headers.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/modules/search/plugin_search_module.dart';
+import 'package:cyanmoon_acg/plugins/anti_crawler_config.dart';
+import 'package:cyanmoon_acg/plugins/api_rule_config.dart';
+import 'package:cyanmoon_acg/request/config/api_endpoints.dart';
+import 'package:cyanmoon_acg/services/plugin/api_rule_engine.dart';
+import 'package:cyanmoon_acg/utils/episode_url.dart';
+import 'package:cyanmoon_acg/utils/http_headers.dart';
 
-export 'package:kazumi/services/plugin/rule_engine_models.dart'
+export 'package:cyanmoon_acg/services/plugin/rule_engine_models.dart'
     show
         CaptchaRequiredException,
         NoResultException,

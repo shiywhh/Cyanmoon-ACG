@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/modules/bangumi/episode_item.dart';
-import 'package:kazumi/pages/player/episode_comments_picker.dart';
-import 'package:kazumi/pages/player/episode_comments_view.dart';
-import 'package:kazumi/pages/video/video_controller.dart';
-import 'package:kazumi/request/apis/bangumi_api.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/modules/bangumi/episode_item.dart';
+import 'package:cyanmoon_acg/pages/player/episode_comments_picker.dart';
+import 'package:cyanmoon_acg/pages/player/episode_comments_view.dart';
+import 'package:cyanmoon_acg/pages/video/video_controller.dart';
+import 'package:cyanmoon_acg/request/apis/bangumi_api.dart';
 
 class EpisodeCommentsSheet extends StatefulWidget {
   const EpisodeCommentsSheet({

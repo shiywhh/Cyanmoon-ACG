@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kazumi/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
 import 'catalog_models.dart';
 
 abstract interface class CycaniVault {

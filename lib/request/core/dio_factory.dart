@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:kazumi/request/core/acceleration_interceptors.dart';
-import 'package:kazumi/request/core/dio_logger_interceptor.dart';
-import 'package:kazumi/request/core/ech_adapter.dart';
-import 'package:kazumi/request/core/network_config.dart';
-import 'package:kazumi/utils/http_headers.dart';
+import 'package:cyanmoon_acg/request/core/acceleration_interceptors.dart';
+import 'package:cyanmoon_acg/request/core/dio_logger_interceptor.dart';
+import 'package:cyanmoon_acg/request/core/ech_adapter.dart';
+import 'package:cyanmoon_acg/request/core/network_config.dart';
+import 'package:cyanmoon_acg/utils/http_headers.dart';
 
 class DioFactory {
   DioFactory._();

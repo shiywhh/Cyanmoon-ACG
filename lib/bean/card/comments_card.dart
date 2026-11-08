@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/widget/bangumi_avatar.dart';
-import 'package:kazumi/modules/comments/comment_item.dart';
+import 'package:cyanmoon_acg/bean/widget/bangumi_avatar.dart';
+import 'package:cyanmoon_acg/modules/comments/comment_item.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:kazumi/bbcode/bbcode_widget.dart';
+import 'package:cyanmoon_acg/bbcode/bbcode_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:kazumi/utils/date_time.dart';
+import 'package:cyanmoon_acg/utils/date_time.dart';
 
 class CommentsCard extends StatelessWidget {
   const CommentsCard({

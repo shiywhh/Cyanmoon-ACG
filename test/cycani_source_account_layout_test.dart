@@ -1,14 +1,14 @@
-import 'package:kazumi/features/cycani/catalog_feed_widgets.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_feed_widgets.dart';
 import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/cycani_profile_settings.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_profile_settings.dart';
 import 'cycani_api_test.dart' show FakeAdapter, MemoryVault, ok;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
 
 void main() {
   testWidgets('homepage category links forward actual site type IDs', (

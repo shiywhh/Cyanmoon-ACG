@@ -1,8 +1,8 @@
-import 'package:kazumi/features/cycani/catalog_navigation.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/card/network_img_layer.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/bean/card/network_img_layer.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 
 // 视频卡片 - 垂直布局
 class BangumiCardV extends StatelessWidget {

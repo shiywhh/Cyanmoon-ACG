@@ -3,8 +3,8 @@
 import 'dart:collection';
 import 'dart:typed_data';
 
-import 'package:kazumi/services/player/screenshot_candidate.dart';
-import 'package:kazumi/services/player/screenshot_image_cache.dart';
+import 'package:cyanmoon_acg/services/player/screenshot_candidate.dart';
+import 'package:cyanmoon_acg/services/player/screenshot_image_cache.dart';
 import 'package:mobx/mobx.dart';
 
 part 'player_screenshot_controller.g.dart';

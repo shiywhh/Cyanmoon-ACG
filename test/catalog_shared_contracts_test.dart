@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_snapshot.dart';
-import 'package:kazumi/features/cycani/catalog_library_widgets.dart';
-import 'package:kazumi/features/cycani/catalog_plugins.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_codec.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
-import 'package:kazumi/features/cycani/catalog_detail_page.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_snapshot.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_library_widgets.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_plugins.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_codec.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_detail_page.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
 
 void main() {
   test(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/widget/state_presentation.dart';
+import 'package:cyanmoon_acg/bean/widget/state_presentation.dart';
 
 /// Shrink-wraps in slivers and scrolls within bounded page or media surfaces.
 class GeneralErrorWidget extends StatelessWidget {

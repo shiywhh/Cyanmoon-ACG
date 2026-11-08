@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'package:kazumi/navigation.dart';
-import 'package:kazumi/utils/constants.dart';
+import 'package:cyanmoon_acg/navigation.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
 
 /// Single-use ownership of a route, including before its first frame.
 class KazumiDialogHandle<T> {

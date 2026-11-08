@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:kazumi/bean/dialog/material_bottom_sheet.dart';
-import 'package:kazumi/bean/widget/tonal_card.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/bean/dialog/material_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/widget/tonal_card.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 const double _minDanmakuTimeOffset = -180;
 const double _maxDanmakuTimeOffset = 180;

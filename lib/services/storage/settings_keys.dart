@@ -1,5 +1,5 @@
-import 'package:kazumi/services/player/syncplay_endpoint.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/services/player/syncplay_endpoint.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 enum SettingGroup {
   player,

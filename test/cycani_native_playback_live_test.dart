@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
 import 'cycani_live_test.dart' show ExternalSessionVault;
 
 void main() {

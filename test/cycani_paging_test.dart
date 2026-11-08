@@ -1,16 +1,16 @@
-import 'package:kazumi/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kazumi/features/cycani/catalog_paging.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_identity.dart';
-import 'package:kazumi/features/cycani/qingyue_home_page.dart';
-import 'package:kazumi/features/cycani/catalog_search_page.dart';
-import 'package:kazumi/features/cycani/catalog_comments.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_paging.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_identity.dart';
+import 'package:cyanmoon_acg/features/cycani/qingyue_home_page.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_search_page.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_comments.dart';
 import 'cycani_api_test.dart' show FakeAdapter, MemoryVault, ok;
 
 void main() {

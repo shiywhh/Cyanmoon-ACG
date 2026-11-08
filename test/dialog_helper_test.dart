@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/navigation.dart';
-import 'package:kazumi/services/player/timed_shutdown_service.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/navigation.dart';
+import 'package:cyanmoon_acg/services/player/timed_shutdown_service.dart';
 
 Future<void> mountApp(WidgetTester tester) async {
   await tester.pumpWidget(MaterialApp(

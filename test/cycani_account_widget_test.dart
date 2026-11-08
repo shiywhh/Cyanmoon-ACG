@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/cycani_account_page.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_account_page.dart';
 
 void main() {
   testWidgets(

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/services/network/catalog_image_url.dart';
+import 'package:cyanmoon_acg/services/network/catalog_image_url.dart';
 
 void main() {
   test('public covers use Baidu and Xifan grid variant', () {

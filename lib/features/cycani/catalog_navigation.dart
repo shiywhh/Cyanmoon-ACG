@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 import 'catalog_identity.dart';
 import 'catalog_detail_page.dart';
 

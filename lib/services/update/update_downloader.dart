@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:kazumi/request/clients/download_http_client.dart';
-import 'package:kazumi/request/core/network_exception.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/update/update_download_source.dart';
-import 'package:kazumi/utils/crypto.dart';
+import 'package:cyanmoon_acg/request/clients/download_http_client.dart';
+import 'package:cyanmoon_acg/request/core/network_exception.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/update/update_download_source.dart';
+import 'package:cyanmoon_acg/utils/crypto.dart';
 
 String getUpdateDownloadUrlFromAsset(
     Map<String, dynamic>? asset, UpdateDownloadSource source) {

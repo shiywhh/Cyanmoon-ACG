@@ -6,16 +6,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_options.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_source_settings.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_loader.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
-import 'package:kazumi/pages/download/download_controller.dart';
-import 'package:kazumi/pages/player/controller/player_danmaku_controller.dart';
-import 'package:kazumi/pages/settings/danmaku/danmaku_settings.dart';
-import 'package:kazumi/pages/settings/settings_page.dart';
-import 'package:kazumi/request/core/dio_factory.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_options.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_source_settings.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_loader.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/pages/download/download_controller.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_danmaku_controller.dart';
+import 'package:cyanmoon_acg/pages/settings/danmaku/danmaku_settings.dart';
+import 'package:cyanmoon_acg/pages/settings/settings_page.dart';
+import 'package:cyanmoon_acg/request/core/dio_factory.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 
 class TestPaths extends PathProviderPlatform {

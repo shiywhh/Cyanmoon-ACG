@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
-import 'package:kazumi/services/network/acceleration_mode.dart';
-import 'package:kazumi/services/network/bangumi_acceleration.dart';
-import 'package:kazumi/services/network/image_acceleration.dart';
-import 'package:kazumi/services/network/rules_mirror.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/services/network/acceleration_mode.dart';
+import 'package:cyanmoon_acg/services/network/bangumi_acceleration.dart';
+import 'package:cyanmoon_acg/services/network/image_acceleration.dart';
+import 'package:cyanmoon_acg/services/network/rules_mirror.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 class NetworkMirrorSettings extends StatefulWidget {
   const NetworkMirrorSettings({super.key, this.margin});

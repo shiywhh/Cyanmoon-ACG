@@ -1,5 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:kazumi/services/network/image_file_service.dart';
+import 'package:cyanmoon_acg/services/network/image_file_service.dart';
 
 class ProxyAwareImageCacheManager extends CacheManager with ImageCacheManager {
   static final CacheManager privateImages = CacheManager(

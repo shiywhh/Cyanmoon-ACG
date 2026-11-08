@@ -1,18 +1,18 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/widget/bangumi_mirror_error_widget.dart';
-import 'package:kazumi/bean/widget/kazumi_menu.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/pages/popular/popular_controller.dart';
-import 'package:kazumi/bean/card/bangumi_card.dart';
-import 'package:kazumi/utils/constants.dart';
+import 'package:cyanmoon_acg/bean/widget/bangumi_mirror_error_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/pages/popular/popular_controller.dart';
+import 'package:cyanmoon_acg/bean/card/bangumi_card.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/platform/desktop_window_config.dart';
-import 'package:kazumi/bean/appbar/drag_to_move_bar.dart' as dtb;
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/platform/desktop_window_config.dart';
+import 'package:cyanmoon_acg/bean/appbar/drag_to_move_bar.dart' as dtb;
+import 'package:cyanmoon_acg/utils/device.dart';
 
 class PopularPage extends StatefulWidget {
   const PopularPage({

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:kazumi/bean/settings/settings_detail_scaffold.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
-import 'package:kazumi/bean/widget/state_presentation.dart';
-import 'package:kazumi/bean/widget/tonal_card.dart';
-import 'package:kazumi/modules/bangumi/sync_priority.dart';
-import 'package:kazumi/pages/settings/sync/sync_settings_widgets.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/services/sync/bangumi_sync_service.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_detail_scaffold.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/bean/widget/state_presentation.dart';
+import 'package:cyanmoon_acg/bean/widget/tonal_card.dart';
+import 'package:cyanmoon_acg/modules/bangumi/sync_priority.dart';
+import 'package:cyanmoon_acg/pages/settings/sync/sync_settings_widgets.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/sync/bangumi_sync_service.dart';
 
 enum _BangumiAction { verify, connect, sync }
 

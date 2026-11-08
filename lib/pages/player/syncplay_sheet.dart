@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import 'package:kazumi/bean/dialog/adaptive_bottom_sheet.dart';
-import 'package:kazumi/bean/dialog/material_bottom_sheet.dart';
-import 'package:kazumi/bean/widget/loading_indicator.dart';
-import 'package:kazumi/bean/widget/split_list_row.dart';
-import 'package:kazumi/bean/widget/tonal_card.dart';
-import 'package:kazumi/pages/player/player_controller.dart';
-import 'package:kazumi/services/player/syncplay_endpoint.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/bean/dialog/adaptive_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/dialog/material_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/widget/loading_indicator.dart';
+import 'package:cyanmoon_acg/bean/widget/split_list_row.dart';
+import 'package:cyanmoon_acg/bean/widget/tonal_card.dart';
+import 'package:cyanmoon_acg/pages/player/player_controller.dart';
+import 'package:cyanmoon_acg/services/player/syncplay_endpoint.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 // Close each step before opening the next to avoid stacked modal routes.
 enum _SyncPlayDestination { create, join, server }

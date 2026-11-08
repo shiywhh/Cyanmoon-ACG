@@ -1,16 +1,16 @@
 import 'dart:io';
 import 'package:webdav_client/webdav_client.dart' as webdav;
 import 'package:path_provider/path_provider.dart';
-import 'package:kazumi/modules/history/history_sync.dart';
-import 'package:kazumi/modules/danmaku/danmaku_shield_sync.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/modules/collect/collect_module.dart';
-import 'package:kazumi/modules/collect/collect_change_module.dart';
-import 'package:kazumi/services/sync/history_sync_service.dart';
-import 'package:kazumi/services/sync/webdav_remote_file_commit.dart';
-import 'package:kazumi/utils/async_serial_queue.dart';
-import 'package:kazumi/utils/async_single_flight.dart';
+import 'package:cyanmoon_acg/modules/history/history_sync.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_shield_sync.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_module.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_change_module.dart';
+import 'package:cyanmoon_acg/services/sync/history_sync_service.dart';
+import 'package:cyanmoon_acg/services/sync/webdav_remote_file_commit.dart';
+import 'package:cyanmoon_acg/utils/async_serial_queue.dart';
+import 'package:cyanmoon_acg/utils/async_single_flight.dart';
 
 class WebDav {
   static const String _syncRootPath = '/kazumiSync';

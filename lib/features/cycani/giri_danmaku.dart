@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'catalog_danmaku_codec.dart';
 import 'dart:async';
 import 'package:xml/xml.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
 import 'catalog_models.dart';
 import 'catalog_danmaku_options.dart';
 

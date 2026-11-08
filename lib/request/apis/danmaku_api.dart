@@ -1,12 +1,12 @@
-import 'package:kazumi/features/cycani/catalog_danmaku_options.dart';
-import 'package:kazumi/modules/danmaku/danmaku_ch_convert.dart';
-import 'package:kazumi/modules/danmaku/danmaku_episode_response.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
-import 'package:kazumi/modules/danmaku/danmaku_search_response.dart';
-import 'package:kazumi/request/clients/danmaku_client.dart';
-import 'package:kazumi/request/config/api_endpoints.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_options.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_ch_convert.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_episode_response.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_search_response.dart';
+import 'package:cyanmoon_acg/request/clients/danmaku_client.dart';
+import 'package:cyanmoon_acg/request/config/api_endpoints.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 class DanmakuApi {
   static final DanmakuClient _client = DanmakuClient.instance;

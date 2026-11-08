@@ -1,20 +1,20 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/widget/error_widget.dart';
-import 'package:kazumi/bean/widget/empty_state_widget.dart';
-import 'package:kazumi/pages/info/info_comments_view.dart';
-import 'package:kazumi/bean/card/character_card.dart';
-import 'package:kazumi/bean/card/staff_card.dart';
-import 'package:kazumi/bean/card/network_img_layer.dart';
+import 'package:cyanmoon_acg/bean/widget/error_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
+import 'package:cyanmoon_acg/pages/info/info_comments_view.dart';
+import 'package:cyanmoon_acg/bean/card/character_card.dart';
+import 'package:cyanmoon_acg/bean/card/staff_card.dart';
+import 'package:cyanmoon_acg/bean/card/network_img_layer.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/modules/bangumi/bangumi_relation.dart';
-import 'package:kazumi/modules/comments/comment_item.dart';
-import 'package:kazumi/modules/characters/character_item.dart';
-import 'package:kazumi/modules/staff/staff_item.dart';
-import 'package:kazumi/utils/constants.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_relation.dart';
+import 'package:cyanmoon_acg/modules/comments/comment_item.dart';
+import 'package:cyanmoon_acg/modules/characters/character_item.dart';
+import 'package:cyanmoon_acg/modules/staff/staff_item.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 class InfoTabView extends StatefulWidget {
   const InfoTabView({

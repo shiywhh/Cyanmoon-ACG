@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:kazumi/modules/collect/collect_sync_merger.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/modules/bangumi/sync_priority.dart';
-import 'package:kazumi/request/apis/bangumi_api.dart';
-import 'package:kazumi/request/core/network_exception.dart';
-import 'package:kazumi/utils/async_serial_queue.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_sync_merger.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/modules/bangumi/sync_priority.dart';
+import 'package:cyanmoon_acg/request/apis/bangumi_api.dart';
+import 'package:cyanmoon_acg/request/core/network_exception.dart';
+import 'package:cyanmoon_acg/utils/async_serial_queue.dart';
 
 class BangumiSyncService extends ChangeNotifier {
   String _username = '';

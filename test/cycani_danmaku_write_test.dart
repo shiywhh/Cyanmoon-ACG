@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
-import 'package:kazumi/features/cycani/catalog_playback_discussion.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_dialog.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_playback_discussion.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_dialog.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 
 ResponseBody response(Object value) => ResponseBody.fromString(

@@ -1,8 +1,8 @@
-import 'package:kazumi/modules/bangumi/bangumi_collection.dart';
-import 'package:kazumi/modules/bangumi/sync_priority.dart';
-import 'package:kazumi/modules/collect/collect_change_module.dart';
-import 'package:kazumi/modules/collect/collect_module.dart';
-import 'package:kazumi/modules/collect/collect_type_mapper.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_collection.dart';
+import 'package:cyanmoon_acg/modules/bangumi/sync_priority.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_change_module.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_module.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_type_mapper.dart';
 
 class CollectiblesMergeResult {
   const CollectiblesMergeResult({

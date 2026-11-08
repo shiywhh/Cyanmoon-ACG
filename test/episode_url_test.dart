@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/utils/episode_url.dart';
+import 'package:cyanmoon_acg/utils/episode_url.dart';
 
 void main() {
   group('normalizeEpisodeUrl', () {

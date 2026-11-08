@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 
 ResponseBody response(Object? data) => ResponseBody.fromString(

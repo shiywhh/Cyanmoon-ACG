@@ -5,7 +5,7 @@ import 'dart:async';
 import 'catalog_disk_cache.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
-import 'package:kazumi/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
 import 'catalog_models.dart';
 import 'catalog_aggregator.dart';
 import 'cycani_remote_danmaku.dart';

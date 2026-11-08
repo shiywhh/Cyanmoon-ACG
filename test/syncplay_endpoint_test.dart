@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/services/player/syncplay_endpoint.dart';
-import 'package:kazumi/services/storage/settings_keys.dart';
+import 'package:cyanmoon_acg/services/player/syncplay_endpoint.dart';
+import 'package:cyanmoon_acg/services/storage/settings_keys.dart';
 
 void main() {
   test('uses an official server as the default endpoint', () {

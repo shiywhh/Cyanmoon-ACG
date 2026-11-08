@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/settings/settings_detail_scaffold.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/utils/constants.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_detail_scaffold.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
 
 class RendererSettings extends StatefulWidget {
   const RendererSettings({super.key});

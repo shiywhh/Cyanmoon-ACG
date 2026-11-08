@@ -6,12 +6,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:kazumi/bean/widget/kazumi_menu.dart';
-import 'package:kazumi/pages/player/controller/player_screenshot_controller.dart';
-import 'package:kazumi/pages/player/player_screenshot_image.dart';
-import 'package:kazumi/services/player/screenshot_candidate.dart';
-import 'package:kazumi/services/player/screenshot_export_service.dart';
-import 'package:kazumi/services/player/screenshot_image_cache.dart';
+import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_screenshot_controller.dart';
+import 'package:cyanmoon_acg/pages/player/player_screenshot_image.dart';
+import 'package:cyanmoon_acg/services/player/screenshot_candidate.dart';
+import 'package:cyanmoon_acg/services/player/screenshot_export_service.dart';
+import 'package:cyanmoon_acg/services/player/screenshot_image_cache.dart';
 import 'package:mobx/mobx.dart' as mobx;
 
 Future<void> showPlayerScreenshotSheet(

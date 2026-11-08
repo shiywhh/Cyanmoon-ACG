@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:kazumi/bean/widget/state_presentation.dart';
+import 'package:cyanmoon_acg/bean/widget/state_presentation.dart';
 
 class SyncPageBody extends StatelessWidget {
   const SyncPageBody({super.key, required this.children, this.maxWidth = 880});

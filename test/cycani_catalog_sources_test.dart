@@ -1,11 +1,11 @@
-import 'package:kazumi/features/cycani/catalog_paging.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_paging.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
 
 CatalogJson row(
   CatalogSource source,

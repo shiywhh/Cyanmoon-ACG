@@ -1,4 +1,4 @@
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
 import 'catalog_disk_cache.dart';
 
 class CatalogDanmakuCache {

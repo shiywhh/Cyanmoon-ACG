@@ -5,12 +5,12 @@ import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:kazumi/modules/history/history_module.dart';
-import 'package:kazumi/modules/history/history_sync.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/storage/history_storage_coordinator.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/utils/async_serial_queue.dart';
+import 'package:cyanmoon_acg/modules/history/history_module.dart';
+import 'package:cyanmoon_acg/modules/history/history_sync.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/storage/history_storage_coordinator.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/utils/async_serial_queue.dart';
 
 class HistorySyncService {
   static const int checkpointLogThresholdBytes = 1024 * 1024;

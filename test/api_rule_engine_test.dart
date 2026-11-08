@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/plugins/api_rule_config.dart';
-import 'package:kazumi/services/plugin/api_rule_engine.dart';
+import 'package:cyanmoon_acg/plugins/api_rule_config.dart';
+import 'package:cyanmoon_acg/services/plugin/api_rule_engine.dart';
 
 void main() {
   const engine = ApiRuleStrategy();

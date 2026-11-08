@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/request/clients/download_http_client.dart';
-import 'package:kazumi/request/core/network_exception.dart';
-import 'package:kazumi/utils/m3u8_parser.dart';
-import 'package:kazumi/utils/m3u8_ad_filter.dart';
-import 'package:kazumi/utils/format.dart' as fmt;
-import 'package:kazumi/utils/file_system.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/download/download_directory_service.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/request/clients/download_http_client.dart';
+import 'package:cyanmoon_acg/request/core/network_exception.dart';
+import 'package:cyanmoon_acg/utils/m3u8_parser.dart';
+import 'package:cyanmoon_acg/utils/m3u8_ad_filter.dart';
+import 'package:cyanmoon_acg/utils/format.dart' as fmt;
+import 'package:cyanmoon_acg/utils/file_system.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/download/download_directory_service.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 import 'package:path/path.dart' as path;
 
 class _NotM3u8Exception implements Exception {

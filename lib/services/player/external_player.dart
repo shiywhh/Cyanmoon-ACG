@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:kazumi/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
 
 enum LinuxExternalPlayerResult {
   launched,

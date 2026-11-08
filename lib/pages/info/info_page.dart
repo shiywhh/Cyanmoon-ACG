@@ -6,24 +6,24 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'package:kazumi/bean/appbar/drag_to_move_bar.dart' as dtb;
-import 'package:kazumi/bean/card/bangumi_info_card.dart';
-import 'package:kazumi/bean/card/network_img_layer.dart';
-import 'package:kazumi/bean/dialog/adaptive_bottom_sheet.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/widget/collect_button.dart';
-import 'package:kazumi/bean/widget/embedded_native_control_area.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/pages/info/info_actions_menu.dart';
-import 'package:kazumi/pages/info/info_controller.dart';
-import 'package:kazumi/pages/info/info_tabview.dart';
-import 'package:kazumi/pages/info/rating_review_dialog.dart';
-import 'package:kazumi/pages/info/source_sheet.dart';
-import 'package:kazumi/plugins/plugins_controller.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/platform/desktop_window_config.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/bean/appbar/drag_to_move_bar.dart' as dtb;
+import 'package:cyanmoon_acg/bean/card/bangumi_info_card.dart';
+import 'package:cyanmoon_acg/bean/card/network_img_layer.dart';
+import 'package:cyanmoon_acg/bean/dialog/adaptive_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/widget/collect_button.dart';
+import 'package:cyanmoon_acg/bean/widget/embedded_native_control_area.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/pages/info/info_actions_menu.dart';
+import 'package:cyanmoon_acg/pages/info/info_controller.dart';
+import 'package:cyanmoon_acg/pages/info/info_tabview.dart';
+import 'package:cyanmoon_acg/pages/info/rating_review_dialog.dart';
+import 'package:cyanmoon_acg/pages/info/source_sheet.dart';
+import 'package:cyanmoon_acg/plugins/plugins_controller.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/platform/desktop_window_config.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 class InfoPage extends StatefulWidget {
   const InfoPage({

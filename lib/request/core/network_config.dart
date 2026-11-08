@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/io.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/network/proxy_utils.dart';
-import 'package:kazumi/services/network/system_proxy_service.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/network/proxy_utils.dart';
+import 'package:cyanmoon_acg/services/network/system_proxy_service.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 class NetworkConfig {
   /// 允许自签证书的域名白名单（Bangumi 官方域名，镜像加速场景）。

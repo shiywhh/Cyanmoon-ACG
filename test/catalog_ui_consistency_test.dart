@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_account_layout.dart';
-import 'package:kazumi/features/cycani/catalog_detail_metadata.dart';
-import 'package:kazumi/features/cycani/cycani_detail_page.dart';
-import 'package:kazumi/features/cycani/catalog_models.dart';
-import 'package:kazumi/features/cycani/site_accounts.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_account_layout.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_detail_metadata.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_detail_page.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_models.dart';
+import 'package:cyanmoon_acg/features/cycani/site_accounts.dart';
 
 class _WarmLibrary extends SourceAccounts {
   final pending = Completer<(List<CatalogJson>, bool)>();

@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:kazumi/request/core/network_exception.dart';
+import 'package:cyanmoon_acg/request/core/network_exception.dart';
 
 class NetworkErrorMapper {
   const NetworkErrorMapper._();

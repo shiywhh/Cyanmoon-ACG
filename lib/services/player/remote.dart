@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:dlna_dart/dlna.dart';
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/services/logging/logger.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
 
 class RemotePlay {
   Future<void> castVideo(String video, {required String title}) async {

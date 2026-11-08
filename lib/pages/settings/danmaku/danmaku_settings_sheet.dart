@@ -1,16 +1,16 @@
-import 'package:kazumi/features/cycani/catalog_danmaku_source_settings.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_source_settings.dart';
 import 'package:canvas_danmaku/canvas_danmaku.dart';
 import 'package:flutter/material.dart';
 
-import 'package:kazumi/bean/dialog/adaptive_bottom_sheet.dart';
-import 'package:kazumi/bean/dialog/material_bottom_sheet.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
-import 'package:kazumi/bean/widget/connected_tabs.dart';
-import 'package:kazumi/bean/widget/content_section.dart';
-import 'package:kazumi/pages/settings/danmaku/danmaku_ch_convert_tile.dart';
-import 'package:kazumi/pages/settings/danmaku/danmaku_shield_settings_sheet.dart';
-import 'package:kazumi/pages/settings/danmaku/danmaku_time_offset_sheet.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/bean/dialog/adaptive_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/dialog/material_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/bean/widget/connected_tabs.dart';
+import 'package:cyanmoon_acg/bean/widget/content_section.dart';
+import 'package:cyanmoon_acg/pages/settings/danmaku/danmaku_ch_convert_tile.dart';
+import 'package:cyanmoon_acg/pages/settings/danmaku/danmaku_shield_settings_sheet.dart';
+import 'package:cyanmoon_acg/pages/settings/danmaku/danmaku_time_offset_sheet.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 enum _DanmakuSettingsDestination { timeOffset, shield }
 

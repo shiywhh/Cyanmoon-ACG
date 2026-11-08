@@ -1,4 +1,4 @@
-import 'package:kazumi/modules/history/history_module.dart';
+import 'package:cyanmoon_acg/modules/history/history_module.dart';
 
 enum HistorySourceFilter {
   all('全部'),

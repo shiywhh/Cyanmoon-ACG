@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/giri_danmaku.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_loader.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_options.dart';
-import 'package:kazumi/features/cycani/site_native_catalog.dart';
-import 'package:kazumi/features/cycani/catalog_aggregator.dart';
+import 'package:cyanmoon_acg/features/cycani/giri_danmaku.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_loader.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_options.dart';
+import 'package:cyanmoon_acg/features/cycani/site_native_catalog.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_aggregator.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 
 ResponseBody jsonResponse(Object? value) => ResponseBody.fromString(

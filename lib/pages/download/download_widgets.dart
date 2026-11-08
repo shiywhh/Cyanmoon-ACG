@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:kazumi/bean/card/network_img_layer.dart';
-import 'package:kazumi/bean/card/rule_card.dart';
-import 'package:kazumi/bean/widget/kazumi_menu.dart';
-import 'package:kazumi/bean/widget/loading_indicator.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/utils/format.dart';
+import 'package:cyanmoon_acg/bean/card/network_img_layer.dart';
+import 'package:cyanmoon_acg/bean/card/rule_card.dart';
+import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/loading_indicator.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/utils/format.dart';
 
 const Duration _kExpandDuration = Duration(milliseconds: 250);
 const Curve _kExpandCurve = Curves.easeInOutCubic;

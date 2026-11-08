@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/pages/collect/collect_controller.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/pages/collect/collect_controller.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 import 'cycani_api.dart';
 import 'catalog_identity.dart';
 import 'catalog_models.dart';

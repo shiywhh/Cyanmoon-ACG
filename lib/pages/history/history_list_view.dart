@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kazumi/bean/widget/empty_state_widget.dart';
-import 'package:kazumi/bean/widget/state_presentation.dart';
-import 'package:kazumi/modules/history/history_module.dart';
-import 'package:kazumi/pages/history/history_list_query.dart';
+import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/state_presentation.dart';
+import 'package:cyanmoon_acg/modules/history/history_module.dart';
+import 'package:cyanmoon_acg/pages/history/history_list_query.dart';
 
 class HistoryListView extends StatefulWidget {
   const HistoryListView({

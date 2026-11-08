@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/settings/settings_dropdown_tile.dart';
-import 'package:kazumi/modules/danmaku/danmaku_ch_convert.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_dropdown_tile.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_ch_convert.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 
 extension _ConversionLabel on DanmakuChConvert {
   String get label => switch (this) {

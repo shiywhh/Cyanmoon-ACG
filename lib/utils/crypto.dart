@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:kazumi/utils/bangumi_mirror_credentials.dart';
-import 'package:kazumi/utils/dandan_credentials.dart';
+import 'package:cyanmoon_acg/utils/bangumi_mirror_credentials.dart';
+import 'package:cyanmoon_acg/utils/dandan_credentials.dart';
 
 String generateDandanSignature(String path, int timestamp) {
   final id = dandanCredentials['id']!;

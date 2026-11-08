@@ -1,11 +1,11 @@
-import 'package:kazumi/features/cycani/catalog_identity.dart';
-import 'package:kazumi/features/cycani/catalog_follow.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_identity.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_follow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/widget/kazumi_menu.dart';
-import 'package:kazumi/modules/bangumi/bangumi_item.dart';
-import 'package:kazumi/modules/collect/collect_type.dart';
-import 'package:kazumi/pages/collect/collect_controller.dart';
+import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_type.dart';
+import 'package:cyanmoon_acg/pages/collect/collect_controller.dart';
 
 class CollectButton extends StatefulWidget {
   const CollectButton({

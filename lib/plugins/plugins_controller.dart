@@ -2,14 +2,14 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:kazumi/plugins/plugins.dart';
-import 'package:kazumi/services/plugin/plugin_validity_tracker.dart';
-import 'package:kazumi/request/apis/plugin_catalog_api.dart';
-import 'package:kazumi/modules/plugin/plugin_http_module.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/utils/async_serial_queue.dart';
-import 'package:kazumi/utils/async_single_flight.dart';
-import 'package:kazumi/utils/version.dart';
+import 'package:cyanmoon_acg/plugins/plugins.dart';
+import 'package:cyanmoon_acg/services/plugin/plugin_validity_tracker.dart';
+import 'package:cyanmoon_acg/request/apis/plugin_catalog_api.dart';
+import 'package:cyanmoon_acg/modules/plugin/plugin_http_module.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/utils/async_serial_queue.dart';
+import 'package:cyanmoon_acg/utils/async_single_flight.dart';
+import 'package:cyanmoon_acg/utils/version.dart';
 
 part 'plugins_controller.g.dart';
 

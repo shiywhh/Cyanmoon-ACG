@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/cycani_api.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_loader.dart';
-import 'package:kazumi/features/cycani/catalog_danmaku_options.dart';
-import 'package:kazumi/features/cycani/cycani_remote_danmaku.dart';
-import 'package:kazumi/modules/danmaku/danmaku_module.dart';
-import 'package:kazumi/pages/player/controller/player_danmaku_controller.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_api.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_loader.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_danmaku_options.dart';
+import 'package:cyanmoon_acg/features/cycani/cycani_remote_danmaku.dart';
+import 'package:cyanmoon_acg/modules/danmaku/danmaku_module.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_danmaku_controller.dart';
 import 'cycani_api_test.dart' show FakeAdapter;
 
 ResponseBody bare(Object? value) => ResponseBody.fromString(

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/services/network/bangumi_image_url_rewriter.dart';
+import 'package:cyanmoon_acg/services/network/bangumi_image_url_rewriter.dart';
 
 void main() {
   group('BangumiImageUrlRewriter', () {

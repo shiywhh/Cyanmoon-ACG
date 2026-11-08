@@ -1,11 +1,11 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/pages/download/download_controller.dart';
-import 'package:kazumi/pages/history/history_controller.dart';
-import 'package:kazumi/pages/player/player_controller.dart';
-import 'package:kazumi/pages/route_error_page.dart';
-import 'package:kazumi/pages/video/video_controller.dart';
-import 'package:kazumi/pages/video/video_page.dart';
-import 'package:kazumi/pages/video/video_playback_args.dart';
+import 'package:cyanmoon_acg/pages/download/download_controller.dart';
+import 'package:cyanmoon_acg/pages/history/history_controller.dart';
+import 'package:cyanmoon_acg/pages/player/player_controller.dart';
+import 'package:cyanmoon_acg/pages/route_error_page.dart';
+import 'package:cyanmoon_acg/pages/video/video_controller.dart';
+import 'package:cyanmoon_acg/pages/video/video_page.dart';
+import 'package:cyanmoon_acg/pages/video/video_playback_args.dart';
 
 final videoModule = createModule(
   path: '/video',

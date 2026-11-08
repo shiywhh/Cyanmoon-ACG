@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/widget/side_panel_transition.dart';
+import 'package:cyanmoon_acg/bean/widget/side_panel_transition.dart';
 
 class VideoSidePanel extends StatefulWidget {
   const VideoSidePanel({

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:kazumi/request/core/dio_factory.dart';
-import 'package:kazumi/request/core/network_error_mapper.dart';
-import 'package:kazumi/utils/dandan_credentials.dart';
-import 'package:kazumi/utils/http_headers.dart';
-import 'package:kazumi/utils/crypto.dart';
+import 'package:cyanmoon_acg/request/core/dio_factory.dart';
+import 'package:cyanmoon_acg/request/core/network_error_mapper.dart';
+import 'package:cyanmoon_acg/utils/dandan_credentials.dart';
+import 'package:cyanmoon_acg/utils/http_headers.dart';
+import 'package:cyanmoon_acg/utils/crypto.dart';
 
 class DanmakuClient {
   DanmakuClient._();

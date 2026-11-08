@@ -1,5 +1,5 @@
-import 'package:kazumi/request/config/api_endpoints.dart';
-import 'package:kazumi/modules/characters/character_item.dart';
+import 'package:cyanmoon_acg/request/config/api_endpoints.dart';
+import 'package:cyanmoon_acg/modules/characters/character_item.dart';
 
 /// The response from [ApiEndpoints.bangumiInfoByID]
 /// It contains a list of [CharacterItem]

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 import 'package:window_manager/window_manager.dart';
 
 class DisplayModeService {

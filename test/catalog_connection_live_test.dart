@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_http.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_http.dart';
 
 /// Live regression for the custom TCP connection factory: https through
 /// CatalogHttp must complete a real TLS handshake (the SDK does not upgrade

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kazumi/features/cycani/catalog_connection.dart';
-import 'package:kazumi/features/cycani/catalog_http.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_connection.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_http.dart';
 
 void main() {
   test(

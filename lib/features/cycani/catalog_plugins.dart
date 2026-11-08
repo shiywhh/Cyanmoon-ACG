@@ -1,4 +1,4 @@
-import 'package:kazumi/plugins/plugins.dart';
+import 'package:cyanmoon_acg/plugins/plugins.dart';
 import 'catalog_aggregator.dart';
 import 'cycani_api.dart';
 

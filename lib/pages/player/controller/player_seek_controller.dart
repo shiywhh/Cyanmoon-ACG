@@ -1,7 +1,7 @@
-import 'package:kazumi/pages/player/controller/player_danmaku_controller.dart';
-import 'package:kazumi/pages/player/controller/player_playback_controller.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/utils/async_serial_queue.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_danmaku_controller.dart';
+import 'package:cyanmoon_acg/pages/player/controller/player_playback_controller.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/utils/async_serial_queue.dart';
 import 'package:media_kit/media_kit.dart';
 
 class _InteractiveSeekSession {

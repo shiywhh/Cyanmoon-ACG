@@ -3,20 +3,20 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/dialog/update_available_dialog.dart';
-import 'package:kazumi/request/clients/download_http_client.dart';
-import 'package:kazumi/request/config/api_endpoints.dart';
-import 'package:kazumi/services/logging/logger.dart';
-import 'package:kazumi/services/platform/app_exit.dart';
-import 'package:kazumi/services/update/update_download_source.dart';
-import 'package:kazumi/services/update/update_downloader.dart';
-import 'package:kazumi/services/storage/storage.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/dialog/update_available_dialog.dart';
+import 'package:cyanmoon_acg/request/clients/download_http_client.dart';
+import 'package:cyanmoon_acg/request/config/api_endpoints.dart';
+import 'package:cyanmoon_acg/services/logging/logger.dart';
+import 'package:cyanmoon_acg/services/platform/app_exit.dart';
+import 'package:cyanmoon_acg/services/update/update_download_source.dart';
+import 'package:cyanmoon_acg/services/update/update_downloader.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:kazumi/utils/device.dart';
-import 'package:kazumi/utils/version.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
+import 'package:cyanmoon_acg/utils/version.dart';
 
 enum InstallationType {
   windowsMsix('MSIX'),

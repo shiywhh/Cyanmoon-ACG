@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/dialog/dialog.dart';
-import 'package:kazumi/bean/settings/settings_dropdown_tile.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
-import 'package:kazumi/bean/widget/state_presentation.dart';
-import 'package:kazumi/bean/widget/tonal_card.dart';
-import 'package:kazumi/services/update/auto_updater.dart';
-import 'package:kazumi/services/update/update_download_source.dart';
-import 'package:kazumi/utils/date_time.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_dropdown_tile.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/bean/widget/state_presentation.dart';
+import 'package:cyanmoon_acg/bean/widget/tonal_card.dart';
+import 'package:cyanmoon_acg/services/update/auto_updater.dart';
+import 'package:cyanmoon_acg/services/update/update_download_source.dart';
+import 'package:cyanmoon_acg/utils/date_time.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 typedef UpdateDialogChoice = ({

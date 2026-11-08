@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kazumi/utils/format.dart';
+import 'package:cyanmoon_acg/utils/format.dart';
 
 // Metrics follow the defaults of the former audio_video_progress_bar.
 const double _thumbRadius = 8;

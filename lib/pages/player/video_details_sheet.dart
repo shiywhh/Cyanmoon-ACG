@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import 'package:kazumi/bean/dialog/adaptive_bottom_sheet.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/dialog/material_bottom_sheet.dart';
-import 'package:kazumi/bean/widget/connected_tabs.dart';
-import 'package:kazumi/bean/widget/content_section.dart';
-import 'package:kazumi/bean/widget/empty_state_widget.dart';
-import 'package:kazumi/bean/widget/tonal_card.dart';
-import 'package:kazumi/pages/player/player_controller.dart';
+import 'package:cyanmoon_acg/bean/dialog/adaptive_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/dialog/material_bottom_sheet.dart';
+import 'package:cyanmoon_acg/bean/widget/connected_tabs.dart';
+import 'package:cyanmoon_acg/bean/widget/content_section.dart';
+import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/tonal_card.dart';
+import 'package:cyanmoon_acg/pages/player/player_controller.dart';
 
 void showVideoDetailsSheet(
   BuildContext context, {

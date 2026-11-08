@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/services/download/download_path_migration.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/services/download/download_path_migration.dart';
 import 'package:logger/logger.dart';
 import 'package:path/path.dart' as path;
 

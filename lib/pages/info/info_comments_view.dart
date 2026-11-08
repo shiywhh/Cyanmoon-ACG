@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kazumi/bean/card/comments_card.dart';
-import 'package:kazumi/bean/widget/empty_state_widget.dart';
-import 'package:kazumi/bean/widget/error_widget.dart';
-import 'package:kazumi/modules/bangumi/bangumi_interest.dart';
-import 'package:kazumi/modules/comments/comment_item.dart';
+import 'package:cyanmoon_acg/bean/card/comments_card.dart';
+import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
+import 'package:cyanmoon_acg/bean/widget/error_widget.dart';
+import 'package:cyanmoon_acg/modules/bangumi/bangumi_interest.dart';
+import 'package:cyanmoon_acg/modules/comments/comment_item.dart';
 
 class InfoCommentsView extends StatelessWidget {
   const InfoCommentsView({

@@ -1,18 +1,18 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/card/palette_card.dart';
-import 'package:kazumi/utils/constants.dart';
-import 'package:kazumi/services/storage/storage.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/bean/settings/theme_provider.dart';
-import 'package:kazumi/bean/settings/color_type.dart';
-import 'package:kazumi/bean/settings/settings_detail_scaffold.dart';
-import 'package:kazumi/bean/settings/settings_dropdown_tile.dart';
-import 'package:kazumi/bean/settings/settings_list.dart';
+import 'package:cyanmoon_acg/bean/card/palette_card.dart';
+import 'package:cyanmoon_acg/utils/constants.dart';
+import 'package:cyanmoon_acg/services/storage/storage.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/bean/settings/theme_provider.dart';
+import 'package:cyanmoon_acg/bean/settings/color_type.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_detail_scaffold.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_dropdown_tile.dart';
+import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:kazumi/utils/device.dart';
-import 'package:kazumi/utils/theme.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
+import 'package:cyanmoon_acg/utils/theme.dart';
 
 class ThemeSettingsPage extends StatefulWidget {
   const ThemeSettingsPage({super.key});

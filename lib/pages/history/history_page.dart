@@ -1,21 +1,21 @@
-import 'package:kazumi/features/cycani/catalog_follow.dart';
-import 'package:kazumi/features/cycani/catalog_identity.dart';
-import 'package:kazumi/features/cycani/catalog_navigation.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_follow.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_identity.dart';
+import 'package:cyanmoon_acg/features/cycani/catalog_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:kazumi/bean/appbar/sys_app_bar.dart';
-import 'package:kazumi/bean/dialog/dialog_helper.dart';
-import 'package:kazumi/modules/collect/collect_type.dart';
-import 'package:kazumi/modules/history/history_module.dart';
-import 'package:kazumi/pages/collect/collect_controller.dart';
-import 'package:kazumi/pages/history/history_controller.dart';
-import 'package:kazumi/pages/history/history_list_view.dart';
-import 'package:kazumi/pages/history/history_record_tile.dart';
-import 'package:kazumi/services/player/history_playback_service.dart';
-import 'package:kazumi/services/plugin/rule_engine_models.dart'
+import 'package:cyanmoon_acg/bean/appbar/sys_app_bar.dart';
+import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
+import 'package:cyanmoon_acg/modules/collect/collect_type.dart';
+import 'package:cyanmoon_acg/modules/history/history_module.dart';
+import 'package:cyanmoon_acg/pages/collect/collect_controller.dart';
+import 'package:cyanmoon_acg/pages/history/history_controller.dart';
+import 'package:cyanmoon_acg/pages/history/history_list_view.dart';
+import 'package:cyanmoon_acg/pages/history/history_record_tile.dart';
+import 'package:cyanmoon_acg/services/player/history_playback_service.dart';
+import 'package:cyanmoon_acg/services/plugin/rule_engine_models.dart'
     show RuleCancelToken;
-import 'package:kazumi/utils/device.dart';
+import 'package:cyanmoon_acg/utils/device.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key, required this.controller});

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 
-import 'package:kazumi/bean/widget/empty_state_widget.dart';
-import 'package:kazumi/modules/download/download_module.dart';
-import 'package:kazumi/modules/roads/road_module.dart';
+import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
+import 'package:cyanmoon_acg/modules/download/download_module.dart';
+import 'package:cyanmoon_acg/modules/roads/road_module.dart';
 
 class EpisodeSelectionPanel extends StatefulWidget {
   const EpisodeSelectionPanel({
