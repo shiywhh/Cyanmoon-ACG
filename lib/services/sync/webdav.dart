@@ -147,7 +147,10 @@ class WebDav {
     final localFilePath = '${directory.path}/hive/$boxName.hive';
     final tempFilePath = '${webDavLocalTempDirectory.path}/$boxName.tmp';
     final webDavPath = '$_syncRootPath/$boxName.tmp';
-    await File(localFilePath).copy(tempFilePath);
+    // 复制与收藏写队列互斥拿到一致快照；网络上传放队列外，避免长时间阻塞收藏写入。
+    await GStorage.runWithCollectSnapshotConsistency(() async {
+      await File(localFilePath).copy(tempFilePath);
+    });
     await _publishRemoteFile(
       sourceFilePath: tempFilePath,
       destinationPath: webDavPath,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:hive_ce/hive.dart';
 import 'package:kazumi/services/logging/logger.dart';
 import 'package:path_provider/path_provider.dart';
@@ -62,6 +63,20 @@ class GStorage {
     return completer.future;
   }
 
+  /// 收藏写入队列空闲并 flush 后执行 action，保证对 collectibles/collectchanges
+  /// Hive 文件的复制拿到的是完整一致快照。WebDAV 备份直接 copy 运行中的
+  /// hive 文件，与写入并发时会抓到未落盘的中间态，产生截断损坏的远端备份。
+  /// 注意：action 内不要做耗时网络操作（会阻塞后续收藏写入）。
+  static Future<T> runWithCollectSnapshotConsistency<T>(
+    Future<T> Function() action,
+  ) {
+    return _runCollectChangesWriteExclusive(() async {
+      await collectibles.flush();
+      await collectChanges.flush();
+      return action();
+    });
+  }
+
   /// init id generator
   static void _initializeNextCollectChangeIdLocked() {
     if (_collectChangeIdInitialized) {
@@ -79,15 +94,45 @@ class GStorage {
     _collectChangeIdInitialized = true;
   }
 
+  /// 设备槽位（0..7）：跨设备区分同一秒内产生的收藏变更 ID。
+  /// 纯秒级时间戳在两台设备同一秒各写一条变更时会撞号，合并端据此把
+  /// 本地变更误判为"已在远端"而静默丢弃（数据丢失）。
+  static int? _collectChangeDeviceSlot;
+
+  static int _collectChangeDeviceSlotLocked() {
+    final cached = _collectChangeDeviceSlot;
+    if (cached != null) {
+      return cached;
+    }
+    const slotKey = 'collectChangeDeviceSlot';
+    final stored = _setting.get(slotKey);
+    int slot;
+    if (stored is int && stored >= 0 && stored < 8) {
+      slot = stored;
+    } else {
+      slot = Random.secure().nextInt(8);
+      _setting.put(slotKey, slot);
+    }
+    _collectChangeDeviceSlot = slot;
+    return slot;
+  }
+
   /// Generate id for collect change
+  ///
+  /// 新 ID 编码：`(UTC 秒 - 2024 纪元) * 8 + 设备槽位`，uint32 上限内可用到约
+  /// 2041 年，同秒跨设备由槽位区分。本地已有更大 ID（历史遗留/远端同步）时
+  /// 从 max+1 单调递增，保证 ID 不回退（保持与遗留数据的单调关系）。
   static int _generateCollectChangeIdLocked() {
     _initializeNextCollectChangeIdLocked();
 
-    final currentSeconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    // Ensure ID is greater than any existing ID, or equal to current timestamp.
-    var nextId = _nextCollectChangeId < currentSeconds
-        ? currentSeconds
-        : _nextCollectChangeId + 1;
+    const schemeEpoch = 1704067200; // 2024-01-01 UTC
+    final secondsSinceEpoch =
+        DateTime.now().millisecondsSinceEpoch ~/ 1000 - schemeEpoch;
+    final schemeId =
+        secondsSinceEpoch > 0 ? secondsSinceEpoch * 8 : 0;
+    final slotSchemeId = schemeId + _collectChangeDeviceSlotLocked();
+    var nextId =
+        slotSchemeId > _nextCollectChangeId ? slotSchemeId : _nextCollectChangeId + 1;
     while (collectChanges.containsKey(nextId)) {
       nextId++;
     }
