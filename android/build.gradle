@@ -1,0 +1,46 @@
+// Native plugins share the AGP/Kotlin versions declared by settings.gradle.
+// Avoid resolving separate, unused compiler toolchains for every plugin.
+subprojects {
+    buildscript.configurations.configureEach {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.tools.build' && details.requested.name == 'gradle') {
+                details.useVersion '8.11.1'
+            }
+            if (details.requested.group == 'org.jetbrains.kotlin' && details.requested.name == 'kotlin-gradle-plugin') {
+                details.useVersion '2.2.21'
+            }
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+// Compile native libraries against the application's installed platform SDK.
+// This removes per-plugin requirements for obsolete platform SDK downloads.
+subprojects { nativeProject ->
+    def configureNativeSdk = {
+        if (nativeProject.plugins.hasPlugin('com.android.library')) {
+            nativeProject.android.compileSdk = rootProject.project(':app').android.compileSdk
+            nativeProject.android.ndkVersion = rootProject.project(':app').android.ndkVersion
+        }
+    }
+    if (nativeProject.state.executed) { configureNativeSdk() }
+    else { nativeProject.afterEvaluate { configureNativeSdk() } }
+}
