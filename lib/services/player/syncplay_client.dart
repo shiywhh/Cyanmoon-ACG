@@ -272,6 +272,36 @@ class SyncplayClient {
       : _host = host,
         _port = port;
 
+  /// TCP 连接限时 10 秒：黑洞地址会挂满 OS 级超时（数十秒）导致 UI 无响应；
+  /// 超时后迟到的连接也会被立即关闭，避免孤儿 socket 泄漏。
+  Future<RawSocket> _connectSocket() {
+    final completer = Completer<RawSocket>();
+    final timer = Timer(const Duration(seconds: 10), () {
+      if (!completer.isCompleted) {
+        completer.completeError(TimeoutException(
+            'SyncPlay: TCP connect timed out', const Duration(seconds: 10)));
+      }
+    });
+    RawSocket.connect(_host, _port).then(
+      (socket) {
+        timer.cancel();
+        if (!completer.isCompleted) {
+          completer.complete(socket);
+        } else {
+          // 超时后才建立的连接无人认领，立即关闭。
+          _forceCloseSocket(socket);
+        }
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        timer.cancel();
+        if (!completer.isCompleted) {
+          completer.completeError(error, stackTrace);
+        }
+      },
+    );
+    return completer.future;
+  }
+
   /// Opens the connection using the TLS policy selected by the caller.
   Future<void> connect({required bool enableTLS}) async {
     if (_closed) {
@@ -282,7 +312,7 @@ class SyncplayClient {
     }
     _connectCalled = true;
     try {
-      final socket = await RawSocket.connect(_host, _port);
+      final socket = await _connectSocket();
       if (_closed) {
         await _forceCloseSocket(socket);
         throw SyncplayConnectionException('SyncPlay: connection closed');
@@ -478,7 +508,41 @@ class SyncplayClient {
   }
 
   void _setupSocketHandlers(RawSocket socket) {
-    String buffer = '';
+    // 接收缓冲保存原始字节：TCP 分包可能把多字节 UTF-8 字符从中间切开，
+    // 必须扫描出完整 JSON 消息边界后再解码，否则会对半个字符抛 FormatException。
+    final List<int> buffer = <int>[];
+
+    /// 按字节扫描 JSON 消息边界（跳过字符串字面量内的花括号与转义），
+    /// 返回消息结束下标（含），未找到完整消息时返回 null。
+    int? findJsonMessageEnd(List<int> bytes) {
+      bool inString = false;
+      bool escaped = false;
+      int braceCount = 0;
+      for (int i = 0; i < bytes.length; i++) {
+        final int byte = bytes[i];
+        if (inString) {
+          if (escaped) {
+            escaped = false;
+          } else if (byte == 0x5C) {
+            escaped = true;
+          } else if (byte == 0x22) {
+            inString = false;
+          }
+          continue;
+        }
+        if (byte == 0x22) {
+          inString = true;
+        } else if (byte == 0x7B) {
+          braceCount++;
+        } else if (byte == 0x7D) {
+          braceCount--;
+          if (braceCount == 0) {
+            return i;
+          }
+        }
+      }
+      return null;
+    }
 
     _socketSubscription = socket.listen(
       (event) {
@@ -500,30 +564,29 @@ class SyncplayClient {
             if (data == null || data.isEmpty) {
               break;
             }
-            buffer += utf8.decode(data);
+            buffer.addAll(data);
             while (true) {
-              final startIndex = buffer.indexOf('{');
+              final startIndex = buffer.indexOf(0x7B);
               if (startIndex == -1) {
+                // 缓冲内没有消息起始花括号，全是杂散字节，直接丢弃。
+                buffer.clear();
+                break;
+              }
+              if (startIndex > 0) {
+                buffer.removeRange(0, startIndex);
+              }
+              final endIndex = findJsonMessageEnd(buffer);
+              if (endIndex == null) {
+                // 防御：异常超长残包直接丢弃，避免缓冲无限增长。
+                if (buffer.length > 4 * 1024 * 1024) {
+                  buffer.clear();
+                }
                 break;
               }
 
-              int braceCount = 0;
-              int? endIndex;
-              for (int i = startIndex; i < buffer.length; i++) {
-                if (buffer[i] == '{') {
-                  braceCount++;
-                } else if (buffer[i] == '}') {
-                  braceCount--;
-                  if (braceCount == 0) {
-                    endIndex = i;
-                    break;
-                  }
-                }
-              }
-              if (endIndex == null) break;
-
-              final jsonStr = buffer.substring(startIndex, endIndex + 1);
+              String jsonStr;
               try {
+                jsonStr = utf8.decode(buffer.sublist(0, endIndex + 1));
                 _handleMessage(json.decode(jsonStr), socket);
               } catch (e) {
                 _generalMessageController?.addError(
@@ -531,7 +594,7 @@ class SyncplayClient {
                       'SyncPlay: received data parse failed: $e'),
                 );
               }
-              buffer = buffer.substring(endIndex + 1);
+              buffer.removeRange(0, endIndex + 1);
               if (!identical(socket, _socket)) {
                 return;
               }
