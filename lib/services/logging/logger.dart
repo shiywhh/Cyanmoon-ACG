@@ -129,6 +129,16 @@ class KazumiLogOutput extends LogOutput {
         final filePath = await _getLogFilePath();
         final file = File(filePath);
 
+        // 简单轮转：超过 8MB 时整体改名为 .old（覆盖上一代），
+        // 防止日志随长期使用无限增长拖垮磁盘与日志页加载。
+        if (await file.exists() && await file.length() > 8 * 1024 * 1024) {
+          final oldFile = File('$filePath.old');
+          if (await oldFile.exists()) {
+            await oldFile.delete();
+          }
+          await file.rename('$filePath.old');
+        }
+
         final buffer = StringBuffer();
         for (var line in event.lines) {
           final cleanLine = _removeAnsiCodes(line);

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -223,7 +224,15 @@ class AutoUpdater {
         if (releaseUrl.isEmpty) {
           releaseUrl = ApiEndpoints.latestApp;
         }
-        launchUrl(Uri.parse(releaseUrl), mode: LaunchMode.externalApplication);
+        // 检查跳转结果：失败时至少留日志，用户不至于毫无感知。
+        unawaited(launchUrl(Uri.parse(releaseUrl),
+                mode: LaunchMode.externalApplication)
+            .then((launched) {
+          if (!launched) {
+            KazumiLogger()
+                .w('AutoUpdater: failed to open release page $releaseUrl');
+          }
+        }));
         return;
       }
 

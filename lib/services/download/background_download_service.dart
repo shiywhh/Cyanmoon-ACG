@@ -138,6 +138,9 @@ class BackgroundDownloadService {
     } catch (e) {
       KazumiLogger()
           .e('BackgroundDownloadService: failed to stop service', error: e);
+      // 停止失败也要复位标记：否则后续 stopService/updateNotification 会被
+      // !_isRunning 短路，前台服务状态与真实状态永久脱节。
+      _isRunning = false;
     }
   }
 

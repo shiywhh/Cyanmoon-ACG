@@ -21,8 +21,12 @@ class ImageCacheService {
     var bytes = 0;
     await for (final file in _files()) {
       // Files may expire during enumeration.
-      final stat = await file.stat();
-      if (stat.type == FileSystemEntityType.file) bytes += stat.size;
+      try {
+        final stat = await file.stat();
+        if (stat.type == FileSystemEntityType.file) bytes += stat.size;
+      } on FileSystemException {
+        // Expired/locked mid-enumeration; skip this file.
+      }
     }
     return bytes;
   }
@@ -36,6 +40,8 @@ class ImageCacheService {
         await file.delete();
       } on PathNotFoundException {
         // Already removed by the cache manager.
+      } on FileSystemException {
+        // Locked by another process (Windows); skip instead of aborting the sweep.
       }
     }
     PaintingBinding.instance.imageCache.clear();

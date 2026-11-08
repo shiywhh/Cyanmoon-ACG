@@ -307,7 +307,9 @@ class _DefaultRuleRequestExecutor implements RuleRequestExecutor {
     // Header names are lowercased so a rule-supplied 'User-Agent' collides
     // with ours instead of being sent as a second, conflicting header.
     final headers = <String, dynamic>{
-      'referer': '${config.baseUrl}/',
+      // baseUrl 已带斜杠时不再追加，避免产生 "https://x.com//" 使精确 Referer 校验失败
+      'referer':
+          config.baseUrl.endsWith('/') ? config.baseUrl : '${config.baseUrl}/',
       if (cookieHeader.isNotEmpty) 'cookie': cookieHeader,
       for (final entry in request.headers.entries)
         entry.key.toLowerCase(): entry.value,

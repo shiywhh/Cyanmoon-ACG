@@ -215,33 +215,49 @@ class GStorage {
   }
 
   /// Open a Hive box with automatic recovery on corruption.
-  /// If the box is corrupted, delete it and create a new empty one.
+  ///
+  /// 仅对真正的 Hive 数据损坏（HiveError，如校验和失败）执行删除重建；
+  /// 其他异常（文件被杀软/备份进程短暂占用、瞬时 IO 错误等）先重试一次，
+  /// 仍失败则向上抛出交给错误页处理，避免把 favorites/histories 等用户数据
+  /// 无差别删除且不可恢复。
   static Future<Box<T>> _openBoxSafe<T>(String boxName) async {
-    try {
-      return await Hive.openBox<T>(boxName);
-    } catch (e) {
-      KazumiLogger().e(
-        'GStorage: Box "$boxName" corrupted, attempting recovery',
-        error: e,
-      );
-
-      // Delete the corrupted box files
-      await _deleteBoxFiles(boxName);
-
-      // Try to open again (will create a new empty box)
+    Object? lastError;
+    for (var attempt = 0; attempt < 2; attempt++) {
       try {
-        final box = await Hive.openBox<T>(boxName);
-        KazumiLogger().i(
-          'GStorage: Box "$boxName" recovered successfully (data lost)',
-        );
-        return box;
-      } catch (e2) {
-        KazumiLogger().e(
-          'GStorage: Failed to recover box "$boxName"',
-          error: e2,
-        );
-        rethrow;
+        return await Hive.openBox<T>(boxName);
+      } catch (e) {
+        lastError = e;
+        await Future<void>.delayed(const Duration(milliseconds: 300));
       }
+    }
+    final e = lastError!;
+    KazumiLogger().e(
+      'GStorage: Box "$boxName" failed to open',
+      error: e,
+    );
+    if (e is! HiveError) {
+      throw e;
+    }
+    KazumiLogger().w(
+      'GStorage: Box "$boxName" corrupted, attempting recovery',
+    );
+
+    // Delete the corrupted box files
+    await _deleteBoxFiles(boxName);
+
+    // Try to open again (will create a new empty box)
+    try {
+      final box = await Hive.openBox<T>(boxName);
+      KazumiLogger().i(
+        'GStorage: Box "$boxName" recovered successfully (data lost)',
+      );
+      return box;
+    } catch (e2) {
+      KazumiLogger().e(
+        'GStorage: Failed to recover box "$boxName"',
+        error: e2,
+      );
+      rethrow;
     }
   }
 
