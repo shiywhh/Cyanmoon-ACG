@@ -35,6 +35,11 @@ const List<_SettingsGroup> _settingsGroups = [
         icon: Icons.account_circle_outlined,
         path: '/settings/source-accounts',
       ),
+      _SettingsCategory(
+        label: 'Bangumi 账号',
+        icon: Icons.bookmarks_outlined,
+        path: '/settings/bangumi',
+      ),
     ],
   ),
   _SettingsGroup(
@@ -98,10 +103,6 @@ bool _isWithinPath(String location, String path) =>
 String _categoryPath(String location) {
   if (location == '/settings') {
     return '/settings/account';
-  }
-  if (_isWithinPath(location, '/settings/bangumi') ||
-      _isWithinPath(location, '/settings/webdav')) {
-    return '/settings/sync';
   }
   for (final group in _settingsGroups) {
     for (final category in group.categories) {

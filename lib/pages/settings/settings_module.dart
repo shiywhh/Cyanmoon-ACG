@@ -13,6 +13,7 @@ import 'package:kazumi/pages/settings/keyboard_settings.dart';
 import 'package:kazumi/pages/settings/player_settings.dart';
 import 'package:kazumi/pages/settings/renderer_settings.dart';
 import 'package:kazumi/pages/settings/settings_page.dart';
+import 'package:kazumi/pages/settings/sync/bangumi_sync_page.dart';
 import 'package:kazumi/pages/settings/storage_settings.dart';
 import 'package:kazumi/pages/settings/super_resolution_settings.dart';
 import 'package:kazumi/pages/settings/theme_settings_page.dart';
@@ -30,6 +31,10 @@ final settingsModule = createModule(
           ..route(
             '/source-accounts',
             child: (context, state) => const SourceAccountsPage(),
+          )
+          ..route(
+            '/bangumi',
+            child: (context, state) => const BangumiSyncPage(),
           )
           ..route(
             '/account',
