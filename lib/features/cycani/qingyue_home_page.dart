@@ -518,6 +518,10 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
   }
 
   Future<List<CatalogJson>> _ranking() async {
+    if (activeSource == CatalogSource.bangumi) {
+      return CatalogAggregator.instance
+          .bangumiRanking(movie: rankSection == '剧场番组');
+    }
     if (activeSource == CatalogSource.xifan) {
       return CatalogAggregator.instance.xifanWeeklyRanking();
     }
@@ -545,6 +549,11 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
     selectionMode = false;
     search.clear();
     librarySearch.clear();
+    // Bangumi 目前只接入排行榜（tab 2）：离开该 tab 时回落到默认站点，
+    // 避免主页/分类等未接入 bangumi 数据的功能触发未实现分支。
+    if (activeSource == CatalogSource.bangumi && value != 2) {
+      activeSource = CatalogSource.cycani;
+    }
     _reload(reset: true);
   }
 
@@ -1252,6 +1261,12 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
                   itemBuilder: (_) => [
                     for (final source in CatalogSource.siteSources)
                       PopupMenuItem(value: source, child: Text(source.label)),
+                    // Bangumi 暂只接入排行榜数据（tab 2），其他 tab 不提供入口。
+                    if (tab == 2)
+                      const PopupMenuItem(
+                        value: CatalogSource.bangumi,
+                        child: Text('Bangumi'),
+                      ),
                   ],
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

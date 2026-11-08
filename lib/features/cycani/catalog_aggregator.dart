@@ -1036,6 +1036,14 @@ class CatalogAggregator {
     ];
   }
 
+  /// Bangumi 排行：rank 排序检索，TV 用默认动画榜、剧场版走标签过滤。
+  Future<List<CatalogJson>> bangumiRanking({required bool movie}) async {
+    final items = await BangumiApi.getBangumiList(
+      tag: movie ? '剧场版' : '日本',
+    );
+    return [for (final item in items) _bangumiRow(item)];
+  }
+
   Future<List<CatalogJson>> schedule(CatalogSource source, int day) async {
     if (day < 1 || day > 7) throw ArgumentError.value(day);
     if (source == CatalogSource.cycani) return _cycani.schedule(day);
