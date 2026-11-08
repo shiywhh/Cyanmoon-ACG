@@ -135,7 +135,7 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
   final _lastViews = <Object, List<CatalogJson>>{};
   Future<List<CatalogJson>>? _accountHomeSections;
   Object get _viewKey => tab == 3
-      ? (tab, weekday)
+      ? (tab, weekday, weeklyBangumi)
       : (
           tab,
           activeSource,
@@ -163,6 +163,8 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
   final weekCounts = List<int?>.filled(7, null);
   final weekEpochs = List<int>.filled(7, 0);
   final weekData = <int, Future<List<CatalogJson>>>{};
+  // 周表数据源模式：false = 三站聚合（默认），true = Bangumi 每日放送。
+  bool weeklyBangumi = false;
   bool selectionMode = false, listMode = true;
   bool weekGridMode = false;
   static const labels = ['主页', '分类', '排行榜', '周表', '我的追番', '观看历史', '登录', '我的'];
@@ -488,7 +490,9 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
         final generation = weekEpochs[day - 1];
         final source = activeSource;
         final values = widget.api == null
-            ? await CatalogAggregator.instance.mergedSchedule(day)
+            ? weeklyBangumi
+            ? await CatalogAggregator.instance.bangumiSchedule(day)
+            : await CatalogAggregator.instance.mergedSchedule(day)
             : source == CatalogSource.cycani
             ? await api.schedule(day)
             : await CatalogAggregator.instance.schedule(source, day);
@@ -737,7 +741,48 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
               _reload(reset: true);
             },
           ),
-        if (tab == 3)
+        if (tab == 3) ...[
+          // 周表数据源切换：三站聚合（默认）/ Bangumi 每日放送。
+          if (widget.api == null)
+            Wrap(
+              spacing: 8,
+              children: [
+                ChoiceChip(
+                  showCheckmark: false,
+                  label: const Text('三站聚合'),
+                  selected: !weeklyBangumi,
+                  onSelected: (_) {
+                    if (!weeklyBangumi) return;
+                    setState(() {
+                      weeklyBangumi = false;
+                      weekData.clear();
+                      for (var i = 0; i < weekEpochs.length; i++) {
+                        weekEpochs[i]++;
+                        weekCounts[i] = null;
+                      }
+                    });
+                    _reload(reset: true);
+                  },
+                ),
+                ChoiceChip(
+                  showCheckmark: false,
+                  label: const Text('Bangumi'),
+                  selected: weeklyBangumi,
+                  onSelected: (_) {
+                    if (weeklyBangumi) return;
+                    setState(() {
+                      weeklyBangumi = true;
+                      weekData.clear();
+                      for (var i = 0; i < weekEpochs.length; i++) {
+                        weekEpochs[i]++;
+                        weekCounts[i] = null;
+                      }
+                    });
+                    _reload(reset: true);
+                  },
+                ),
+              ],
+            ),
           SizedBox(
             width: double.infinity,
             child: DefaultTabController(
@@ -753,6 +798,7 @@ class _QingyueHomePageState extends State<QingyueHomePage> {
               ),
             ),
           ),
+        ],
         if (tab == 4)
           for (final e in {
             '': '全部',

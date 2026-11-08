@@ -8,6 +8,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:html/parser.dart' as html;
 import 'package:dio/dio.dart';
+import 'package:kazumi/modules/bangumi/bangumi_item.dart';
+import 'package:kazumi/request/apis/bangumi_api.dart';
 import 'cycani_api.dart';
 import 'catalog_models.dart';
 import 'catalog_paging.dart';
@@ -985,9 +987,59 @@ class CatalogAggregator {
     _giriScoresDay = day;
   }
 
+  // Bangumi 每日放送：一次拉整周按天切片（数据即 7 天分组，无翻页）。
+  List<List<CatalogJson>>? _bangumiWeek;
+  String? _bangumiWeekStamp;
+  Future<List<List<CatalogJson>>>? _bangumiWeekRefresh;
+
+  CatalogJson _bangumiRow(BangumiItem item) => {
+    'video_id': item.id,
+    'title': item.nameCn.isNotEmpty ? item.nameCn : item.name,
+    'cover_url': item.images['large'] ?? item.images['common'] ?? '',
+    'description': item.summary,
+    'publish_date': item.airDate,
+    'weekday': item.airWeekday,
+    'score': item.ratingScore,
+    'score_num': item.votes,
+    'bangumi_id': item.id,
+    'catalog_source': CatalogSource.bangumi.name,
+  };
+
+  Future<List<List<CatalogJson>>> _ensureBangumiWeek() {
+    final now = DateTime.now();
+    final stamp = '${now.year}-${now.month}-${now.day}';
+    if (_bangumiWeek != null && _bangumiWeekStamp == stamp) {
+      return Future.value(_bangumiWeek);
+    }
+    // single-flight：周表切天会并发触发 7 路，共享同一次日历请求。
+    return _bangumiWeekRefresh ??= () async {
+      try {
+        final calendar = await BangumiApi.getCalendar();
+        final week = <List<CatalogJson>>[
+          for (final items in calendar)
+            [for (final item in items) _bangumiRow(item)],
+        ];
+        _bangumiWeek = week;
+        _bangumiWeekStamp = stamp;
+        return week;
+      } finally {
+        _bangumiWeekRefresh = null;
+      }
+    }();
+  }
+
+  Future<List<CatalogJson>> bangumiSchedule(int day) async {
+    if (day < 1 || day > 7) throw ArgumentError.value(day);
+    final week = await _ensureBangumiWeek();
+    return [
+      {'name': 'Bangumi 每日放送', 'videos': week[day - 1]},
+    ];
+  }
+
   Future<List<CatalogJson>> schedule(CatalogSource source, int day) async {
     if (day < 1 || day > 7) throw ArgumentError.value(day);
     if (source == CatalogSource.cycani) return _cycani.schedule(day);
+    if (source == CatalogSource.bangumi) return bangumiSchedule(day);
     final rows = source == CatalogSource.xifan
         ? _rows(
             source,
