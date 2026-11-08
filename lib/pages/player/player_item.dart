@@ -1526,7 +1526,7 @@ class _PlayerItemState extends State<PlayerItem>
                         },
                         // 指针被系统取消（来电/切窗/手势抢占）时只回调 Cancel 不回调 End，
                         // 不处理会导致倍速永久卡在长按倍速值。
-                        onLongPressCancel: (_) {
+                        onLongPressCancel: () {
                           if (playerController.panel.lockPanel) {
                             return;
                           }
