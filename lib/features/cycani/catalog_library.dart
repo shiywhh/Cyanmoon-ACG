@@ -1,3 +1,6 @@
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:kazumi/pages/collect/collect_controller.dart';
+import 'package:kazumi/services/storage/storage.dart';
 import 'cycani_api.dart';
 import 'catalog_identity.dart';
 import 'catalog_models.dart';
@@ -160,8 +163,37 @@ class CatalogLibrarySource {
             rows.addAll(await accounts.giriFollows());
           }
         case CatalogSource.bangumi:
-          // 阶段二接入：Bangumi 收藏/观看历史聚合（S5 追番库融合时落地）。
-          throw UnimplementedError('CatalogLibrary: bangumi source pending');
+          // Bangumi 追番来自本地收藏盒（完整条目字段，云端一致性由
+          // BangumiSyncService/WebDAV 管线维护）；应用不产生 Bangumi 观看历史。
+          if (history) break;
+          rows.addAll([
+            for (final collect in GStorage.collectibles.values)
+              {
+                'video_id': collect.bangumiItem.id,
+                'title': collect.bangumiItem.nameCn.isNotEmpty
+                    ? collect.bangumiItem.nameCn
+                    : collect.bangumiItem.name,
+                'cover_url': collect.bangumiItem.images['large'] ??
+                    collect.bangumiItem.images['common'] ??
+                    '',
+                'description': collect.bangumiItem.summary,
+                'publish_date': collect.bangumiItem.airDate,
+                'weekday': collect.bangumiItem.airWeekday,
+                'score': collect.bangumiItem.ratingScore,
+                'score_num': collect.bangumiItem.votes,
+                'bangumi_id': collect.bangumiItem.id,
+                // 直接以追番库语义（1=在看 2=想看 3=看过）落行：
+                // 本地 CollectType(1=在看 2=想看 3=搁置 4=看过 5=抛弃) 映射：
+                // 搁置视作在看、抛弃视作看过。
+                'status': switch (collect.type) {
+                  2 => 2,
+                  4 => 3,
+                  5 => 3,
+                  _ => 1,
+                },
+                'catalog_source': CatalogSource.bangumi.name,
+              },
+          ]);
       }
       return [
         for (final row in rows)
@@ -189,7 +221,11 @@ class CatalogLibrarySource {
     final cycani = api ?? CycaniApi.instance;
     final sites = accounts ?? SourceAccounts.instance;
     final results = await Future.wait([
-      for (final source in CatalogSource.siteSources)
+      // Bangumi 追番来自本地收藏盒（轻量同步读），与三站云数据并列进书库。
+      for (final source in [
+        ...CatalogSource.siteSources,
+        CatalogSource.bangumi,
+      ])
         _siteRows(
           source,
           cycani,
@@ -226,13 +262,37 @@ class CatalogLibrarySource {
       case CatalogSource.giri:
         await SourceAccounts.instance.setGiriFollow(entry.rawId, status ?? 0);
       case CatalogSource.bangumi:
-        // 阶段二接入：Bangumi 收藏状态写入走 BangumiApi（S5 追番库融合时落地）。
-        throw UnimplementedError('CatalogLibrary.writeFollow: bangumi pending');
+        // Bangumi 收藏经 CollectController：本地收藏盒 + Bangumi 云端/WebDAV
+        // 同步管线（与收藏按钮同一通路）。追番库语义 1/2/3 → 本地类型 1/2/4。
+        final collectController = inject<CollectController>();
+        final bangumiItem = CatalogVideo({
+          'video_id': entry.rawId,
+          'title': entry.title,
+          'cover_url': entry.cover,
+          'bangumi_id': entry.rawId,
+          'catalog_source': CatalogSource.bangumi.name,
+        }).toBangumi()..id = entry.rawId;
+        if (status == null) {
+          await collectController.deleteCollect(bangumiItem);
+        } else {
+          await collectController.addCollect(
+            bangumiItem,
+            type: switch (status) {
+              2 => 2, // 想看
+              3 => 4, // 看过
+              _ => 1, // 在看
+            },
+          );
+        }
     }
   }
 
   /// Routes a history delete to the entry's own site.
   static Future<void> deleteHistory(CatalogLibraryEntry entry) async {
+    if (entry.source == CatalogSource.bangumi) {
+      // 应用不产生 Bangumi 观看历史，无可删除项。
+      return;
+    }
     if (entry.source == CatalogSource.cycani) {
       await CycaniApi.instance.removeHistories([entry.rawId]);
     } else {
