@@ -14,7 +14,7 @@ void main() {
   }
 
   String linkFor(Plugin value) {
-    return jsonToKazumiBase64(jsonEncode(value.toJson()));
+    return jsonToRuleLink(jsonEncode(value.toJson()));
   }
 
   group('PluginImportParser', () {
@@ -86,7 +86,7 @@ void main() {
 
     test('imports a percent-encoded link followed by prose', () {
       final link = linkFor(plugin('encoded'));
-      final payload = link.substring('kazumi://'.length);
+      final payload = link.substring('cyanmoon://'.length);
       final firstByte = payload.codeUnitAt(0)
           .toRadixString(16)
           .padLeft(2, '0')
@@ -132,7 +132,7 @@ void main() {
 
     test('keeps valid links when a decoded link is not an object', () {
       final result = PluginImportParser.parse(
-        '${jsonToKazumiBase64(jsonEncode([42]))}\n'
+        '${jsonToRuleLink(jsonEncode([42]))}\n'
         '${linkFor(plugin('valid'))}',
       );
 

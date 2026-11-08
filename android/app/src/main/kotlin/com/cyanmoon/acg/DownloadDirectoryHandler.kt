@@ -1,4 +1,4 @@
-package com.example.kazumi
+package com.cyanmoon.acg
 
 import android.Manifest
 import android.app.Activity
@@ -21,7 +21,7 @@ import java.io.File
  */
 class DownloadDirectoryHandler(private val activity: Activity) : MethodChannel.MethodCallHandler {
     companion object {
-        const val CHANNEL = "com.predidit.kazumi/download_directory"
+        const val CHANNEL = "com.cyanmoon.acg/download_directory"
         private const val ACCESS_REQUEST = 53010
         private const val DIRECTORY_REQUEST = 53011
         private const val EXTERNAL_DOCUMENTS = "com.android.externalstorage.documents"

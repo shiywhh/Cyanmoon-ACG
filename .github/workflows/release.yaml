@@ -15,8 +15,8 @@
     env:
       DANDANAPI_APPID: ${{ secrets.DANDANAPI_APPID }}
       DANDANAPI_KEY: ${{ secrets.DANDANAPI_KEY }}
-      KAZUMI_APPID: ${{ secrets.KAZUMI_APPID }}
-      KAZUMI_KEY: ${{ secrets.KAZUMI_KEY }}
+      CYANMOON_APPID: ${{ secrets.CYANMOON_APPID }}
+      CYANMOON_KEY: ${{ secrets.CYANMOON_KEY }}
 
     jobs:
       flutter-test:
@@ -102,8 +102,8 @@
               flutter build apk --split-per-abi
               --dart-define=DANDANAPI_APPID=$DANDANAPI_APPID
               --dart-define=DANDANAPI_KEY=$DANDANAPI_KEY
-              --dart-define=KAZUMI_APPID=$KAZUMI_APPID
-              --dart-define=KAZUMI_KEY=$KAZUMI_KEY
+              --dart-define=CYANMOON_APPID=$CYANMOON_APPID
+              --dart-define=CYANMOON_KEY=$CYANMOON_KEY
             shell: bash
           - name: Package android build output
             run: cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk Kazumi_android_${env:tag}.apk
@@ -146,8 +146,8 @@
               flutter build windows
               --dart-define=DANDANAPI_APPID=$env:DANDANAPI_APPID
               --dart-define=DANDANAPI_KEY=$env:DANDANAPI_KEY
-              --dart-define=KAZUMI_APPID=$env:KAZUMI_APPID
-              --dart-define=KAZUMI_KEY=$env:KAZUMI_KEY
+              --dart-define=CYANMOON_APPID=$env:CYANMOON_APPID
+              --dart-define=CYANMOON_KEY=$env:CYANMOON_KEY
           - run: Compress-Archive build/windows/x64/runner/Release/* Kazumi_windows_${env:tag}.zip
           - name: Upload windows outputs
             uses: actions/upload-artifact@v4
@@ -259,8 +259,8 @@
               flutter build linux
               --dart-define=DANDANAPI_APPID=$DANDANAPI_APPID
               --dart-define=DANDANAPI_KEY=$DANDANAPI_KEY
-              --dart-define=KAZUMI_APPID=$KAZUMI_APPID
-              --dart-define=KAZUMI_KEY=$KAZUMI_KEY
+              --dart-define=CYANMOON_APPID=$CYANMOON_APPID
+              --dart-define=CYANMOON_KEY=$CYANMOON_KEY
             shell: bash
           # - name: Download FFmpeg Assets
           #   uses: dsaltares/fetch-gh-release-asset@master
@@ -352,8 +352,8 @@
               flutter build linux
               --dart-define=DANDANAPI_APPID=$DANDANAPI_APPID
               --dart-define=DANDANAPI_KEY=$DANDANAPI_KEY
-              --dart-define=KAZUMI_APPID=$KAZUMI_APPID
-              --dart-define=KAZUMI_KEY=$KAZUMI_KEY
+              --dart-define=CYANMOON_APPID=$CYANMOON_APPID
+              --dart-define=CYANMOON_KEY=$CYANMOON_KEY
             shell: bash
           - name: Package linux arm64 build output
             run: |
@@ -429,8 +429,8 @@
               flutter build ios --release --no-codesign
               --dart-define=DANDANAPI_APPID=$DANDANAPI_APPID
               --dart-define=DANDANAPI_KEY=$DANDANAPI_KEY
-              --dart-define=KAZUMI_APPID=$KAZUMI_APPID
-              --dart-define=KAZUMI_KEY=$KAZUMI_KEY
+              --dart-define=CYANMOON_APPID=$CYANMOON_APPID
+              --dart-define=CYANMOON_KEY=$CYANMOON_KEY
           - name: Create IPA
             run: |
               mkdir Payload
@@ -468,8 +468,8 @@
               flutter build macos --release
               --dart-define=DANDANAPI_APPID=$DANDANAPI_APPID
               --dart-define=DANDANAPI_KEY=$DANDANAPI_KEY
-              --dart-define=KAZUMI_APPID=$KAZUMI_APPID
-              --dart-define=KAZUMI_KEY=$KAZUMI_KEY
+              --dart-define=CYANMOON_APPID=$CYANMOON_APPID
+              --dart-define=CYANMOON_KEY=$CYANMOON_KEY
           - name: Create DMG
             run: |
               npm install --global create-dmg

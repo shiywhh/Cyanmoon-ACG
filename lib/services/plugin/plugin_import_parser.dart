@@ -55,7 +55,7 @@ class PluginImportParser {
         _parseEntry(jsonValue, 1, parsed, failures);
       }
     } else {
-      final segments = findKazumiRuleLinkSegments(value).toList();
+      final segments = findRuleLinkSegments(value).toList();
       if (segments.isEmpty) {
         failures.add('未找到有效的 JSON 或 kazumi:// 规则链接');
       } else {
@@ -113,7 +113,7 @@ class PluginImportParser {
         ?.group(0)
         ?.trimRight();
     if (payload == null || payload.isEmpty) {
-      throw const FormatException('Missing payload in Kazumi rule link');
+      throw const FormatException('Missing payload in rule link');
     }
 
     final candidates = <String>[payload];
@@ -128,7 +128,7 @@ class PluginImportParser {
     FormatException? firstError;
     for (final candidate in candidates) {
       try {
-        final decoded = json.decode(kazumiBase64ToJson('$scheme$candidate'));
+        final decoded = json.decode(ruleLinkToJson('$scheme$candidate'));
         if (decoded is Map) {
           return Map<String, dynamic>.from(decoded);
         }
@@ -139,7 +139,7 @@ class PluginImportParser {
         // Try a shorter prefix in case prose follows the rule link.
       }
     }
-    throw firstError ?? const FormatException('Invalid Kazumi rule link');
+    throw firstError ?? const FormatException('Invalid rule link');
   }
 
   static void _parseEntry(
@@ -153,7 +153,7 @@ class PluginImportParser {
       if (entry is Map) {
         plugin = Plugin.fromJson(Map<String, dynamic>.from(entry));
       } else if (entry is String) {
-        final decoded = json.decode(kazumiBase64ToJson(entry));
+        final decoded = json.decode(ruleLinkToJson(entry));
         if (decoded is! Map) {
           throw const FormatException('规则链接内容必须是 JSON object');
         }

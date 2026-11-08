@@ -8,7 +8,7 @@ import 'package:window_manager/window_manager.dart';
 class DisplayModeService {
   DisplayModeService._();
 
-  static const _intentChannel = MethodChannel('com.predidit.kazumi/intent');
+  static const _intentChannel = MethodChannel('com.cyanmoon.acg/intent');
   static Future<void> _pendingFullscreen = Future.value();
   static Future<void>? _pendingSystemBars;
   static Object? _systemBarsOwner;

@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.kazumi"
+    namespace "com.cyanmoon.acg"
     compileSdk flutter.compileSdkVersion
     // Use the highest NDK required by the native plugins. Newer NDKs remain
     // backward compatible with plugins that declare an older version.

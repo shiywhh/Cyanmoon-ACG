@@ -6,7 +6,7 @@ import 'package:cyanmoon_acg/services/logging/logger.dart';
 class PlatformEnvironmentService {
   PlatformEnvironmentService._();
 
-  static const _intentChannel = MethodChannel('com.predidit.kazumi/intent');
+  static const _intentChannel = MethodChannel('com.cyanmoon.acg/intent');
 
   static Future<bool> isRunningOnX11() async {
     if (!Platform.isLinux) {

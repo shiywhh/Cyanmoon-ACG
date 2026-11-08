@@ -13,7 +13,7 @@ typedef AudioSeekCallback = Future<void> Function(Duration position);
 class AudioController {
   AudioController();
 
-  _KazumiAudioHandler? _handler;
+  _CyanmoonAudioHandler? _handler;
   Future<void>? _initFuture;
   String? _lastMediaItemCacheKey;
   AudioSession? _audioSession;
@@ -34,10 +34,10 @@ class AudioController {
   }
 
   Future<void> _initialize() async {
-    late _KazumiAudioHandler rawHandler;
+    late _CyanmoonAudioHandler rawHandler;
     if (Platform.isLinux) {
       AudioServiceMpris.init(
-        dBusName: 'io.github.Predidit.Kazumi.channel.audio',
+        dBusName: 'com.cyanmoon.acg.channel.audio',
         identity: '青月次元播放',
         canControl: true,
         canPlay: true,
@@ -48,11 +48,11 @@ class AudioController {
     }
     await AudioService.init(
       builder: () {
-        rawHandler = _KazumiAudioHandler();
+        rawHandler = _CyanmoonAudioHandler();
         return rawHandler;
       },
       config: const AudioServiceConfig(
-        androidNotificationChannelId: 'io.github.Predidit.Kazumi.channel.audio',
+        androidNotificationChannelId: 'com.cyanmoon.acg.channel.audio',
         androidNotificationChannelName: '青月次元播放',
         androidNotificationOngoing: true,
       ),
@@ -351,7 +351,7 @@ class AudioController {
   }
 }
 
-class _KazumiAudioHandler extends BaseAudioHandler with SeekHandler {
+class _CyanmoonAudioHandler extends BaseAudioHandler with SeekHandler {
   AudioCallback? _onPlay;
   AudioCallback? _onPause;
   AudioCallback? _onSkipToNext;

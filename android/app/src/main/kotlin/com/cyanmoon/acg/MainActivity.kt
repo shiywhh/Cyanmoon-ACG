@@ -1,4 +1,4 @@
-package com.example.kazumi
+package com.cyanmoon.acg
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -31,9 +31,9 @@ import com.ryanheise.audioservice.AudioService
 import com.ryanheise.audioservice.AudioServiceActivity
 
 class MainActivity: AudioServiceActivity() {
-    private val CHANNEL = "com.predidit.kazumi/intent"
-    private val STORAGE_CHANNEL = "com.predidit.kazumi/storage"
-    private val PIP_CHANNEL = "com.predidit.kazumi/pip"
+    private val CHANNEL = "com.cyanmoon.acg/intent"
+    private val STORAGE_CHANNEL = "com.cyanmoon.acg/storage"
+    private val PIP_CHANNEL = "com.cyanmoon.acg/pip"
     private var intentChannel: MethodChannel? = null
     private var pipChannel: MethodChannel? = null
     private var downloadDirectoryChannel: MethodChannel? = null
@@ -52,9 +52,9 @@ class MainActivity: AudioServiceActivity() {
     private var originalWindowBackground: Drawable? = null
     private var windowBackgroundOverridden = false
 
-    private val actionPipPlayPause = "com.predidit.kazumi.pip.PLAY_PAUSE"
-    private val actionPipForward = "com.predidit.kazumi.pip.FORWARD"
-    private val actionPipToggleDanmaku = "com.predidit.kazumi.pip.TOGGLE_DANMAKU"
+    private val actionPipPlayPause = "com.cyanmoon.acg.pip.PLAY_PAUSE"
+    private val actionPipForward = "com.cyanmoon.acg.pip.FORWARD"
+    private val actionPipToggleDanmaku = "com.cyanmoon.acg.pip.TOGGLE_DANMAKU"
 
     // Ratios outside [1:2.39, 2.39:1] make enterPictureInPictureMode throw.
     private val maxPipAspectRatio = 2.39f

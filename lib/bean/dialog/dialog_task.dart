@@ -125,7 +125,7 @@ class CyanmoonDialogTask {
     final onCancel = _onCancel;
     if (onCancel != null) {
       _cancelCleanup = Future<void>.sync(onCancel).catchError((Object error) {
-        debugPrint('Kazumi Dialog Error: Task cancellation failed: $error');
+        debugPrint('Cyanmoon Dialog Error: Task cancellation failed: $error');
       });
     }
   }

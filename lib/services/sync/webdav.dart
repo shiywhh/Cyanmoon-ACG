@@ -425,7 +425,7 @@ class WebDav {
       }
       try {
         final stat = await entity.stat();
-        // A recent directory may belong to another running Kazumi process.
+        // A recent directory may belong to another app instance.
         if (stat.modified.isAfter(staleBefore)) {
           continue;
         }

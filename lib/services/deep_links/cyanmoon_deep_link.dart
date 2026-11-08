@@ -2,7 +2,8 @@ sealed class CyanmoonDeepLink {
   const CyanmoonDeepLink();
 
   static CyanmoonDeepLink? parse(Uri uri) {
-    if (uri.scheme != 'kazumi') return null;
+    // cyanmoon 为新方案名，kazumi 兼容历史外部链接/快捷方式。
+    if (uri.scheme != 'cyanmoon' && uri.scheme != 'kazumi') return null;
     try {
       if (uri.host == 'bangumi' && uri.pathSegments.length == 1) {
         final raw = uri.pathSegments.single;

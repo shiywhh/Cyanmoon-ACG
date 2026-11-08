@@ -106,7 +106,7 @@ class CyanmoonLogOutput extends LogOutput {
     if (!await directory.exists()) {
       await directory.create(recursive: true);
     }
-    _logFilePath = p.join(logDir, "kazumi_logs.log");
+    _logFilePath = p.join(logDir, "cyanmoon_logs.log");
     return _logFilePath!;
   }
 
@@ -231,7 +231,7 @@ class CyanmoonLogger {
 Future<File> getLogsPath() async {
   final dir = (await getApplicationSupportDirectory()).path;
   final logDir = p.join(dir, "logs");
-  final filename = p.join(logDir, "kazumi_logs.log");
+  final filename = p.join(logDir, "cyanmoon_logs.log");
 
   final directory = Directory(logDir);
   if (!await directory.exists()) {

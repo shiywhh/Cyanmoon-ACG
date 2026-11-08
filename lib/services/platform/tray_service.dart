@@ -12,7 +12,7 @@ class TrayService {
       await trayManager.setIcon('assets/images/logo/cycani.ico');
     } else if (Platform.environment.containsKey('FLATPAK_ID') ||
         Platform.environment.containsKey('SNAP')) {
-      await trayManager.setIcon('io.github.Predidit.Kazumi');
+      await trayManager.setIcon('com.cyanmoon.acg');
     } else {
       await trayManager.setIcon('assets/images/logo/cycani.png');
     }

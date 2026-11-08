@@ -148,7 +148,7 @@ class _LogsPageState extends State<LogsPage> {
   Future<File> _getLogsFile() async {
     final directory = await getApplicationSupportDirectory();
     final path = directory.path;
-    return File('$path/logs/kazumi_logs.log');
+    return File('$path/logs/cyanmoon_logs.log');
   }
 
   Future<void> _clearLogs() async {

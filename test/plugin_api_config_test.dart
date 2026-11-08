@@ -169,9 +169,9 @@ void main() {
       },
     });
 
-    final link = jsonToKazumiBase64(jsonEncode(plugin.toJson()));
+    final link = jsonToRuleLink(jsonEncode(plugin.toJson()));
     final restored = Plugin.fromJson(
-      jsonDecode(kazumiBase64ToJson(link)) as Map<String, dynamic>,
+      jsonDecode(ruleLinkToJson(link)) as Map<String, dynamic>,
     );
 
     expect(restored.toJson(), plugin.toJson());
@@ -179,33 +179,33 @@ void main() {
   });
 
   test('kazumi link decoder accepts wrapped and percent-encoded links', () {
-    final link = jsonToKazumiBase64(jsonEncode(_legacyRule));
-    final payload = link.substring('kazumi://'.length);
+    final link = jsonToRuleLink(jsonEncode(_legacyRule));
+    final payload = link.substring('cyanmoon://'.length);
     final wrappedPayload =
         '${payload.substring(0, 16)}\n${payload.substring(16)}';
     final percentEncodedPayload = Uri.encodeComponent(payload);
 
     expect(
-      jsonDecode(kazumiBase64ToJson('  kazumi://$wrappedPayload  ')),
+      jsonDecode(ruleLinkToJson('  kazumi://$wrappedPayload  ')),
       _legacyRule,
     );
     expect(
-      jsonDecode(kazumiBase64ToJson('kazumi:$percentEncodedPayload')),
+      jsonDecode(ruleLinkToJson('kazumi:$percentEncodedPayload')),
       _legacyRule,
     );
   });
 
   test('kazumi link decoder reports malformed links', () {
     expect(
-      () => kazumiBase64ToJson('https://example.com/rule'),
+      () => ruleLinkToJson('https://example.com/rule'),
       throwsA(isA<FormatException>()),
     );
     expect(
-      () => kazumiBase64ToJson('kazumi://not-base64!'),
+      () => ruleLinkToJson('kazumi://not-base64!'),
       throwsA(isA<FormatException>()),
     );
     expect(
-      () => kazumiBase64ToJson('kazumi://%zz'),
+      () => ruleLinkToJson('kazumi://%zz'),
       throwsA(isA<FormatException>()),
     );
   });

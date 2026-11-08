@@ -69,7 +69,7 @@ bool IsSupportedUrl(const gchar* url) {
 
 gchar* CreatePlaylist(const gchar* url, GError** error) {
   g_autofree gchar* path =
-      g_build_filename(g_get_tmp_dir(), "kazumi_stream_XXXXXX.m3u8", nullptr);
+      g_build_filename(g_get_tmp_dir(), "cyanmoon_stream_XXXXXX.m3u8", nullptr);
   const int fd = mkstemps(path, strlen(kPlaylistSuffix));
   if (fd == -1) {
     g_set_error(error, G_FILE_ERROR, g_file_error_from_errno(errno),
@@ -145,7 +145,7 @@ gchar* CreateHandleToken() {
       *character = '_';
     }
   }
-  return g_strdup_printf("kazumi_%s", uuid);
+  return g_strdup_printf("cyanmoon_%s", uuid);
 }
 
 gchar* CreateExpectedRequestPath(GDBusConnection* connection,

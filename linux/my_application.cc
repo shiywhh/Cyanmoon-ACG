@@ -165,11 +165,11 @@ static void my_application_activate(GApplication* application) {
   if (use_header_bar) {
     GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
     gtk_widget_show(GTK_WIDGET(header_bar));
-    gtk_header_bar_set_title(header_bar, "kazumi");
+    gtk_header_bar_set_title(header_bar, "青月次元");
     gtk_header_bar_set_show_close_button(header_bar, TRUE);
     gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
   } else {
-    gtk_window_set_title(window, "kazumi");
+    gtk_window_set_title(window, "青月次元");
   }
 
   gtk_window_set_default_size(window, 1280, 720);
@@ -186,12 +186,12 @@ static void my_application_activate(GApplication* application) {
 
   g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
   self->intent_method_channel = fl_method_channel_new(
-  fl_engine_get_binary_messenger(fl_view_get_engine(view)), "com.predidit.kazumi/intent", FL_METHOD_CODEC(codec));
+  fl_engine_get_binary_messenger(fl_view_get_engine(view)), "com.cyanmoon.acg/intent", FL_METHOD_CODEC(codec));
   fl_method_channel_set_method_call_handler(
       self->intent_method_channel, intent_method_call_handler, self, nullptr);
 
   self->storage_method_channel = fl_method_channel_new(
-      fl_engine_get_binary_messenger(fl_view_get_engine(view)), "com.predidit.kazumi/storage", FL_METHOD_CODEC(codec));
+      fl_engine_get_binary_messenger(fl_view_get_engine(view)), "com.cyanmoon.acg/storage", FL_METHOD_CODEC(codec));
   fl_method_channel_set_method_call_handler(
       self->storage_method_channel, storage_method_call_handler, self, nullptr);
 

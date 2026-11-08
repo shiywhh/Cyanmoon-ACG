@@ -11,7 +11,7 @@ enum LinuxExternalPlayerResult {
 class ExternalPlayer {
   ExternalPlayer._();
 
-  static const _platform = MethodChannel('com.predidit.kazumi/intent');
+  static const _platform = MethodChannel('com.cyanmoon.acg/intent');
 
   static Future<bool> launchUrlWithMime(String url, String mimeType) async {
     try {

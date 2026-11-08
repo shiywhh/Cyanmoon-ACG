@@ -32,7 +32,7 @@ class BackgroundDownloadService {
 
     FlutterForegroundTask.init(
       androidNotificationOptions: AndroidNotificationOptions(
-        channelId: 'kazumi_download_channel',
+        channelId: 'cyanmoon_download_channel',
         channelName: '下载服务',
         channelDescription: '视频下载后台服务',
         channelImportance: NotificationChannelImportance.LOW,

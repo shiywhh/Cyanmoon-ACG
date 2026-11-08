@@ -1,14 +1,15 @@
 import 'dart:convert';
 
-final RegExp _kazumiRuleLinkSchemePattern = RegExp(
-  r'kazumi:(?://)?',
+// cyanmoon 为新的分享方案名；kazumi 为主站生态的历史方案名，解析保持兼容。
+final RegExp _ruleLinkSchemePattern = RegExp(
+  r'(?:cyanmoon|kazumi):(?://)?',
   caseSensitive: false,
 );
 
-Iterable<({String scheme, String rawPayload})> findKazumiRuleLinkSegments(
+Iterable<({String scheme, String rawPayload})> findRuleLinkSegments(
   String input,
 ) sync* {
-  final matches = _kazumiRuleLinkSchemePattern.allMatches(input).toList();
+  final matches = _ruleLinkSchemePattern.allMatches(input).toList();
   for (var index = 0; index < matches.length; index++) {
     final match = matches[index];
     final end = index + 1 < matches.length
@@ -21,25 +22,25 @@ Iterable<({String scheme, String rawPayload})> findKazumiRuleLinkSegments(
   }
 }
 
-String jsonToKazumiBase64(String jsonStr) {
+String jsonToRuleLink(String jsonStr) {
   final base64Str = base64Encode(utf8.encode(jsonStr));
-  return 'kazumi://$base64Str';
+  return 'cyanmoon://$base64Str';
 }
 
-String kazumiBase64ToJson(String kazumiBase64Str) {
-  final input = kazumiBase64Str.trim();
-  final schemeMatch = _kazumiRuleLinkSchemePattern.matchAsPrefix(input);
+String ruleLinkToJson(String ruleLinkStr) {
+  final input = ruleLinkStr.trim();
+  final schemeMatch = _ruleLinkSchemePattern.matchAsPrefix(input);
   if (schemeMatch == null) {
-    throw const FormatException('Invalid Kazumi rule link');
+    throw const FormatException('Invalid rule link');
   }
 
   var payload = input.substring(schemeMatch.end);
   try {
     payload = Uri.decodeComponent(payload);
   } on FormatException {
-    throw const FormatException('Invalid encoding in Kazumi rule link');
+    throw const FormatException('Invalid encoding in rule link');
   } on ArgumentError {
-    throw const FormatException('Invalid encoding in Kazumi rule link');
+    throw const FormatException('Invalid encoding in rule link');
   }
   payload = payload.replaceAll(RegExp(r'\s'), '');
   if (payload.isEmpty) {
@@ -55,6 +56,6 @@ String kazumiBase64ToJson(String kazumiBase64Str) {
   try {
     return utf8.decode(base64.decode(normalized));
   } on FormatException {
-    throw const FormatException('Invalid Kazumi rule link payload');
+    throw const FormatException('Invalid rule link payload');
   }
 }

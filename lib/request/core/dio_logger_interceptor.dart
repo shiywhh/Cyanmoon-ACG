@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:cyanmoon_acg/services/logging/logger.dart';
 
 class DioLoggerInterceptor extends Interceptor {
-  static const _startedAtExtraKey = '_kazumiStartedAt';
+  static const _startedAtExtraKey = '_cyanmoonStartedAt';
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

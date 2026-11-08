@@ -27,7 +27,7 @@ class DownloadDirectoryService {
   DownloadDirectoryService._internal();
 
   static const _androidChannel = MethodChannel(
-    'com.predidit.kazumi/download_directory',
+    'com.cyanmoon.acg/download_directory',
   );
   final _bookmarks = SecureBookmarks();
   bool _accessLost = false;

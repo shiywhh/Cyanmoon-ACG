@@ -26,10 +26,10 @@ constexpr const wchar_t kWindowClassName[] = L"FLUTTER_RUNNER_WIN32_WINDOW";
 bool ActivateExistingWindow()
 {
   // Find the existing window by class name
-  HWND hwnd = ::FindWindow(kWindowClassName, L"次元城");
+  HWND hwnd = ::FindWindow(kWindowClassName, L"青月次元");
   if (hwnd != NULL)
   {
-    // Forward the kazumi:// link this instance was launched with, if any.
+    // Forward the cyanmoon:// (legacy kazumi://) link this instance was launched with, if any.
     SendAppLink(hwnd);
 
     // Check if window is hidden (e.g., minimized to tray)
@@ -114,7 +114,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
   Win32Window::Size size(1280, 720);
-  if (!window.Create(L"次元城", origin, size))
+  if (!window.Create(L"青月次元", origin, size))
   {
     if (mutex) {
       CloseHandle(mutex);

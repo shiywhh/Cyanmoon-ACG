@@ -525,6 +525,6 @@ class AutoUpdater {
     } else if (Platform.isAndroid) {
       extension = '.apk';
     }
-    return 'Kazumi-$version$extension';
+    return 'Cyanmoon-$version$extension';
   }
 }

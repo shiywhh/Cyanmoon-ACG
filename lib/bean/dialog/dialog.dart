@@ -77,7 +77,7 @@ class CyanmoonDialog {
       dialog._attach(route);
       return await navigator.push<T>(route);
     } catch (e) {
-      debugPrint('Kazumi Dialog Error: Failed to show dialog: $e');
+      debugPrint('Cyanmoon Dialog Error: Failed to show dialog: $e');
       return null;
     } finally {
       dialog._finish();
@@ -125,11 +125,11 @@ class CyanmoonDialog {
             ),
           );
       } catch (e) {
-        debugPrint('Kazumi Dialog Error: Failed to show toast: $e');
+        debugPrint('Cyanmoon Dialog Error: Failed to show toast: $e');
       }
     } else {
       debugPrint(
-          'Kazumi Dialog Error: No ScaffoldMessenger available to show Toast');
+          'Cyanmoon Dialog Error: No ScaffoldMessenger available to show Toast');
     }
   }
 

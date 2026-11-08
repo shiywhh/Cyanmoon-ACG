@@ -14,7 +14,7 @@ Future<void> ensureDirectoryWritable(String directoryPath) async {
 
   final probe = File(path.join(
     directoryPath,
-    '.kazumi_write_test_${DateTime.now().microsecondsSinceEpoch}.tmp',
+    '.cyanmoon_write_test_${DateTime.now().microsecondsSinceEpoch}.tmp',
   ));
 
   try {
