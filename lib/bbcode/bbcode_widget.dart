@@ -34,7 +34,10 @@ class _BBCodeWidgetState extends State<BBCodeWidget> {
         hex = "FF$hex";
       }
       if (hex.length == 8) {
-        return Color(int.parse(hex, radix: 16));
+        final value = int.tryParse(hex, radix: 16);
+        if (value != null) {
+          return Color(value);
+        }
       }
     }
     switch (hex) {
@@ -150,14 +153,13 @@ class _BBCodeWidgetState extends State<BBCodeWidget> {
                 String url;
                 if (e.id == 11 || e.id == 23) {
                   url = 'https://bangumi.tv/img/smiles/bgm/${e.id}.gif';
-                }
-                if (e.id < 24) {
+                } else if (e.id < 24) {
                   url = 'https://bangumi.tv/img/smiles/bgm/${e.id}.png';
-                }
-                if (e.id < 33) {
+                } else if (e.id < 33) {
                   url = 'https://bangumi.tv/img/smiles/tv/0${e.id - 23}.gif';
+                } else {
+                  url = 'https://bangumi.tv/img/smiles/tv/${e.id - 23}.gif';
                 }
-                url = 'https://bangumi.tv/img/smiles/tv/${e.id - 23}.gif';
                 return WidgetSpan(
                   child: CachedNetworkImage(
                     imageUrl: url,

@@ -155,9 +155,13 @@ class BBCodeBaseListener implements BBCodeListener {
         break;
       case 'SIZE':
       case 'size':
-        for (int i = bbCodeTag.size!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].size = int.parse(ctx.attr!.text!);
+        // attr 是可选的（如 "[size]"），且可能不是纯数字，解析失败时忽略该标签而不是抛异常。
+        final size = int.tryParse(ctx.attr?.text ?? '');
+        if (size != null) {
+          for (int i = bbCodeTag.size!; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].size = size;
+            }
           }
         }
         break;
