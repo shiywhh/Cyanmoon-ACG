@@ -146,14 +146,14 @@
               --dart-define=CYANMOON_KEY=$CYANMOON_KEY
             shell: bash
           - name: Package android build output
-            run: cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk Kazumi_android_canary.apk
+            run: cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk CyanmoonACG_android_canary.apk
             shell: bash
 
           - name: Upload android outputs
             uses: actions/upload-artifact@v4
             with:
               name: android_outputs
-              path: Kazumi_android_*.apk
+              path: CyanmoonACG_android_*.apk
 
       flutter-build-windows:
         needs: [flutter-test, flutter-analyze]
@@ -185,14 +185,14 @@
               --dart-define=DANDANAPI_KEY=$env:DANDANAPI_KEY
               --dart-define=CYANMOON_APPID=$env:CYANMOON_APPID
               --dart-define=CYANMOON_KEY=$env:CYANMOON_KEY
-          - run: Compress-Archive build/windows/x64/runner/Release/* Kazumi_windows_canary.zip
+          - run: Compress-Archive build/windows/x64/runner/Release/* CyanmoonACG_windows_canary.zip
           - name: Upload windows outputs
             id: unsigned-windows-packet-artifacts
             uses: actions/upload-artifact@v4
             with:
               name: windows_outputs
               path: |
-                Kazumi_windows_*.zip
+                CyanmoonACG_windows_*.zip
           # - name: Build unsigned msix
           #   run: dart run msix:create
           # - name: Upload windows msix ouputs
@@ -201,7 +201,7 @@
           #   with:
           #     name: windows_msix_outputs
           #     path: |
-          #       build/windows/x64/runner/Release/kazumi.msix
+          #       build/windows/x64/runner/Release/cyanmoon_acg.msix
           
           # - run: New-Item -Path "build/windows/msix_signed_output" -ItemType Directory
           # - name: sign windows msix
@@ -210,7 +210,7 @@
           #   with:
           #     api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
           #     organization-id: 'fa047255-4772-4be1-b14f-5cfa62635877'
-          #     project-slug: 'Kazumi'
+          #     project-slug: 'CyanmoonACG'
           #     signing-policy-slug: 'test-signing'
           #     artifact-configuration-slug: 'MSIX'
           #     github-artifact-id: '${{ steps.unsigned-windows-msix-artifacts.outputs.artifact-id }}'
@@ -256,12 +256,12 @@
               mkdir Payload
               cp -R build/ios/iphoneos/Runner.app Payload/Runner.app
               find Payload/Runner.app/Frameworks -type d -name "*.framework" -exec codesign --force --sign - --preserve-metadata=identifier,entitlements {} \;
-              zip -q -r Kazumi_ios_canary_no_sign.ipa Payload
+              zip -q -r CyanmoonACG_ios_canary_no_sign.ipa Payload
           - name: Upload iOS build
             uses: actions/upload-artifact@v4
             with:
               name: ios_outputs
-              path: Kazumi_ios_*.ipa
+              path: CyanmoonACG_ios_*.ipa
 
       flutter-build-macos:
         needs: [flutter-test, flutter-analyze]
@@ -293,12 +293,12 @@
               create-dmg build/macos/Build/Products/Release/Kazumi.app
             continue-on-error: true
           - name: Rename DMG
-            run: mv Kazumi*.dmg Kazumi_macos_canary.dmg
+            run: mv CyanmoonACG*.dmg CyanmoonACG_macos_canary.dmg
           - name: Upload MacOS build
             uses: actions/upload-artifact@v4
             with:
               name: macos_outputs
-              path: Kazumi_macos_*.dmg
+              path: CyanmoonACG_macos_*.dmg
 
       flutter-build-linux-amd64:
         needs: [flutter-test, flutter-analyze]
@@ -355,22 +355,22 @@
           - name: Package linux amd64 build output
             run: |
               # Tarball package
-              tar -zcvf Kazumi_linux_canary_amd64.tar.gz -C build/linux/x64/release/bundle .
+              tar -zcvf CyanmoonACG_linux_canary_amd64.tar.gz -C build/linux/x64/release/bundle .
 
               # Debian package
-              mkdir Kazumi_linux_canary_amd64
-              cd Kazumi_linux_canary_amd64
-              mkdir -p opt/Kazumi
+              mkdir CyanmoonACG_linux_canary_amd64
+              cd CyanmoonACG_linux_canary_amd64
+              mkdir -p opt/cyanmoon_acg
               mkdir -p usr/share/applications
               mkdir -p usr/share/icons/hicolor/512x512/apps
-              cp -r ../build/linux/x64/release/bundle/* opt/Kazumi
+              cp -r ../build/linux/x64/release/bundle/* opt/cyanmoon_acg
               cp -r ../assets/linux/DEBIAN .
               chmod 0755 DEBIAN/postinst
               chmod 0755 DEBIAN/postrm
 
               cat>DEBIAN/control<<EOF
               Maintainer: madoka773 <valigarmanda55@gmail.com>
-              Package: Kazumi
+              Package: cyanmoon_acg
               Version: 0.0.1
               Section: x11
               Priority: optional
@@ -385,11 +385,11 @@
                        libva-wayland2
               EOF
 
-              cp ../assets/linux/io.github.Predidit.Kazumi.desktop usr/share/applications
+              cp ../assets/linux/com.cyanmoon.acg.desktop usr/share/applications
               cp ../assets/images/logo/logo_linux.png usr/share/icons/hicolor/512x512/apps/io.github.Predidit.Kazumi.png
 
               cd ..
-              dpkg-deb --build --root-owner-group Kazumi_linux_canary_amd64
+              dpkg-deb --build --root-owner-group CyanmoonACG_linux_canary_amd64
             shell: bash
 
           - name: Upload linux amd64 outputs
@@ -397,8 +397,8 @@
             with:
               name: linux_amd64_outputs
               path: |
-                Kazumi_linux_*.tar.gz
-                Kazumi_linux_*.deb
+                CyanmoonACG_linux_*.tar.gz
+                CyanmoonACG_linux_*.deb
 
       flutter-build-linux-arm64:
         needs: [flutter-test, flutter-analyze]
@@ -410,7 +410,7 @@
           - name: Clone repository
             uses: actions/checkout@v4
           - name: Echo build progress
-            run: echo "Kazumi_linux_canary_arm64 build progress"
+            run: echo "CyanmoonACG_linux_canary_arm64 build progress"
             shell: bash
           - name: Set up Flutter for ARM64
             uses: ./.github/actions/flutter-arm64-setup
@@ -437,22 +437,22 @@
           - name: Package linux arm64 build output
             run: |
               # Tarball package
-              tar -zcvf Kazumi_linux_canary_arm64.tar.gz -C build/linux/arm64/release/bundle .
+              tar -zcvf CyanmoonACG_linux_canary_arm64.tar.gz -C build/linux/arm64/release/bundle .
 
               # Debian package
-              mkdir Kazumi_linux_canary_arm64
-              cd Kazumi_linux_canary_arm64
-              mkdir -p opt/Kazumi
+              mkdir CyanmoonACG_linux_canary_arm64
+              cd CyanmoonACG_linux_canary_arm64
+              mkdir -p opt/cyanmoon_acg
               mkdir -p usr/share/applications
               mkdir -p usr/share/icons/hicolor/512x512/apps
-              cp -r ../build/linux/arm64/release/bundle/* opt/Kazumi
+              cp -r ../build/linux/arm64/release/bundle/* opt/cyanmoon_acg
               cp -r ../assets/linux/DEBIAN .
               chmod 0755 DEBIAN/postinst
               chmod 0755 DEBIAN/postrm
 
               cat>DEBIAN/control<<EOF
               Maintainer: madoka773 <valigarmanda55@gmail.com>
-              Package: Kazumi
+              Package: cyanmoon_acg
               Version: 0.0.1
               Section: x11
               Priority: optional
@@ -467,11 +467,11 @@
                        libva-wayland2
               EOF
 
-              cp ../assets/linux/io.github.Predidit.Kazumi.desktop usr/share/applications
+              cp ../assets/linux/com.cyanmoon.acg.desktop usr/share/applications
               cp ../assets/images/logo/logo_linux.png usr/share/icons/hicolor/512x512/apps/io.github.Predidit.Kazumi.png
 
               cd ..
-              dpkg-deb --build --root-owner-group Kazumi_linux_canary_arm64
+              dpkg-deb --build --root-owner-group CyanmoonACG_linux_canary_arm64
             shell: bash
 
           - name: Upload linux arm64 outputs
@@ -479,5 +479,5 @@
             with:
               name: linux_arm64_outputs
               path: |
-                Kazumi_linux_*.tar.gz
-                Kazumi_linux_*.deb
+                CyanmoonACG_linux_*.tar.gz
+                CyanmoonACG_linux_*.deb

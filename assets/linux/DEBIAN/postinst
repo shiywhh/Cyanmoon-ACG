@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-ln -sf /opt/Kazumi/kazumi /usr/bin/kazumi
-chmod +x /usr/bin/kazumi
+ln -sf /opt/cyanmoon_acg/cyanmoon_acg /usr/bin/cyanmoon_acg
+chmod +x /usr/bin/cyanmoon_acg
 update-mime-database /usr/share/mime || true
 update-desktop-database /usr/share/applications || true
 exit 0

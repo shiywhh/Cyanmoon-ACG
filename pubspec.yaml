@@ -154,7 +154,7 @@ msix_config:
   sign_msix: false
   install_certificate: false
   build_windows: false
-  protocol_activation: kazumi
+  protocol_activation: cyanmoon
 
 flutter:
   uses-material-design: true

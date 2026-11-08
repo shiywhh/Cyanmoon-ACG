@@ -74,7 +74,7 @@
             run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
             shell: bash
           - name: Echo build progress
-            run: echo "Kazumi_android_${{ env.tag }}.apk build progress"
+            run: echo "CyanmoonACG_android_${{ env.tag }}.apk build progress"
             shell: bash
           - name: Install dependencies
             run: |
@@ -106,14 +106,14 @@
               --dart-define=CYANMOON_KEY=$CYANMOON_KEY
             shell: bash
           - name: Package android build output
-            run: cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk Kazumi_android_${env:tag}.apk
+            run: cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk CyanmoonACG_android_${env:tag}.apk
             shell: bash
 
           - name: Upload android outputs
             uses: actions/upload-artifact@v4
             with:
               name: android_outputs
-              path: Kazumi_android_*.apk
+              path: CyanmoonACG_android_*.apk
 
       flutter-build-windows:
         name: "Release for windows"
@@ -127,7 +127,7 @@
           - run: |
                   $tag = "${{ github.ref }}".Replace('refs/tags/', '')
                   echo "tag=$(echo $tag)" >> $env:GITHUB_ENV
-          - run: echo "Kazumi_windows_${env:tag}.zip build progress"
+          - run: echo "CyanmoonACG_windows_${env:tag}.zip build progress"
           - run: choco install yq
           - name: Enable Git longpaths
             run: git config --system core.longpaths true
@@ -148,14 +148,14 @@
               --dart-define=DANDANAPI_KEY=$env:DANDANAPI_KEY
               --dart-define=CYANMOON_APPID=$env:CYANMOON_APPID
               --dart-define=CYANMOON_KEY=$env:CYANMOON_KEY
-          - run: Compress-Archive build/windows/x64/runner/Release/* Kazumi_windows_${env:tag}.zip
+          - run: Compress-Archive build/windows/x64/runner/Release/* CyanmoonACG_windows_${env:tag}.zip
           - name: Upload windows outputs
             uses: actions/upload-artifact@v4
             id: unsigned-windows-zip-artifacts
             with:
               name: windows_outputs
               path: |
-                Kazumi_windows_*.zip
+                CyanmoonACG_windows_*.zip
 
           # Sign Zip
           - run: New-Item -Path "build/windows/zip_signed_output" -ItemType Directory
@@ -164,7 +164,7 @@
             with:
               api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
               organization-id: 'fa047255-4772-4be1-b14f-5cfa62635877'
-              project-slug: 'Kazumi'
+              project-slug: 'CyanmoonACG'
               signing-policy-slug: 'release-signing'
               artifact-configuration-slug: 'Packet'
               github-artifact-id: '${{ steps.unsigned-windows-zip-artifacts.outputs.artifact-id }}'
@@ -180,7 +180,7 @@
               
           # Replace Unpacked Artifact with Signed Artifact
           - name: Replace Unpacked Artifact with Signed Artifact
-            run: Expand-Archive -Path "build/windows/zip_signed_output/Kazumi_windows_${env:tag}.zip" -DestinationPath "build/windows/x64/runner/Release" -Force
+            run: Expand-Archive -Path "build/windows/zip_signed_output/CyanmoonACG_windows_${env:tag}.zip" -DestinationPath "build/windows/x64/runner/Release" -Force
           
           # Build Unsigned MSIX
           - name: Build unsigned msix
@@ -200,7 +200,7 @@
             with:
               api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
               organization-id: 'fa047255-4772-4be1-b14f-5cfa62635877'
-              project-slug: 'Kazumi'
+              project-slug: 'CyanmoonACG'
               signing-policy-slug: 'release-signing'
               artifact-configuration-slug: 'MSIX'
               github-artifact-id: '${{ steps.unsigned-windows-msix-artifacts.outputs.artifact-id }}'
@@ -514,7 +514,7 @@
           - name: List files in windows_outputs directory
             run: ls -l windows_zip_signed_outputs   
           - name: Copy windows build file to root
-            run: cp windows_zip_signed_outputs/* Kazumi_windows_${{ env.tag }}.zip
+            run: cp windows_zip_signed_outputs/* CyanmoonACG_windows_${{ env.tag }}.zip
 
           - name: Download windows msix build file
             uses: actions/download-artifact@v4
@@ -524,7 +524,7 @@
           - name: List files in windows_msix_signed_outputs directory
             run: ls -l windows_msix_signed_outputs   
           - name: Copy windows build file to root
-            run: cp windows_msix_signed_outputs/* Kazumi_windows_${{ env.tag }}.msix
+            run: cp windows_msix_signed_outputs/* CyanmoonACG_windows_${{ env.tag }}.msix
 
           - name: Download android build file
             uses: actions/download-artifact@v4
@@ -538,7 +538,7 @@
               mkdir build
               mkdir build/unsigned
               mkdir build/signed
-              cp android_outputs/* build/unsigned/Kazumi_android_${{ env.tag }}.apk
+              cp android_outputs/* build/unsigned/CyanmoonACG_android_${{ env.tag }}.apk
 
           - name: Download iOS build file
             uses: actions/download-artifact@v4
@@ -592,15 +592,15 @@
               BUILD_TOOLS_VERSION: "34.0.0"
 
           - name: Copy Signed android build file
-            run: cp ${{steps.sign_app.outputs.signedReleaseFile}} build/signed/Kazumi_android_${{ env.tag }}.apk
+            run: cp ${{steps.sign_app.outputs.signedReleaseFile}} build/signed/CyanmoonACG_android_${{ env.tag }}.apk
 
           - name: Create release
             uses: softprops/action-gh-release@v2
             with:
               files: |
                 build/signed/*.apk
-                Kazumi_windows_*.zip
-                Kazumi_windows_*.msix
+                CyanmoonACG_windows_*.zip
+                CyanmoonACG_windows_*.msix
                 Kazumi_macos_*.dmg
                 Kazumi_ios_*.ipa
                 Kazumi_linux_*.tar.gz
