@@ -14,7 +14,6 @@ import 'package:cyanmoon_acg/pages/player/syncplay_sheet.dart';
 import 'package:cyanmoon_acg/utils/constants.dart';
 import 'package:cyanmoon_acg/services/logging/logger.dart';
 import 'package:cyanmoon_acg/services/player/pip_utils.dart';
-import 'package:cyanmoon_acg/services/sync/webdav.dart';
 import 'package:flutter/gestures.dart';
 import 'package:cyanmoon_acg/pages/player/player_controller.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +84,6 @@ class _PlayerItemState extends State<PlayerItem>
   late final Map<String, PlayerLongPressShortcutActions>
   keyboardLongPressActions;
 
-  late bool webDavEnable;
-  late bool webDavEnableHistory;
 
   final _danmuKey = GlobalKey();
   final _videoSurfaceKey = GlobalKey();
@@ -597,17 +594,6 @@ class _PlayerItemState extends State<PlayerItem>
     unawaited(_updateAndroidPIPActions(force: true));
   }
 
-  Future<void> _syncHistoryWithWebDav() async {
-    if (webDavEnable && webDavEnableHistory) {
-      try {
-        var webDav = WebDav();
-        await webDav.syncHistory();
-      } catch (e) {
-        CyanmoonLogger().w('WebDav: auto history sync failed', error: e);
-      }
-    }
-  }
-
   Future<void> _bindAudioService() async {
     try {
       await _audioController.bindCallbacks(
@@ -684,7 +670,6 @@ class _PlayerItemState extends State<PlayerItem>
     playerController.danmaku.canvasController.clear();
     _scheduleAndroidPIPSourceRectSync();
 
-    await _syncHistoryWithWebDav();
   }
 
   void handleProgressBarDragStart() {
@@ -1358,8 +1343,6 @@ class _PlayerItemState extends State<PlayerItem>
       parent: _screenshotFeedbackController,
       curve: Curves.linear,
     );
-    webDavEnable = GStorage.getSetting(SettingsKeys.webDavEnable);
-    webDavEnableHistory = GStorage.getSetting(SettingsKeys.webDavEnableHistory);
     playerController.danmaku.setDanmakuEnabled(
       GStorage.getSetting(SettingsKeys.danmakuEnabledByDefault),
     );

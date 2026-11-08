@@ -3,7 +3,7 @@ import 'package:hive_ce/hive.dart';
 part 'collect_change_module.g.dart';
 
 // The box stores the changes history of collected bangumi
-// The changes will be used to sync with webDav
+// The changes are the incremental log for multi-device sync
 @HiveType(typeId: 5)
 class CollectedBangumiChange {
   // timestamp in seconds

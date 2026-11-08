@@ -141,7 +141,7 @@ class BangumiSyncService extends ChangeNotifier {
 
   Future<void> _applyLocalMutation(BangumiLocalMutation mutation) async {
     await GStorage.putCollectible(mutation.collectible);
-    // Remote changes must also reach WebDAV's incremental change log.
+    // Remote changes must also reach the incremental change log.
     await GStorage.appendCollectChange(
       bangumiId: mutation.collectible.bangumiItem.id,
       action: mutation.changeAction,

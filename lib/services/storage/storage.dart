@@ -9,7 +9,6 @@ import 'package:cyanmoon_acg/hive_registrar.g.dart';
 import 'package:cyanmoon_acg/modules/history/history_module.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_module.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_change_module.dart';
-import 'package:cyanmoon_acg/modules/collect/collect_sync_merger.dart';
 import 'package:cyanmoon_acg/modules/search/search_history_module.dart';
 import 'package:cyanmoon_acg/modules/download/download_module.dart';
 import 'package:cyanmoon_acg/services/storage/history_storage_coordinator.dart';
@@ -61,20 +60,6 @@ class GStorage {
     })();
 
     return completer.future;
-  }
-
-  /// 收藏写入队列空闲并 flush 后执行 action，保证对 collectibles/collectchanges
-  /// Hive 文件的复制拿到的是完整一致快照。WebDAV 备份直接 copy 运行中的
-  /// hive 文件，与写入并发时会抓到未落盘的中间态，产生截断损坏的远端备份。
-  /// 注意：action 内不要做耗时网络操作（会阻塞后续收藏写入）。
-  static Future<T> runWithCollectSnapshotConsistency<T>(
-    Future<T> Function() action,
-  ) {
-    return _runCollectChangesWriteExclusive(() async {
-      await collectibles.flush();
-      await collectChanges.flush();
-      return action();
-    });
   }
 
   /// init id generator
@@ -321,98 +306,6 @@ class GStorage {
     }
   }
 
-  static Future<void> restoreCollectibles(String backupFilePath) async {
-    final backupFile = File(backupFilePath);
-    final backupContent = await backupFile.readAsBytes();
-    final tempBox = await Hive.openBox(
-      'tempCollectiblesBox',
-      bytes: backupContent,
-    );
-    final tempBoxItems = tempBox.toMap().entries;
-    CyanmoonLogger().i(
-      'WebDav: restoring collectibles. tempCollectiblesBox length ${tempBoxItems.length}',
-    );
-
-    await collectibles.clear();
-    for (var tempBoxItem in tempBoxItems) {
-      await collectibles.put(tempBoxItem.key, tempBoxItem.value);
-    }
-    await tempBox.close();
-  }
-
-  static Future<List<CollectedBangumi>> getCollectiblesFromFile(
-    String backupFilePath,
-  ) async {
-    final backupFile = File(backupFilePath);
-    final backupContent = await backupFile.readAsBytes();
-    final tempBox = await Hive.openBox(
-      'tempCollectiblesBox',
-      bytes: backupContent,
-    );
-    final tempBoxItems = tempBox.toMap().entries;
-    CyanmoonLogger().i(
-      'WebDav: get collectibles from file. tempCollectiblesBox length ${tempBoxItems.length}',
-    );
-
-    final List<CollectedBangumi> collectibles = [];
-    for (var tempBoxItem in tempBoxItems) {
-      collectibles.add(tempBoxItem.value);
-    }
-    await tempBox.close();
-    return collectibles;
-  }
-
-  static Future<List<CollectedBangumiChange>> getCollectChangesFromFile(
-    String backupFilePath,
-  ) async {
-    final backupFile = File(backupFilePath);
-    final backupContent = await backupFile.readAsBytes();
-    final tempBox = await Hive.openBox(
-      'tempCollectChangesBox',
-      bytes: backupContent,
-    );
-    final tempBoxItems = tempBox.toMap().entries;
-    CyanmoonLogger().i(
-      'WebDav: get collectChanges from file. tempCollectChangesBox length ${tempBoxItems.length}',
-    );
-
-    final List<CollectedBangumiChange> collectChanges = [];
-    for (var tempBoxItem in tempBoxItems) {
-      collectChanges.add(tempBoxItem.value);
-    }
-    await tempBox.close();
-    return collectChanges;
-  }
-
-  static Future<void> patchCollectibles(
-    List<CollectedBangumi> remoteCollectibles,
-    List<CollectedBangumiChange> remoteChanges,
-  ) async {
-    await _runCollectChangesWriteExclusive(() async {
-      final mergeResult = CollectSyncMerger.mergeWebDav(
-        localCollectibles: collectibles.values.toList(),
-        localChanges: collectChanges.values.toList(),
-        remoteCollectibles: remoteCollectibles,
-        remoteChanges: remoteChanges,
-      );
-
-      // Update local storage
-      await collectibles.clear();
-      for (var collect in mergeResult.collectibles) {
-        await collectibles.put(collect.bangumiItem.id, collect);
-      }
-      await collectibles.flush();
-
-      await collectChanges.clear();
-      for (var change in mergeResult.changes) {
-        await collectChanges.put(change.id, change);
-      }
-      await collectChanges.flush();
-
-      _collectChangeIdInitialized = false;
-      _initializeNextCollectChangeIdLocked();
-    });
-  }
 
   static T getSetting<T>(
     SettingKey<T> key, {

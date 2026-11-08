@@ -28,7 +28,6 @@ import 'package:cyanmoon_acg/pages/my/my_controller.dart';
 import 'package:cyanmoon_acg/plugins/plugins.dart';
 import 'package:cyanmoon_acg/plugins/plugins_controller.dart';
 import 'package:cyanmoon_acg/services/shaders/shader_asset_service.dart';
-import 'package:cyanmoon_acg/services/sync/danmaku_shield_sync_service.dart';
 import 'cycani_api.dart';
 import 'catalog_library.dart';
 import 'catalog_models.dart';
@@ -64,8 +63,7 @@ class _QingyueBootstrapState extends State<QingyueBootstrap> {
       await inject<ShaderAssetService>().copyShadersToExternalDirectory();
       await inject<DownloadController>().init();
       await inject<MyController>().loadShieldList();
-      inject<DanmakuShieldSyncService>().start();
-      if (mounted) context.navigate('/home');
+          if (mounted) context.navigate('/home');
     } catch (_) {
       if (mounted) setState(() => error = '加载失败');
     }

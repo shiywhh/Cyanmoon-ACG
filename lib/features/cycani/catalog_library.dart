@@ -164,7 +164,7 @@ class CatalogLibrarySource {
           }
         case CatalogSource.bangumi:
           // Bangumi 追番来自本地收藏盒（完整条目字段，云端一致性由
-          // BangumiSyncService/WebDAV 管线维护）；应用不产生 Bangumi 观看历史。
+          // BangumiSyncService 管线维护）；应用不产生 Bangumi 观看历史。
           if (history) break;
           rows.addAll([
             for (final collect in GStorage.collectibles.values)
@@ -262,7 +262,7 @@ class CatalogLibrarySource {
       case CatalogSource.giri:
         await SourceAccounts.instance.setGiriFollow(entry.rawId, status ?? 0);
       case CatalogSource.bangumi:
-        // Bangumi 收藏经 CollectController：本地收藏盒 + Bangumi 云端/WebDAV
+        // Bangumi 收藏经 CollectController：本地收藏盒 + Bangumi 云端
         // 同步管线（与收藏按钮同一通路）。追番库语义 1/2/3 → 本地类型 1/2/4。
         final collectController = inject<CollectController>();
         final bangumiItem = CatalogVideo({

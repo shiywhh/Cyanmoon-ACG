@@ -403,7 +403,7 @@ class HistorySyncService {
 
   Future<File> localChangeLogFile() async {
     final directory = await _applicationSupportDirectoryProvider();
-    return File('${directory.path}/webdavTemp/history.local.jsonl');
+    return File('${directory.path}/historySyncTemp/history.local.jsonl');
   }
 
   Future<int> _nextSeq() async {
@@ -416,12 +416,6 @@ class HistorySyncService {
   }
 
   Future<void> appendSafely(Future<void> Function() append) async {
-    final webDavEnable = GStorage.getSetting(SettingsKeys.webDavEnable);
-    final historySyncEnable =
-        GStorage.getSetting(SettingsKeys.webDavEnableHistory);
-    if (webDavEnable != true || historySyncEnable != true) {
-      return;
-    }
     try {
       await append();
     } catch (e, stackTrace) {

@@ -4,125 +4,24 @@ import 'package:cyanmoon_acg/modules/bangumi/bangumi_collection_type.dart';
 import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 import 'package:cyanmoon_acg/modules/bangumi/sync_priority.dart';
 import 'package:cyanmoon_acg/modules/bangumi/bangumi_tag.dart';
-import 'package:cyanmoon_acg/modules/collect/collect_change_module.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_module.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_sync_merger.dart';
-import 'package:cyanmoon_acg/modules/collect/collect_sync_plan.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_type.dart';
 
 void main() {
-  group('CollectSyncPlan', () {
-    test('keeps WebDAV history-only mode out of collectible sync', () {
-      const plan = CollectSyncPlan(
-        webDavEnabled: true,
-        webDavCollectiblesEnabled: false,
-        bangumiEnabled: false,
-      );
-
-      expect(plan.shouldSyncWebDavCollectibles, isFalse);
-      expect(plan.shouldSyncBangumi, isFalse);
-      expect(plan.canSync, isFalse);
-    });
-
-    test('allows Bangumi-only sync while WebDAV is enabled for history', () {
-      const plan = CollectSyncPlan(
-        webDavEnabled: true,
-        webDavCollectiblesEnabled: false,
-        bangumiEnabled: true,
-      );
-
-      expect(plan.shouldSyncWebDavCollectibles, isFalse);
-      expect(plan.shouldSyncBangumi, isTrue);
-      expect(plan.canSync, isTrue);
-    });
-
-    test('allows WebDAV-only collectible sync', () {
-      const plan = CollectSyncPlan(
-        webDavEnabled: true,
-        webDavCollectiblesEnabled: true,
-        bangumiEnabled: false,
-      );
-
-      expect(plan.shouldSyncWebDavCollectibles, isTrue);
-      expect(plan.shouldSyncBangumi, isFalse);
-      expect(plan.canSync, isTrue);
-    });
-
-    test('uploads back to WebDAV only after both sources finished', () {
-      const plan = CollectSyncPlan(
-        webDavEnabled: true,
-        webDavCollectiblesEnabled: true,
-        bangumiEnabled: true,
-      );
-
-      expect(
-        plan.shouldUploadWebDavAfterBangumi(
-          webDavSynced: true,
-          bangumiSynced: true,
-        ),
-        isTrue,
-      );
-      expect(
-        plan.shouldUploadWebDavAfterBangumi(
-          webDavSynced: true,
-          bangumiSynced: false,
-        ),
-        isFalse,
-      );
-    });
-  });
-
   group('CollectSyncMerger', () {
-    test('merges local change log into WebDAV collectibles', () {
-      final mergeResult = CollectSyncMerger.mergeWebDav(
-        localCollectibles: [
-          _collect(1, CollectType.watching, 10),
-          _collect(2, CollectType.watched, 20),
-          _collect(3, CollectType.abandoned, 30),
-        ],
-        localChanges: [
-          _change(10, 1, 1, CollectType.watching, 10),
-          _change(11, 2, 2, CollectType.watched, 20),
-          _change(12, 3, 3, CollectType.abandoned, 30),
-        ],
-        remoteCollectibles: [
-          _collect(2, CollectType.planToWatch, 5),
-          _collect(3, CollectType.watching, 5),
-          _collect(4, CollectType.onHold, 5),
-        ],
-        remoteChanges: [
-          _change(9, 4, 1, CollectType.onHold, 5),
-        ],
-      );
 
-      expect(_typesById(mergeResult.collectibles), {
-        1: CollectType.watching.value,
-        2: CollectType.watched.value,
-        4: CollectType.onHold.value,
-      });
-      expect(mergeResult.changes.map((change) => change.id), [9, 10, 11, 12]);
-    });
-
-    test('plans Bangumi changes after local and WebDAV already diverged', () {
-      final webDavResult = CollectSyncMerger.mergeWebDav(
-        localCollectibles: [
-          _collect(1, CollectType.watching, 10),
-        ],
-        localChanges: [
-          _change(10, 1, 1, CollectType.watching, 10),
-        ],
-        remoteCollectibles: [
-          _collect(2, CollectType.watched, 5),
-          _collect(4, CollectType.onHold, 5),
-        ],
-        remoteChanges: [
-          _change(9, 2, 1, CollectType.watched, 5),
-          _change(8, 4, 1, CollectType.onHold, 5),
-        ],
-      );
+    test('plans Bangumi changes after local and remote already diverged', () {
+      // 原「WebDAV 合并后的本地状态」直接以字面量构造：
+      // 本地 {1 在看@10} 与远端 {2 已看@5, 4 搁置@5} 按增量日志合并的结果。
+      final collectibles = [
+        _collect(2, CollectType.watched, 5),
+        _collect(4, CollectType.onHold, 5),
+        _collect(1, CollectType.watching, 10),
+      ];
 
       final bangumiPlan = CollectSyncMerger.planBangumi(
-        localCollectibles: webDavResult.collectibles,
+        localCollectibles: collectibles,
         remoteCollections: [
           _remote(1, BangumiCollectionType.watched, 40),
           _remote(2, BangumiCollectionType.watched, 20),
@@ -359,22 +258,6 @@ CollectedBangumi _collect(int id, CollectType type, int timestamp) {
   );
 }
 
-CollectedBangumiChange _change(
-  int id,
-  int bangumiId,
-  int action,
-  CollectType type,
-  int timestamp,
-) {
-  return CollectedBangumiChange(
-    id,
-    bangumiId,
-    action,
-    type.value,
-    timestamp,
-  );
-}
-
 BangumiCollection _remote(
   int id,
   BangumiCollectionType type,
@@ -428,9 +311,3 @@ BangumiItem _item(int id) {
   );
 }
 
-Map<int, int> _typesById(List<CollectedBangumi> collectibles) {
-  return {
-    for (final collectible in collectibles)
-      collectible.bangumiItem.id: collectible.type,
-  };
-}

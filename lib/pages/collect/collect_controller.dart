@@ -6,7 +6,6 @@ import 'package:cyanmoon_acg/modules/collect/collect_module.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_type.dart';
 import 'package:cyanmoon_acg/services/sync/bangumi_sync_service.dart';
 import 'package:cyanmoon_acg/services/storage/storage.dart';
-import 'package:cyanmoon_acg/services/sync/webdav.dart';
 import 'package:cyanmoon_acg/repositories/collect_crud_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:cyanmoon_acg/services/logging/logger.dart';
@@ -202,54 +201,6 @@ abstract class _CollectController with Store {
       CyanmoonLogger().e(message, error: error);
     }
     onError(message);
-  }
-
-  Future<bool> _connectWebDav(ValueChanged<String> onError) async {
-    final bool webDavCollectEnable =
-        GStorage.getSetting(SettingsKeys.webDavEnableCollect);
-    if (!webDavCollectEnable) {
-      _reportSyncError('请开启 WebDAV 收藏同步', onError);
-      return false;
-    }
-    if (!WebDav().initialized) {
-      _reportSyncError('WebDAV 未连接，请检查配置', onError);
-      return false;
-    }
-    try {
-      await WebDav().ping();
-    } catch (e) {
-      _reportSyncError('WebDAV 连接失败，请检查网络或配置', onError, error: e);
-      return false;
-    }
-    return true;
-  }
-
-  Future<bool> syncCollectibles({
-    required ValueChanged<String> onError,
-  }) async {
-    if (!await _connectWebDav(onError)) return false;
-    try {
-      await WebDav().syncCollectibles();
-    } catch (e) {
-      _reportSyncError('WebDAV 同步失败，请检查连接', onError, error: e);
-      return false;
-    }
-    loadCollectibles();
-    return true;
-  }
-
-  // Upload without merging again after Bangumi updates the local collection.
-  Future<bool> uploadCollectiblesToWebDav({
-    required ValueChanged<String> onError,
-  }) async {
-    if (!await _connectWebDav(onError)) return false;
-    try {
-      await WebDav().updateCollectibles();
-    } catch (e) {
-      _reportSyncError('WebDAV 回传失败，请检查连接', onError, error: e);
-      return false;
-    }
-    return true;
   }
 
   Future<void> migrateCollect() async {

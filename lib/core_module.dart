@@ -14,8 +14,6 @@ import 'package:cyanmoon_acg/services/download/download_manager.dart';
 import 'package:cyanmoon_acg/services/player/audio_controller.dart';
 import 'package:cyanmoon_acg/services/player/history_playback_service.dart';
 import 'package:cyanmoon_acg/services/shaders/shader_asset_service.dart';
-import 'package:cyanmoon_acg/services/sync/danmaku_shield_sync_service.dart';
-import 'package:cyanmoon_acg/services/sync/webdav.dart';
 
 /// Root-owned application data and cross-feature coordinators.
 ///
@@ -37,8 +35,6 @@ final coreModule = createModule(
       ..addSingleton<AudioController>(AudioController.new)
       ..addSingleton<HistoryPlaybackService>(HistoryPlaybackService.new)
       ..addSingleton<ShaderAssetService>(ShaderAssetService.new)
-      ..addSingleton<WebDav>(WebDav.new)
-      ..addSingleton<DanmakuShieldSyncService>(DanmakuShieldSyncService.new)
       // Cross-feature state and coordinators.
       ..addSingleton<PluginsController>(PluginsController.new)
       ..addSingleton<CollectController>(CollectController.new)
