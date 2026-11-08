@@ -1,4 +1,5 @@
 import 'package:kazumi/services/logging/logger.dart';
+import 'package:kazumi/bean/dialog/dialog.dart';
 import 'catalog_account_layout.dart';
 import 'qingyue_my_page.dart' show CycaniAvatar;
 import 'catalog_action.dart';
@@ -227,6 +228,16 @@ class SourceAccounts {
       }, expectedEpoch: epoch);
       try {
         s = await refresh;
+      } on DioException catch (e) {
+        if (identical(_xRefresh, refresh)) _xRefresh = null;
+        // refresh_token 已失效（撤销/过期）：清掉死会话自动登出。
+        // 否则 hasSession 持续返回 true 而 API 全部失败，页面卡死在已登录态。
+        final status = e.response?.statusCode ?? 0;
+        if (status == 400 || status == 401 || status == 403) {
+          await logout(false);
+          return null;
+        }
+        rethrow;
       } finally {
         if (identical(_xRefresh, refresh)) _xRefresh = null;
       }
@@ -437,10 +448,14 @@ class SourceAccounts {
     final raw = await _storage.read(key: _gKey);
     if (raw == null || epoch != _giriSessionEpoch) return null;
     final saved = catalogMap(jsonDecode(raw));
-    _cookie.clear();
-    for (final entry in catalogMap(saved['cookies']).entries) {
-      if (entry.value is String) _cookie[entry.key] = entry.value as String;
-    }
+    // 整体替换而非 clear 后逐条填充：无 await 间隙，并发的验证码请求不会读到半截 Cookie。
+    final previousCookies = Map<String, String>.from(_cookie);
+    _cookie
+      ..clear()
+      ..addAll({
+        for (final entry in catalogMap(saved['cookies']).entries)
+          if (entry.value is String) entry.key: entry.value as String,
+      });
     final response = await _giri.get<dynamic>(
       '/index.php/sso/status',
       options: _gOptions(),
@@ -452,11 +467,16 @@ class SourceAccounts {
       await logout(true);
       return null;
     }
-    await _writeSession(
-      true,
-      epoch,
-      jsonEncode({'cookies': _cookie, 'name': saved['name']}),
-    );
+    // 仅在 cookie 实际变化时回写，避免每次会话检查都做一遍平台通道存储写入。
+    final changed = _cookie.length != previousCookies.length ||
+        _cookie.entries.any((e) => previousCookies[e.key] != e.value);
+    if (changed) {
+      await _writeSession(
+        true,
+        epoch,
+        jsonEncode({'cookies': _cookie, 'name': saved['name']}),
+      );
+    }
     return info;
   }
 
@@ -2546,6 +2566,22 @@ class _XifanProfileDialogState extends State<_XifanProfileDialog> {
         onPressed: () => Navigator.pop(context),
         child: const Text('取消'),
       ),
+      // 需要官网身份验证时提供入口（此前 onVerify 从未被渲染，重验证流程不可达）。
+      if (!widget.editable && widget.onVerify != null)
+        TextButton(
+          onPressed: () async {
+            Navigator.pop(context);
+            try {
+              await widget.onVerify!();
+            } catch (e) {
+              KazumiLogger().w('SourceAccounts: open verification failed',
+                  error: e);
+              KazumiDialog.showToast(
+                  message: e is StateError ? e.message : '打开身份验证失败');
+            }
+          },
+          child: const Text('去官网验证'),
+        ),
       FilledButton(
         onPressed: !widget.editable
             ? null

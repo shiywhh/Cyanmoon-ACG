@@ -239,8 +239,10 @@ class _CatalogDetailPageState extends State<CatalogDetailPage> {
         setState(() => _resume = cached);
       }
       final fresh = await accounts.xifanProgressFor(id);
-      if (mounted && generation == _resumeGeneration)
+      // fresh 为 null（未登录/超出续播窗口）时不覆盖刚从缓存恢复的续播记录。
+      if (fresh != null && mounted && generation == _resumeGeneration) {
         setState(() => _resume = fresh);
+      }
     } catch (_) {}
   }
 

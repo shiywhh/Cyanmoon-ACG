@@ -3,20 +3,56 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:kazumi/services/network/proxy_aware_image_cache_manager.dart';
 
-class SiteAvatar extends StatelessWidget {
+class SiteAvatar extends StatefulWidget {
   const SiteAvatar({super.key, this.path, this.url = '', this.size = 72});
   final String? path;
   final String url;
   final double size;
   @override
+  State<SiteAvatar> createState() => _SiteAvatarState();
+}
+
+class _SiteAvatarState extends State<SiteAvatar> {
+  // 文件修改时间异步探测（不在 build 里做同步磁盘 IO）；
+  // 作为 Image key 用于同路径内容变化时刷新图片缓存。
+  String _fileKey = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshFileKey();
+  }
+
+  @override
+  void didUpdateWidget(covariant SiteAvatar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.path != widget.path) _refreshFileKey();
+  }
+
+  Future<void> _refreshFileKey() async {
+    final path = widget.path;
+    if (path == null) return;
+    String key = '';
+    try {
+      final file = File(path);
+      if (await file.exists()) {
+        key = (await file.lastModified()).toIso8601String();
+      }
+    } catch (_) {}
+    if (!mounted) return;
+    setState(() => _fileKey = key);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final size = widget.size;
     Widget placeholder() => ColoredBox(
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: Icon(Icons.person_outline_rounded, size: size / 2),
     );
-    Widget remote() => Uri.tryParse(url)?.scheme == 'https'
+    Widget remote() => Uri.tryParse(widget.url)?.scheme == 'https'
         ? CachedNetworkImage(
-            imageUrl: url,
+            imageUrl: widget.url,
             cacheManager: ProxyAwareImageCacheManager.privateImages,
             fit: BoxFit.cover,
             memCacheWidth: (size * MediaQuery.devicePixelRatioOf(context))
@@ -29,14 +65,14 @@ class SiteAvatar extends StatelessWidget {
       child: SizedBox(
         width: size,
         height: size,
-        child: path == null
+        child: widget.path == null
             ? remote()
             : Image.file(
-                File(path!),
+                File(widget.path!),
                 fit: BoxFit.cover,
-                key: ValueKey(
-                  '$path-${File(path!).existsSync() ? File(path!).lastModifiedSync() : ''}',
-                ),
+                cacheWidth:
+                    (size * MediaQuery.devicePixelRatioOf(context)).ceil(),
+                key: ValueKey('${widget.path}-$_fileKey'),
                 errorBuilder: (_, _, _) => remote(),
               ),
       ),

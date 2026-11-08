@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kazumi/services/logging/logger.dart';
 import 'catalog_models.dart';
 
 abstract interface class CycaniVault {
@@ -236,7 +237,12 @@ class CycaniApi extends ChangeNotifier {
 
   Future<void> setSiteDanmaku(bool enabled) async {
     includeSiteDanmaku = enabled;
-    await _persist();
+    // 持久化失败不阻断状态广播：内存状态已生效，监听方必须刷新。
+    try {
+      await _persist();
+    } catch (e) {
+      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+    }
     notifyListeners();
   }
 
@@ -245,8 +251,17 @@ class CycaniApi extends ChangeNotifier {
     _token = null;
     _user = {};
     _watchStats = {};
-    await _vault.write(null);
-    await clearLibrarySnapshots();
+    // 持久化失败不阻断状态广播：内存已登出，UI 必须同步刷新而不是卡在已登录态。
+    try {
+      await _vault.write(null);
+    } catch (e) {
+      KazumiLogger().w('CycaniApi: failed to clear session vault', error: e);
+    }
+    try {
+      await clearLibrarySnapshots();
+    } catch (e) {
+      KazumiLogger().w('CycaniApi: failed to clear library snapshots', error: e);
+    }
     notifyListeners();
   }
 
@@ -357,7 +372,12 @@ class CycaniApi extends ChangeNotifier {
     _epoch++;
     _token = normalizeCycaniToken(token);
     _user = catalogMap(data['user']);
-    await _persist();
+    // 持久化失败不阻断状态广播：内存状态已生效，监听方必须刷新。
+    try {
+      await _persist();
+    } catch (e) {
+      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+    }
     notifyListeners();
   }
 
@@ -379,7 +399,12 @@ class CycaniApi extends ChangeNotifier {
     _epoch++;
     _token = token;
     _user = catalogMap(data['data']);
-    await _persist();
+    // 持久化失败不阻断状态广播：内存状态已生效，监听方必须刷新。
+    try {
+      await _persist();
+    } catch (e) {
+      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+    }
     notifyListeners();
   }
 
@@ -388,7 +413,12 @@ class CycaniApi extends ChangeNotifier {
     final data = catalogMap(await request('/user/me', auth: true));
     if (epoch != _epoch) return;
     _user = data;
-    await _persist();
+    // 持久化失败不阻断状态广播：内存状态已生效，监听方必须刷新。
+    try {
+      await _persist();
+    } catch (e) {
+      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+    }
     notifyListeners();
   }
 
