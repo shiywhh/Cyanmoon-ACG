@@ -81,14 +81,16 @@ class WebViewVideoSourceService implements IVideoSourceService {
       }
     }
     if (_webview == null) {
-      _webview = VideoWebviewControllerFactory.getController();
-      await _webview!.init();
-
-      _logSubscription = _webview!.onLog.listen((log) {
+      // init 成功后才落字段：init 抛出时不得留下"半初始化"实例，
+      // 否则之后每次 resolve 都对未初始化控制器 loadUrl 持续失败（换集/重试全废）。
+      final controller = VideoWebviewControllerFactory.getController();
+      await controller.init();
+      _logSubscription = controller.onLog.listen((log) {
         if (!_logController.isClosed) {
           _logController.add(log);
         }
       });
+      _webview = controller;
     }
 
     var didStartLoad = false;

@@ -409,9 +409,22 @@ $script
   Future<String> getCookieString(String pageUrl) async {
     try {
       final cookies = await webviewController?.getAllCookies() ?? [];
+      final host = Uri.tryParse(pageUrl)?.host ?? '';
+      // 只返回目标站点的 Cookie：getAllCookies 拿到的是持久 profile 里全部域的
+      // Cookie，整体回传会把其他站点会话泄漏给插件站点。
+      final scoped = host.isEmpty
+          ? cookies
+          : cookies
+              .where((c) =>
+                  c.domain == host ||
+                  c.domain == '.$host' ||
+                  c.domain.endsWith('.$host'))
+              .toList();
       final cookieString =
-          cookies.map((c) => '${c.name}=${c.value}').join('; ');
-      logEventController.add('[Captcha WebView] Cookies: $cookieString');
+          scoped.map((c) => '${c.name}=${c.value}').join('; ');
+      // Cookie 值含会话凭据，日志只记数量与域，不记内容。
+      logEventController
+          .add('[Captcha WebView] Cookies: ${scoped.length} for $host');
       return cookieString;
     } catch (e) {
       KazumiLogger().e('[Captcha WebView] getCookieString error: $e');

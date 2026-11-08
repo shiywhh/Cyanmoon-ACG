@@ -10,6 +10,7 @@ class VideoWebviewAppleImpl
     extends VideoWebviewController<PlatformInAppWebViewController> {
   PlatformHeadlessInAppWebView? headlessWebView;
   bool hasInjectedScripts = false;
+  bool? injectedUseLegacyParser;
 
   @override
   Future<void> init() async {
@@ -127,10 +128,19 @@ class VideoWebviewAppleImpl
   Future<void> loadUrl(String url, bool useLegacyParser,
       {int offset = 0}) async {
     await unloadPage();
-    if (!hasInjectedScripts) {
+    // 解析模式变化时重注册桥与 UserScript：不同 useLegacyParser 的插件共用
+    // 同一 WebView 实例，只按首次模式注册会让第二个插件的桥无人接听、解析必超时。
+    if (!hasInjectedScripts || injectedUseLegacyParser != useLegacyParser) {
+      if (hasInjectedScripts) {
+        webviewController?.removeJavaScriptHandler(
+            handlerName:
+                injectedUseLegacyParser! ? 'JSBridgeDebug' : 'VideoBridgeDebug');
+        await webviewController?.removeAllUserScripts();
+      }
       addJavaScriptHandlers(useLegacyParser);
       await addUserScripts(useLegacyParser);
       hasInjectedScripts = true;
+      injectedUseLegacyParser = useLegacyParser;
     }
     count = 0;
     this.offset = offset;
@@ -319,8 +329,9 @@ class VideoWebviewAppleImpl
 
   @override
   Future<void> unloadPage() async {
-    await webviewController!
-        .loadUrl(urlRequest: URLRequest(url: WebUri("about:blank")));
+    // init 的回调尚未就绪或 dispose 后调用时控制器可为 null，与 windows 实现一致用 ?.
+    await webviewController
+        ?.loadUrl(urlRequest: URLRequest(url: WebUri("about:blank")));
   }
 
   @override

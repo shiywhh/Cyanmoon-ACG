@@ -11,6 +11,7 @@ class CaptchaWebviewInAppWebviewImpl
   bool _handlersRegistered = false;
   String _currentCaptchaImageXpath = '';
   String _currentInputXpath = '';
+  String _lastLoadedUrl = '';
 
   @override
   Future<void> init() async {
@@ -128,8 +129,8 @@ class CaptchaWebviewInAppWebviewImpl
     await webviewController?.removeAllUserScripts();
 
     const String scriptTemplate = """
-window.flutter_inappwebview.callHandler('CaptchaLogBridge',
-  'CaptchaScript loaded on: ' + window.location.href);
+try { window.flutter_inappwebview.callHandler('CaptchaLogBridge',
+  'CaptchaScript loaded on: ' + window.location.href); } catch(e) {}
 
 var _captchaXpath = '{XPATH}';
 var _inputXpath = '{INPUT_XPATH}';
@@ -264,11 +265,7 @@ if (!_checkForCaptcha()) {
     buttonWasClicked = false;
     _registerHandlers();
     await _addCaptchaUserScript();
-    try {
-      await PlatformCookieManager(const PlatformCookieManagerCreationParams())
-          .deleteAllCookies();
-      logEventController.add('[Captcha WebView] Cookies cleared before load');
-    } catch (_) {}
+    await _clearCookiesForDomain(url);
     await webviewController?.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
   }
 
@@ -280,11 +277,7 @@ if (!_checkForCaptcha()) {
     buttonWasClicked = false;
     _registerHandlers();
     await _addButtonClickUserScript(buttonXpath);
-    try {
-      await PlatformCookieManager(const PlatformCookieManagerCreationParams())
-          .deleteAllCookies();
-      logEventController.add('[Captcha WebView] Cookies cleared before load');
-    } catch (_) {}
+    await _clearCookiesForDomain(url);
     await webviewController?.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
   }
 
@@ -296,12 +289,39 @@ if (!_checkForCaptcha()) {
     buttonWasClicked = false;
     _registerHandlers();
     await _addCustomScriptUserScript(script);
-    try {
-      await PlatformCookieManager(const PlatformCookieManagerCreationParams())
-          .deleteAllCookies();
-      logEventController.add('[Captcha WebView] Cookies cleared before load');
-    } catch (_) {}
+    await _clearCookiesForDomain(url);
     await webviewController?.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
+  }
+
+  /// 只清目标站点的 Cookie：Android/iOS 的 CookieManager 是应用级共享存储，
+  /// 全量 deleteAllCookies 会连带清掉视频 WebView 会话与其他插件验证留下的
+  /// 会话 Cookie（如 CF clearance）。本版本 deleteAllCookies 不支持按域过滤，
+  /// 改为逐个删除目标域的 Cookie。
+  Future<void> _clearCookiesForDomain(String url) async {
+    _lastLoadedUrl = url;
+    try {
+      final host = Uri.tryParse(url)?.host ?? '';
+      if (host.isEmpty) return;
+      final manager =
+          PlatformCookieManager(const PlatformCookieManagerCreationParams());
+      final cookies = await manager.getAllCookies();
+      final webUri = WebUri(url);
+      for (final cookie in cookies) {
+        final domain = cookie.domain ?? '';
+        if (domain == host ||
+            domain == '.$host' ||
+            domain.endsWith('.$host')) {
+          try {
+            await manager.deleteCookies(
+              url: webUri,
+              domain: domain,
+              path: cookie.path ?? '/',
+            );
+          } catch (_) {}
+        }
+      }
+      logEventController.add('[Captcha WebView] Cookies cleared for $host');
+    } catch (_) {}
   }
 
   Future<void> _addCustomScriptUserScript(String script) async {
@@ -515,10 +535,8 @@ if (!_checkAndClick()) {
     captchaWasFound = false;
     buttonWasClicked = false;
     _handlersRegistered = false;
-    try {
-      PlatformCookieManager(const PlatformCookieManagerCreationParams())
-          .deleteAllCookies();
-    } catch (_) {}
+    // 仅清验证码站点自身的 Cookie，不动共享存储里其他会话。
+    _clearCookiesForDomain(_lastLoadedUrl);
     try {
       captchaImageFoundController.close();
       captchaDisappearedController.close();

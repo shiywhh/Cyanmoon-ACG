@@ -80,7 +80,11 @@ class VideoWebviewImpl
       {int offset = 0}) async {
     await unloadPage();
     if (!hasRegisteredHandlers) {
-      _addJavaScriptHandlers(useLegacyParser);
+      // 两种解析模式的桥都注册（互不冲突，页面只调与自己模式匹配的桥）：
+      // 不同 useLegacyParser 的插件共用同一 WebView 实例时，只按首次模式注册
+      // 会让第二个插件的桥无人接听、解析必超时。
+      _addJavaScriptHandlers(true);
+      _addJavaScriptHandlers(false);
       hasRegisteredHandlers = true;
     }
     count = 0;
@@ -451,17 +455,33 @@ class VideoWebviewImpl
     if (headers == null) return false;
     final range = headers['Range'] ?? headers['range'];
     if (range == null || !range.startsWith('bytes=')) return false;
+    // 黑名单补齐常见媒体/字幕/字体类型：任何带 Range 头的资源都会命中
+    // 启发式，漏掉这些会让图片/字幕/音频被误判为视频源并提前终止搜索。
     if (lower.endsWith('.js') ||
         lower.endsWith('.css') ||
         lower.endsWith('.html') ||
         lower.endsWith('.json') ||
+        lower.endsWith('.xml') ||
         lower.endsWith('.png') ||
         lower.endsWith('.jpg') ||
+        lower.endsWith('.jpeg') ||
+        lower.endsWith('.webp') ||
+        lower.endsWith('.avif') ||
         lower.endsWith('.gif') ||
         lower.endsWith('.svg') ||
+        lower.endsWith('.ico') ||
         lower.endsWith('.woff') ||
         lower.endsWith('.woff2') ||
-        lower.endsWith('.wasm')) {
+        lower.endsWith('.ttf') ||
+        lower.endsWith('.otf') ||
+        lower.endsWith('.wasm') ||
+        lower.endsWith('.m4a') ||
+        lower.endsWith('.mp3') ||
+        lower.endsWith('.aac') ||
+        lower.endsWith('.ogg') ||
+        lower.endsWith('.vtt') ||
+        lower.endsWith('.srt') ||
+        lower.endsWith('.ass')) {
       return false;
     }
     return true;

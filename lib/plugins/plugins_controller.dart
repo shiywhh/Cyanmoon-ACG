@@ -119,11 +119,30 @@ abstract class _PluginsController with Store {
         .listSync()
         .whereType<File>()
         .where((file) => file.path.endsWith('.json'));
+    final migrated = <Plugin>[];
     for (final file in legacyFiles) {
-      pluginList.add(Plugin.fromJson(jsonDecode(await file.readAsString())));
-      await file.delete();
+      try {
+        migrated.add(Plugin.fromJson(jsonDecode(await file.readAsString())));
+      } catch (e) {
+        // 解析失败保留原文件（改名为 .broken 防反复重试），不让单个坏文件
+        // 吞掉整批迁移——删除先于落盘的老实现会永久丢失已删文件。
+        KazumiLogger().w(
+            'Plugins: failed to migrate legacy rule ${file.path}, keeping file',
+            error: e);
+        try {
+          await file.rename('${file.path}.broken');
+        } catch (_) {}
+        continue;
+      }
     }
+    pluginList.addAll(migrated);
     await _savePlugins();
+    // 全部解析成功才删除原文件（plugins.json 已写入后再删，中途失败可重来）。
+    for (final file in legacyFiles) {
+      try {
+        await file.delete();
+      } catch (_) {}
+    }
   }
 
   List<dynamic> _pluginListToJson() =>

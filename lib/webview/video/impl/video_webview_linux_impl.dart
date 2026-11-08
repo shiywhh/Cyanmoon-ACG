@@ -53,16 +53,25 @@ class VideoWebviewLinuxImpl extends VideoWebviewController<Webview> {
     return ProxyConfiguration(host: host, port: port);
   }
 
+  /// 当前桥生效的解析模式：模式随插件变化，回调闭包不能捕获首次的值。
+  bool? _bridgeUseLegacyParser;
+
   Future<void> initBridge(bool useLegacyParser) async {
-    await initJSBridge(useLegacyParser);
-    bridgeInited = true;
+    if (bridgeInited && _bridgeUseLegacyParser == useLegacyParser) return;
+    if (!bridgeInited) {
+      await initJSBridge();
+      bridgeInited = true;
+    }
+    // 不同 useLegacyParser 的插件共用同一 WebView 实例时，只按首次模式注册
+    // 会让第二个插件的 iframe 解析被静默忽略。
+    _bridgeUseLegacyParser = useLegacyParser;
   }
 
   @override
   Future<void> loadUrl(String url, bool useLegacyParser,
       {int offset = 0}) async {
     await unloadPage();
-    if (!bridgeInited) {
+    if (!bridgeInited || _bridgeUseLegacyParser != useLegacyParser) {
       await initBridge(useLegacyParser);
     }
     count = 0;
@@ -86,7 +95,7 @@ class VideoWebviewLinuxImpl extends VideoWebviewController<Webview> {
     disposeEventControllers();
   }
 
-  Future<void> initJSBridge(bool useLegacyParser) async {
+  Future<void> initJSBridge() async {
     webviewController!.addOnWebMessageReceivedCallback((message) async {
       if (message.contains('iframeMessage:')) {
         String messageItem =
@@ -100,7 +109,7 @@ class VideoWebviewLinuxImpl extends VideoWebviewController<Webview> {
             !messageItem.contains('prestrain%2Ehtml') &&
             !messageItem.contains('adtrafficquality')) {
           if (decodeVideoSource(messageItem) != Uri.encodeFull(messageItem) &&
-              useLegacyParser) {
+              (_bridgeUseLegacyParser ?? false)) {
             logEventController.add('Parsing video source $messageItem');
             isIframeLoaded = true;
             isVideoSourceLoaded = true;
