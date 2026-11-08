@@ -1049,6 +1049,9 @@ class _PlayerItemState extends State<PlayerItem>
     try {
       final currentSpeed = playerController.playback.playerSpeed;
       int index = defaultPlaySpeedList.indexOf(currentSpeed);
+      // 当前倍速不在预设表（如 SyncPlay 远端设置）时直接跳过，
+      // 避免 indexOf=-1 使"加速"落到最慢档/减速误报已达下限。
+      if (index == -1) return;
       if (type == "up") {
         if (index < defaultPlaySpeedList.length - 1) {
           index++;
@@ -1215,6 +1218,8 @@ class _PlayerItemState extends State<PlayerItem>
         ScreenBrightnessPlatform.instance.application.then((value) {
           if (!mounted) return;
           playerController.panel.brightness = value;
+        }).catchError((Object e) {
+          // 部分 ROM/平台不支持亮度接口，每秒 tick 不应产生未处理异步错误。
         });
       }
       final historyIdentity = videoPageController.currentHistoryIdentity;

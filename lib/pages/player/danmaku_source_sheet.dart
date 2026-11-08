@@ -226,7 +226,9 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
       widget.danmakuController.setDanmakuEnabled(hasDanmakus);
       KazumiDialog.dismiss(context: context);
       KazumiDialog.showToast(message: hasDanmakus ? '已切换弹幕源' : '暂无弹幕');
-    } catch (_) {
+    } catch (e) {
+      // 真正改播放器状态的一步不应吞掉异常细节（对照 _searchAnime/_selectAnime 均有日志）。
+      KazumiLogger().w('DanmakuSourceSheet: switch episode failed', error: e);
       if (!mounted) return;
       setState(() => _loading = false);
       KazumiDialog.showToast(message: '弹幕源切换失败');

@@ -55,6 +55,10 @@ abstract class _PlayerDebugController with Store {
     if (!isCurrentPlayer(player)) return;
     playerLogSubscription = player.stream.log.listen((event) {
       playerLog.add(event.toString());
+      // 环形截断：详细日志级 mpv 输出量大，无上限增长会拖累内存与 Observable 通知。
+      if (playerLog.length > 500) {
+        playerLog.removeRange(0, playerLog.length - 200);
+      }
       if (playerDebugMode) {
         KazumiLogger().i("MPV: ${event.toString()}", forceLog: true);
       }

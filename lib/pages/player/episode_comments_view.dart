@@ -306,14 +306,21 @@ class _EpisodeHeader extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             // Reserve one line to prevent jumps when metadata arrives.
-            Tooltip(
-              message: subtitle,
-              child: Text(subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: type.bodySmall?.copyWith(
-                      color: colors.onPrimaryContainer, height: 1.5)),
-            ),
+            // 空字符串的 Tooltip 会在长按/悬停时弹出空白气泡，按有无副标题条件包裹。
+            subtitle.isEmpty
+                ? Text(subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: type.bodySmall?.copyWith(
+                        color: colors.onPrimaryContainer, height: 1.5))
+                : Tooltip(
+                    message: subtitle,
+                    child: Text(subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: type.bodySmall?.copyWith(
+                            color: colors.onPrimaryContainer, height: 1.5)),
+                  ),
           ],
         ),
       ),

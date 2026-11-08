@@ -292,7 +292,9 @@ abstract class _PlayerPlaybackController with Store {
         configuration: PlayerConfiguration(
           bufferSize: cachePolicy.bufferSize,
           osc: false,
-          logLevel: MPVLogLevel.values[debug.playerLogLevel],
+          // 值来自存储，历史/损坏数据可能越界：钳制避免 RangeError 被吞成静默黑屏。
+          logLevel: MPVLogLevel.values[
+              debug.playerLogLevel.clamp(0, MPVLogLevel.values.length - 1)],
           adBlocker: adBlockerEnabled,
         ),
       ),

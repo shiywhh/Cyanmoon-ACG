@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -71,7 +72,28 @@ class _LogsPageState extends State<LogsPage> {
       if (!mounted) return;
 
       if (await file.exists()) {
-        final content = await file.readAsString();
+        // 只读取文件尾部（≤1MB）：日志文件可能很大，全量读入内存会明显卡顿
+        // 且使增量加载设计失效。
+        const maxBytes = 1 * 1024 * 1024;
+        String content;
+        final size = await file.length();
+        if (size > maxBytes) {
+          final raf = await file.open();
+          try {
+            await raf.setPosition(size - maxBytes);
+            final tail = await raf.read(maxBytes);
+            // 丢弃首行残段，从下一个换行开始
+            final text = utf8.decode(tail, allowMalformed: true);
+            final firstNewline = text.indexOf('\n');
+            content =
+                firstNewline >= 0 ? text.substring(firstNewline + 1) : text;
+            content = '（日志过长，仅显示最后 1MB，完整内容请查看日志文件）\n$content';
+          } finally {
+            await raf.close();
+          }
+        } else {
+          content = await file.readAsString();
+        }
         if (!mounted) return;
 
         _allLines = content.split('\n');
