@@ -23,12 +23,12 @@ class _StorageSettingsPageState extends State<StorageSettingsPage> {
   });
 
   void _message(String message) {
-    KazumiDialog.showToast(context: context, message: message);
+    CyanmoonDialog.showToast(context: context, message: message);
   }
 
   Future<void> _confirmClear() async {
     if (_clearing) return;
-    final confirmed = await KazumiDialog.show<bool>(
+    final confirmed = await CyanmoonDialog.show<bool>(
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(Icons.cleaning_services_rounded),

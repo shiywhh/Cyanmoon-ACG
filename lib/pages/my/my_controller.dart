@@ -89,7 +89,7 @@ abstract class _MyController with Store {
         try {
           if (RegExp(pattern).hasMatch(danmaku)) return true;
         } catch (_) {
-          KazumiLogger()
+          CyanmoonLogger()
               .e('Danmaku: invalid danmaku shield regex pattern: $pattern');
           continue;
         }
@@ -108,7 +108,7 @@ abstract class _MyController with Store {
     try {
       await _shieldRepository.initialize();
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('Danmaku: failed to initialize shield sync state', error: e);
     }
   }
@@ -124,7 +124,7 @@ abstract class _MyController with Store {
   Future<bool> addShieldList(String item) async {
     final error = DanmakuShieldRule.validate(item);
     if (error != null) {
-      KazumiDialog.showToast(
+      CyanmoonDialog.showToast(
           message: switch (error) {
         DanmakuShieldRuleError.empty => '请输入关键词',
         DanmakuShieldRuleError.tooLong => '关键词过长',
@@ -141,13 +141,13 @@ abstract class _MyController with Store {
     try {
       final changed = await _shieldRepository.setRule(item, deleted: deleted);
       if (!changed && !deleted) {
-        KazumiDialog.showToast(message: '已存在该关键词');
+        CyanmoonDialog.showToast(message: '已存在该关键词');
         return false;
       }
       return true;
     } catch (e) {
-      KazumiLogger().e('Danmaku: failed to save shield rule', error: e);
-      KazumiDialog.showToast(message: '屏蔽规则保存失败，请重试');
+      CyanmoonLogger().e('Danmaku: failed to save shield rule', error: e);
+      CyanmoonDialog.showToast(message: '屏蔽规则保存失败，请重试');
       return false;
     }
   }
@@ -164,9 +164,9 @@ abstract class _MyController with Store {
 
       return true;
     } catch (err) {
-      KazumiLogger().e('Update: check update failed', error: err);
+      CyanmoonLogger().e('Update: check update failed', error: err);
       if (type == 'manual') {
-        KazumiDialog.showToast(message: '检查更新失败，请稍后重试');
+        CyanmoonDialog.showToast(message: '检查更新失败，请稍后重试');
       }
       return false;
     }

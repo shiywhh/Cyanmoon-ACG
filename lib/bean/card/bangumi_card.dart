@@ -29,7 +29,7 @@ class BangumiCardV extends StatelessWidget {
         child: InkWell(
           onTap: () {
             if (!canTap) {
-              KazumiDialog.showToast(message: '编辑模式');
+              CyanmoonDialog.showToast(message: '编辑模式');
               return;
             }
             if (onTap != null) {

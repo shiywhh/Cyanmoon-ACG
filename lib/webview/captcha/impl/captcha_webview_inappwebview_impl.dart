@@ -37,7 +37,7 @@ class CaptchaWebviewInAppWebviewImpl
         onLoadStop: (controller, url) {
           logEventController.add('[Captcha WebView] Load stop: $url');
           if (buttonWasClicked && !captchaDisappearedController.isClosed) {
-            KazumiLogger().i(
+            CyanmoonLogger().i(
                 '[Captcha WebView] Button click → page navigated, verification done');
             buttonWasClicked = false;
             captchaDisappearedController.add(null);
@@ -76,7 +76,7 @@ class CaptchaWebviewInAppWebviewImpl
         if (status == 'absent' &&
             captchaWasFound &&
             !captchaDisappearedController.isClosed) {
-          KazumiLogger().i(
+          CyanmoonLogger().i(
               '[Captcha WebView] Captcha gone after navigation (StatusBridge)');
           captchaWasFound = false;
           captchaDisappearedController.add(null);
@@ -490,7 +490,7 @@ if (!_checkAndClick()) {
       final cookies = await cookieManager.getCookies(url: WebUri(pageUrl));
       return cookies.map((c) => '${c.name}=${c.value}').join('; ');
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] getCookieString error: $e');
+      CyanmoonLogger().e('[Captcha WebView] getCookieString error: $e');
       return '';
     }
   }
@@ -503,7 +503,7 @@ if (!_checkAndClick()) {
               "document.readyState === 'loading' ? '' : document.documentElement.outerHTML;");
       return result is String ? result : '';
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] getPageHtml error: $e');
+      CyanmoonLogger().d('[Captcha WebView] getPageHtml error: $e');
       return '';
     }
   }
@@ -515,7 +515,7 @@ if (!_checkAndClick()) {
           source: 'navigator.userAgent;');
       return result is String ? result : '';
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] getUserAgent error: $e');
+      CyanmoonLogger().d('[Captcha WebView] getUserAgent error: $e');
       return '';
     }
   }

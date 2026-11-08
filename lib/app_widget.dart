@@ -69,7 +69,7 @@ class _AppWidgetState extends State<AppWidget>
       );
       await FlutterDisplayMode.setPreferredMode(preferred);
     } catch (e) {
-      KazumiLogger().e('DisPlay: set preferred mode failed', error: e);
+      CyanmoonLogger().e('DisPlay: set preferred mode failed', error: e);
     }
   }
 
@@ -164,7 +164,7 @@ class _AppWidgetState extends State<AppWidget>
 
     _lastTitleBarBrightness = brightness;
     windowManager.setBrightness(brightness).catchError((e) {
-      KazumiLogger().w('Window: set title bar brightness failed', error: e);
+      CyanmoonLogger().w('Window: set title bar brightness failed', error: e);
     });
   }
 
@@ -200,7 +200,7 @@ class _AppWidgetState extends State<AppWidget>
         _ => null,
       };
       if (action == null) {
-        final result = await KazumiDialog.show<ExitDialogResult>(
+        final result = await CyanmoonDialog.show<ExitDialogResult>(
           builder: (_) => const ExitConfirmationDialog(),
         );
         if (result == null || !mounted) return;
@@ -233,14 +233,14 @@ class _AppWidgetState extends State<AppWidget>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      KazumiLogger()
+      CyanmoonLogger()
           .i("AppLifecycleState.paused: Application moved to background");
     } else if (state == AppLifecycleState.resumed) {
-      KazumiLogger()
+      CyanmoonLogger()
           .i("AppLifecycleState.resumed: Application moved to foreground");
       await MeteredNetworkService.refresh();
     } else if (state == AppLifecycleState.inactive) {
-      KazumiLogger().i("AppLifecycleState.inactive: Application is inactive");
+      CyanmoonLogger().i("AppLifecycleState.inactive: Application is inactive");
     }
   }
 
@@ -248,7 +248,7 @@ class _AppWidgetState extends State<AppWidget>
   Future<void> didChangePlatformBrightness() async {
     super.didChangePlatformBrightness();
     final ThemeProvider themeProvider = context.read<ThemeProvider>();
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         "Platform brightness changed, themeMode: ${themeProvider.themeMode}");
 
     _syncWindowsTitleBarBrightness(themeProvider);

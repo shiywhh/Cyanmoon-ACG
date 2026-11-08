@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cyanmoon_acg/bean/card/network_img_layer.dart';
 import 'package:cyanmoon_acg/bean/card/rule_card.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/bean/widget/loading_indicator.dart';
 import 'package:cyanmoon_acg/modules/download/download_module.dart';
 import 'package:cyanmoon_acg/utils/format.dart';
@@ -121,7 +121,7 @@ class DownloadRecordCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  KazumiMenuButton(
+                  CyanmoonMenuButton(
                     animated: false,
                     builder: (context, toggle) => IconButton(
                       icon: Icon(Icons.more_vert,
@@ -130,8 +130,8 @@ class DownloadRecordCard extends StatelessWidget {
                       onPressed: toggle,
                     ),
                     menuChildren: [
-                      KazumiMenuItem(label: '全部开始', onPressed: onResumeAll),
-                      KazumiMenuItem(
+                      CyanmoonMenuItem(label: '全部开始', onPressed: onResumeAll),
+                      CyanmoonMenuItem(
                         label: '全部删除',
                         destructive: true,
                         onPressed: onDeleteAll,

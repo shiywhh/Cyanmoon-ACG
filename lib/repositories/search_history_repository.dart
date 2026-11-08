@@ -51,7 +51,7 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
       histories.sort((a, b) => b.timestamp - a.timestamp);
       return histories;
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: get all search histories failed',
         error: e,
         stackTrace: stackTrace,
@@ -68,7 +68,7 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
       await _searchHistoryBox.put(timestamp.toString(), history);
       return true;
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: save search history failed. keyword=$keyword',
         error: e,
         stackTrace: stackTrace,
@@ -82,7 +82,7 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
     try {
       await _searchHistoryBox.delete(history.key);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: delete search history failed. key=${history.key}',
         error: e,
         stackTrace: stackTrace,
@@ -95,7 +95,7 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
     try {
       await _searchHistoryBox.clear();
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: clear all search histories failed',
         error: e,
         stackTrace: stackTrace,
@@ -112,7 +112,7 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
         await deleteHistory(history);
       }
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: delete duplicate search histories failed. keyword=$keyword',
         error: e,
         stackTrace: stackTrace,
@@ -125,7 +125,7 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
     try {
       return _searchHistoryBox.length >= maxCount;
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: check if search history is full failed',
         error: e,
         stackTrace: stackTrace,
@@ -142,7 +142,7 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
         await deleteHistory(histories.last);
       }
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: delete oldest search history failed',
         error: e,
         stackTrace: stackTrace,

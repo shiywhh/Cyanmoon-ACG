@@ -9,7 +9,7 @@ Future<void> mountApp(WidgetTester tester, {Widget? home}) async {
   await tester.pumpWidget(MaterialApp(
     navigatorKey: rootNavigatorKey,
     scaffoldMessengerKey: rootScaffoldMessengerKey,
-    navigatorObservers: [KazumiDialog.observer],
+    navigatorObservers: [CyanmoonDialog.observer],
     home: home ?? const Scaffold(body: Text('home')),
   ));
   await tester.pumpAndSettle();
@@ -22,7 +22,7 @@ void main() {
   testWidgets('loading returns its value and preserves a newer dialog',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     final response = Completer<int>();
     int? result;
@@ -35,8 +35,8 @@ void main() {
       );
     });
     await tester.pumpAndSettle();
-    final other = KazumiDialogHandle<void>();
-    unawaited(KazumiDialog.show<void>(
+    final other = CyanmoonDialogHandle<void>();
+    unawaited(CyanmoonDialog.show<void>(
       handle: other,
       builder: (_) => const AlertDialog(title: Text('other')),
     ));
@@ -57,7 +57,7 @@ void main() {
       'loading can complete before its first frame and continue to a choice',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     bool? choice;
     final run = dialogs.run((task) async {
@@ -68,7 +68,7 @@ void main() {
                 actions: [
                   TextButton(
                     onPressed: () =>
-                        KazumiDialog.dismiss(context: context, popWith: false),
+                        CyanmoonDialog.dismiss(context: context, popWith: false),
                     child: const Text('no'),
                   )
                 ],
@@ -81,13 +81,13 @@ void main() {
     await tester.pumpAndSettle();
     await run;
     expect(choice, isFalse);
-    expectSync(KazumiDialog.observer.hasKazumiDialog, isFalse);
+    expectSync(CyanmoonDialog.observer.hasKazumiDialog, isFalse);
   });
 
   testWidgets('dismissing a choice stops the remaining workflow',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     var continued = false;
     var cancellations = 0;
@@ -109,7 +109,7 @@ void main() {
         'back ends an uncooperative request and ignores late ${lateFailure ? 'failure' : 'success'}',
         (tester) async {
       await mountApp(tester);
-      final dialogs = KazumiDialogController();
+      final dialogs = CyanmoonDialogController();
       addTearDown(dialogs.dispose);
       final response = Completer<int>();
       var continued = false;
@@ -146,7 +146,7 @@ void main() {
   testWidgets('back wins when a response completes in the same turn',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     final response = Completer<int>();
     var continued = false;
@@ -166,7 +166,7 @@ void main() {
       'cancellation awaits resource cleanup before fallback or disposal',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     final response = Completer<int>();
     final cleanup = Completer<void>();
@@ -203,12 +203,12 @@ void main() {
   testWidgets('replacement ignores old cleanup and keeps the new workflow open',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     final response = Completer<int>();
     final cleanup = Completer<void>();
     var oldFallback = false;
-    late KazumiDialogTask oldTask;
+    late CyanmoonDialogTask oldTask;
     final first = dialogs.run((task) async {
       oldTask = task;
       await task.loading(
@@ -240,7 +240,7 @@ void main() {
   testWidgets('real failures reach the error handler after loading is closed',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     final response = Completer<int>();
     final failure = StateError('request failed');
@@ -255,7 +255,7 @@ void main() {
       fail('failed request continued');
     }, onError: (error, _) {
       reported = error;
-      expectSync(KazumiDialog.observer.hasKazumiDialog, isFalse);
+      expectSync(CyanmoonDialog.observer.hasKazumiDialog, isFalse);
     });
     await tester.pumpAndSettle();
     response.completeError(failure);
@@ -268,7 +268,7 @@ void main() {
   testWidgets('a synchronous request error uses the configured toast',
       (tester) async {
     await mountApp(tester);
-    final dialogs = KazumiDialogController();
+    final dialogs = CyanmoonDialogController();
     addTearDown(dialogs.dispose);
     final run = dialogs.run((task) async {
       await task.loading<int>(action: () => throw StateError('failed'));
@@ -276,7 +276,7 @@ void main() {
     await tester.pumpAndSettle();
     await run;
     expect(find.text('request failed'), findsOneWidget);
-    expectSync(KazumiDialog.observer.hasKazumiDialog, isFalse);
+    expectSync(CyanmoonDialog.observer.hasKazumiDialog, isFalse);
   });
 
   testWidgets('owner disposal closes its workflow and preserves another dialog',
@@ -301,8 +301,8 @@ void main() {
         ));
     await tester.tap(find.text('start'));
     await tester.pumpAndSettle();
-    final other = KazumiDialogHandle<void>();
-    unawaited(KazumiDialog.show<void>(
+    final other = CyanmoonDialogHandle<void>();
+    unawaited(CyanmoonDialog.show<void>(
       handle: other,
       builder: (_) => const AlertDialog(title: Text('other')),
     ));
@@ -359,7 +359,7 @@ class _Owner extends StatefulWidget {
   State<_Owner> createState() => _OwnerState();
 }
 
-class _OwnerState extends State<_Owner> with KazumiDialogOwner {
+class _OwnerState extends State<_Owner> with CyanmoonDialogOwner {
   @override
   Widget build(BuildContext context) => Scaffold(
           body: TextButton(

@@ -71,13 +71,13 @@ class SystemProxyService {
     try {
       newState = _readFromRegistry();
     } catch (e) {
-      KazumiLogger().w('Proxy: 读取系统代理配置失败 $e');
+      CyanmoonLogger().w('Proxy: 读取系统代理配置失败 $e');
       newState = const SystemProxyState();
     }
     if (newState.sameAs(_state)) return false;
     _state = newState;
     final proxy = newState.httpProxy ?? newState.httpsProxy;
-    KazumiLogger().i(proxy == null
+    CyanmoonLogger().i(proxy == null
         ? 'Proxy: 系统代理已移除，回到直连'
         : 'Proxy: 检测到系统代理 ${proxy.$1}:${proxy.$2}');
     return true;
@@ -271,7 +271,7 @@ class SystemProxyService {
       final phKey = arena<IntPtr>();
       if (RegOpenKeyEx(HKEY_CURRENT_USER, subKey, 0, KEY_NOTIFY, phKey) !=
           ERROR_SUCCESS) {
-        KazumiLogger().w('Proxy: 系统代理监视启动失败（注册表键打开失败）');
+        CyanmoonLogger().w('Proxy: 系统代理监视启动失败（注册表键打开失败）');
         return;
       }
       _hKey = phKey.value;
@@ -311,7 +311,7 @@ class SystemProxyService {
       TRUE,
     );
     if (status != ERROR_SUCCESS) {
-      KazumiLogger().w('Proxy: 系统代理变更通知注册失败 ($status)');
+      CyanmoonLogger().w('Proxy: 系统代理变更通知注册失败 ($status)');
       return false;
     }
     return true;
@@ -324,7 +324,7 @@ class SystemProxyService {
 
   static void _stopWatcher(String? reason) {
     if (reason != null) {
-      KazumiLogger().w('Proxy: 系统代理监视启动失败（$reason）');
+      CyanmoonLogger().w('Proxy: 系统代理监视启动失败（$reason）');
     }
     _waitCallback?.close();
     _waitCallback = null;

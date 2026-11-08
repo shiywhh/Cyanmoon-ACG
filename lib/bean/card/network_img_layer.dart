@@ -87,7 +87,7 @@ class NetworkImgLayer extends StatelessWidget {
         color: color,
         colorBlendMode: colorBlendMode,
         errorListener: (e) {
-          KazumiLogger().w("NetworkImage: network image load error", error: e);
+          CyanmoonLogger().w("NetworkImage: network image load error", error: e);
         },
         errorWidget: (context, url, error) => _placeholder(context),
         placeholder: (context, url) => _placeholder(context),

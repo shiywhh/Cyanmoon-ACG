@@ -284,7 +284,7 @@ class HistorySyncService {
       );
       final malformedLines = result['malformedLines']!;
       if (malformedLines > 0) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'HistorySync: dropped $malformedLines malformed line(s) '
           'from local event log upload',
         );
@@ -303,11 +303,11 @@ class HistorySyncService {
       final tempFile = File('${activeFile.path}.repair');
       await sanitizedFile.copy(tempFile.path);
       await tempFile.rename(activeFile.path);
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'HistorySync: rewrote local event log without malformed lines',
       );
     } catch (e, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'HistorySync: failed to repair local event log',
         error: e,
         stackTrace: stackTrace,
@@ -350,7 +350,7 @@ class HistorySyncService {
     final response = await Isolate.run(() => _mergeHistoryEventFiles(request));
     final skippedLines = Map<String, int>.from(response['skippedLines'] as Map);
     for (final entry in skippedLines.entries) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'HistorySync: skipped ${entry.value} malformed line(s) '
         'in local event log ${entry.key}',
       );
@@ -425,7 +425,7 @@ class HistorySyncService {
     try {
       await append();
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'HistorySync: failed to append local change',
         error: e,
         stackTrace: stackTrace,

@@ -80,7 +80,7 @@ class DisplayModeService {
     try {
       await operation();
     } catch (error, stackTrace) {
-      KazumiLogger().e('Display: failed to apply video display mode',
+      CyanmoonLogger().e('Display: failed to apply video display mode',
           error: error, stackTrace: stackTrace);
     }
   }

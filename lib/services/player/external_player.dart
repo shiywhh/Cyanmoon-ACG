@@ -19,7 +19,7 @@ class ExternalPlayer {
           'openWithMime', <String, String>{'url': url, 'mimeType': mimeType});
       return true;
     } on PlatformException catch (e) {
-      KazumiLogger().e("ExternalPlayer: failed to open with mime", error: e);
+      CyanmoonLogger().e("ExternalPlayer: failed to open with mime", error: e);
       return false;
     }
   }
@@ -30,7 +30,7 @@ class ExternalPlayer {
           'openWithReferer', <String, String>{'url': url, 'referer': referer});
       return true;
     } on PlatformException catch (e) {
-      KazumiLogger().e("ExternalPlayer: failed to open with referer", error: e);
+      CyanmoonLogger().e("ExternalPlayer: failed to open with referer", error: e);
       return false;
     }
   }
@@ -49,7 +49,7 @@ class ExternalPlayer {
         _ => LinuxExternalPlayerResult.failed,
       };
     } on PlatformException catch (e) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         "ExternalPlayer: failed to open Linux desktop player",
         error: e,
       );

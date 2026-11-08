@@ -49,7 +49,7 @@ class VideoWebviewLinuxImpl extends VideoWebviewController<Webview> {
     }
 
     final (host, port) = parsed;
-    KazumiLogger().i('WebView: 代理设置成功 $host:$port');
+    CyanmoonLogger().i('WebView: 代理设置成功 $host:$port');
     return ProxyConfiguration(host: host, port: port);
   }
 

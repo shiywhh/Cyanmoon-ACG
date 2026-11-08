@@ -12,7 +12,7 @@ class PluginCatalogApi {
     final raw = await _client.getText('${ApiEndpoints.pluginShop}index.json');
     final result = parsePluginList(raw);
     if (result.skippedItems > 0) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'Plugin: skipped ${result.skippedItems} invalid rule catalog item(s)',
       );
     }

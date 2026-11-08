@@ -72,13 +72,13 @@ class DownloadRepository implements IDownloadRepository {
           }
         } catch (e) {
           // 单条记录读取失败，跳过该记录并记录日志
-          KazumiLogger().w(
+          CyanmoonLogger().w(
               'DownloadRepository: failed to read record key=$key, skipping',
               error: e);
         }
       }
     } catch (e) {
-      KazumiLogger().w('DownloadRepository: get all records failed', error: e);
+      CyanmoonLogger().w('DownloadRepository: get all records failed', error: e);
     }
     return result;
   }
@@ -98,7 +98,7 @@ class DownloadRepository implements IDownloadRepository {
       }
       return record;
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .w('DownloadRepository: get record failed. key=$key', error: e);
       return null;
     }
@@ -110,7 +110,7 @@ class DownloadRepository implements IDownloadRepository {
       await _downloadsBox.put(record.key, record);
       await _downloadsBox.flush();
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'DownloadRepository: put record failed. key=${record.key}',
         error: e,
         stackTrace: stackTrace,
@@ -127,7 +127,7 @@ class DownloadRepository implements IDownloadRepository {
       _progressCache.remove(key);
       _lastPersistedStatus.removeWhere((k, v) => k.startsWith('${key}_'));
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'DownloadRepository: delete record failed. key=$key',
         error: e,
         stackTrace: stackTrace,
@@ -165,7 +165,7 @@ class DownloadRepository implements IDownloadRepository {
         _lastPersistedStatus[statusKey] = episode.status;
       }
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'DownloadRepository: update episode failed. key=$recordKey, ep=$episodeNumber',
         error: e,
         stackTrace: stackTrace,
@@ -208,7 +208,7 @@ class DownloadRepository implements IDownloadRepository {
       }
       await _downloadsBox.flush();
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'DownloadRepository: delete episode failed. key=$recordKey, ep=$episodeNumber',
         error: e,
         stackTrace: stackTrace,

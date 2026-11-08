@@ -84,7 +84,7 @@ abstract class _InfoController with Store {
       await collectController.updateLocalCollect(bangumiItem);
       return true;
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('InfoController: failed to fill interest user profile', error: e);
       return false;
     } finally {
@@ -184,7 +184,7 @@ abstract class _InfoController with Store {
       _commentsOffset = _commentsOffset + value.commentList.length;
       _removeCurrentUserFromPublicComments();
     }
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         'InfoController: loaded comments list length ${commentsList.length}, offset $_commentsOffset');
   }
 
@@ -217,9 +217,9 @@ abstract class _InfoController with Store {
         return valueA.compareTo(valueB);
       });
     } catch (e) {
-      KazumiDialog.showToast(message: '$e');
+      CyanmoonDialog.showToast(message: '$e');
     }
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         'InfoController: loaded character list length ${characterList.length}');
   }
 
@@ -228,7 +228,7 @@ abstract class _InfoController with Store {
     await BangumiApi.getBangumiStaffByID(id).then((value) {
       staffList.addAll(value.data);
     });
-    KazumiLogger()
+    CyanmoonLogger()
         .i('InfoController: loaded staff list length ${staffList.length}');
   }
 
@@ -262,7 +262,7 @@ abstract class _InfoController with Store {
       }
       relationList = ObservableList<BangumiRelation>.of(relations);
       relationsHasLoaded = true;
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'InfoController: loaded related anime list length ${relationList.length}',
       );
     } catch (_) {

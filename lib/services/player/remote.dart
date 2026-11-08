@@ -12,7 +12,7 @@ class RemotePlay {
     StreamSubscription<Map<String, DLNADevice>>? subscription;
     final loggedDevices = <String>{};
     List<Widget> dlnaDevice = [];
-    await KazumiDialog.show(builder: (BuildContext context) {
+    await CyanmoonDialog.show(builder: (BuildContext context) {
       return StatefulBuilder(builder: (context, setState) {
         return AlertDialog(
           title: const Text('远程投屏'),
@@ -25,7 +25,7 @@ class RemotePlay {
             const SizedBox(width: 20),
             TextButton(
               onPressed: () {
-                KazumiDialog.dismiss();
+                CyanmoonDialog.dismiss();
               },
               child: Text(
                 '退出',
@@ -34,7 +34,7 @@ class RemotePlay {
             ),
             TextButton(
                 onPressed: () {
-                  KazumiDialog.showToast(
+                  CyanmoonDialog.showToast(
                     message: '开始搜索',
                   );
                   // The device stream is single-subscription.
@@ -43,7 +43,7 @@ class RemotePlay {
                     deviceList.forEach((key, value) {
                       final castable = _supportsAVTransport(value);
                       if (loggedDevices.add(key)) {
-                        KazumiLogger().i(
+                        CyanmoonLogger().i(
                             'RemotePlay: found ${value.info.friendlyName} ${value.info.deviceType} ${value.info.URLBase}${castable ? '' : ', skipped without AVTransport'}');
                       }
                       if (!castable) {
@@ -56,16 +56,16 @@ class RemotePlay {
                           subtitle: Text(typeName),
                           onTap: () async {
                             try {
-                              KazumiDialog.showToast(
+                              CyanmoonDialog.showToast(
                                 message: '尝试投屏至 ${value.info.friendlyName}',
                               );
                               await value.setUrl(video, title: title);
                               await value.play();
                             } catch (e) {
-                              KazumiLogger().e(
+                              CyanmoonLogger().e(
                                   'RemotePlay: failed to cast to device',
                                   error: e);
-                              KazumiDialog.showToast(
+                              CyanmoonDialog.showToast(
                                 message: 'DLNA 异常: $e \n尝试重新进入 DLNA 投屏或切换设备',
                               );
                             }

@@ -37,7 +37,7 @@ class CaptchaWebviewLinuxImpl extends CaptchaWebviewController<Webview> {
     if (parsed == null) return null;
 
     final (host, port) = parsed;
-    KazumiLogger().i('[Captcha WebView] 代理设置成功 $host:$port');
+    CyanmoonLogger().i('[Captcha WebView] 代理设置成功 $host:$port');
     return ProxyConfiguration(host: host, port: port);
   }
 
@@ -128,7 +128,7 @@ class CaptchaWebviewLinuxImpl extends CaptchaWebviewController<Webview> {
 ''');
       return _decodeJsString(result) == 'present';
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] _isCaptchaPresent error: $e');
+      CyanmoonLogger().d('[Captcha WebView] _isCaptchaPresent error: $e');
       return false;
     }
   }
@@ -217,7 +217,7 @@ class CaptchaWebviewLinuxImpl extends CaptchaWebviewController<Webview> {
     try {
       await webviewController?.evaluateJavaScript(script);
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] inject script error: $e');
+      CyanmoonLogger().e('[Captcha WebView] inject script error: $e');
     }
   }
 
@@ -292,7 +292,7 @@ $script
       logEventController
           .add('[Captcha WebView] Custom script execute result: $result');
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] injectCustomScript error: $e');
+      CyanmoonLogger().e('[Captcha WebView] injectCustomScript error: $e');
       logEventController
           .add('[Captcha WebView] Custom script inject error: $e');
     }
@@ -353,7 +353,7 @@ $script
     try {
       await webviewController?.evaluateJavaScript(script);
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] injectButtonClickScript error: $e');
+      CyanmoonLogger().e('[Captcha WebView] injectButtonClickScript error: $e');
     }
   }
 
@@ -401,7 +401,7 @@ $script
     try {
       await webviewController?.evaluateJavaScript(script);
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] submitCaptchaInteract error: $e');
+      CyanmoonLogger().e('[Captcha WebView] submitCaptchaInteract error: $e');
     }
   }
 
@@ -427,7 +427,7 @@ $script
           .add('[Captcha WebView] Cookies: ${scoped.length} for $host');
       return cookieString;
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] getCookieString error: $e');
+      CyanmoonLogger().e('[Captcha WebView] getCookieString error: $e');
       return '';
     }
   }
@@ -444,7 +444,7 @@ $script
 ''');
       return _decodeJsString(result);
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] getPageHtml error: $e');
+      CyanmoonLogger().d('[Captcha WebView] getPageHtml error: $e');
       return '';
     }
   }
@@ -456,7 +456,7 @@ $script
           '(function() { return navigator.userAgent; })();');
       return _decodeJsString(result);
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] getUserAgent error: $e');
+      CyanmoonLogger().d('[Captcha WebView] getUserAgent error: $e');
       return '';
     }
   }

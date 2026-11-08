@@ -15,7 +15,7 @@ class PlatformEnvironmentService {
     try {
       return await _intentChannel.invokeMethod('isRunningOnX11');
     } on PlatformException catch (e) {
-      KazumiLogger().e("Failed to check X11 environment: '${e.message}'.");
+      CyanmoonLogger().e("Failed to check X11 environment: '${e.message}'.");
       return false;
     }
   }
@@ -27,7 +27,7 @@ class PlatformEnvironmentService {
     try {
       return await _intentChannel.invokeMethod('getAndroidSdkVersion');
     } on PlatformException catch (e) {
-      KazumiLogger().e("Failed to get Android SDK version: '${e.message}'.");
+      CyanmoonLogger().e("Failed to get Android SDK version: '${e.message}'.");
       return 0;
     }
   }

@@ -16,7 +16,7 @@ class ShaderAssetService {
 
     if (!await shadersDirectory.exists()) {
       await shadersDirectory.create(recursive: true);
-      KazumiLogger()
+      CyanmoonLogger()
           .i('ShaderManager: Create GLSL Shader: ${shadersDirectory.path}');
     }
 
@@ -29,7 +29,7 @@ class ShaderAssetService {
       final fileName = filePath.split('/').last;
       final targetFile = File(path.join(shadersDirectory.path, fileName));
       if (await targetFile.exists()) {
-        KazumiLogger()
+        CyanmoonLogger()
             .i('ShaderManager: GLSL Shader exists, skip: ${targetFile.path}');
         continue;
       }
@@ -39,13 +39,13 @@ class ShaderAssetService {
         final List<int> bytes = data.buffer.asUint8List();
         await targetFile.writeAsBytes(bytes);
         copiedFilesCount++;
-        KazumiLogger().i('ShaderManager: Copy: ${targetFile.path}');
+        CyanmoonLogger().i('ShaderManager: Copy: ${targetFile.path}');
       } catch (e) {
-        KazumiLogger().e('ShaderManager: Copy: ($filePath)', error: e);
+        CyanmoonLogger().e('ShaderManager: Copy: ($filePath)', error: e);
       }
     }
 
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         'ShaderManager: $copiedFilesCount GLSL files copied to ${shadersDirectory.path}');
   }
 }

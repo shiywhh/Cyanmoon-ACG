@@ -54,7 +54,7 @@ void _defaultPluginErrorReporter(
   Object error,
   StackTrace stackTrace,
 ) {
-  KazumiLogger().e(message, error: error, stackTrace: stackTrace);
+  CyanmoonLogger().e(message, error: error, stackTrace: stackTrace);
 }
 
 abstract class _PluginsController with Store {
@@ -100,14 +100,14 @@ abstract class _PluginsController with Store {
     final legacyDirectory = Directory('${supportDirectory.path}/plugins');
     final directory = Directory('${legacyDirectory.path}/v2');
     await directory.create(recursive: true);
-    KazumiLogger().i('Plugins Directory: ${directory.path}');
+    CyanmoonLogger().i('Plugins Directory: ${directory.path}');
     final pluginsFile = File('${directory.path}/$_pluginsFileName');
     _pluginsFile = pluginsFile;
     pluginList.clear();
     if (await pluginsFile.exists()) {
       final List<dynamic> json = jsonDecode(await pluginsFile.readAsString());
       pluginList.addAll([for (final item in json) Plugin.fromJson(item)]);
-      KazumiLogger().i('Plugin: Current Plugin number: ${pluginList.length}');
+      CyanmoonLogger().i('Plugin: Current Plugin number: ${pluginList.length}');
     } else {
       await _migrateLegacyPlugins(legacyDirectory);
     }
@@ -126,7 +126,7 @@ abstract class _PluginsController with Store {
       } catch (e) {
         // 解析失败保留原文件（改名为 .broken 防反复重试），不让单个坏文件
         // 吞掉整批迁移——删除先于落盘的老实现会永久丢失已删文件。
-        KazumiLogger().w(
+        CyanmoonLogger().w(
             'Plugins: failed to migrate legacy rule ${file.path}, keeping file',
             error: e);
         try {
@@ -262,7 +262,7 @@ abstract class _PluginsController with Store {
       await writer(jsonData);
     } else {
       await _pluginsFile!.writeAsString(jsonData);
-      KazumiLogger().i('Plugin: updated plugin file $_pluginsFileName');
+      CyanmoonLogger().i('Plugin: updated plugin file $_pluginsFileName');
     }
   }
 

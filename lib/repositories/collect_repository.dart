@@ -68,7 +68,7 @@ class CollectRepository implements ICollectRepository {
           .map<int>((item) => item.bangumiItem.id)
           .toSet();
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'GStorage: get bangumi IDs by type failed. type=${type.label}',
         error: e,
       );
@@ -85,7 +85,7 @@ class CollectRepository implements ICollectRepository {
           .map<int>((item) => item.bangumiItem.id)
           .toSet();
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'GStorage: get bangumi IDs by types failed. types=${types.map((t) => t.label).join(", ")}',
         error: e,
       );
@@ -104,7 +104,7 @@ class CollectRepository implements ICollectRepository {
           GStorage.getSetting(SettingsKeys.timelineNotShowAbandonedBangumis);
       return value;
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: get timeline not show abandoned bangumis setting failed, using default false',
         error: e,
         stackTrace: stackTrace,
@@ -119,7 +119,7 @@ class CollectRepository implements ICollectRepository {
       await GStorage.putSetting(
           SettingsKeys.timelineNotShowAbandonedBangumis, value);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: update timeline not show abandoned bangumis setting failed. value=$value',
         error: e,
         stackTrace: stackTrace,
@@ -134,7 +134,7 @@ class CollectRepository implements ICollectRepository {
           GStorage.getSetting(SettingsKeys.timelineNotShowWatchedBangumis);
       return value;
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: get timeline not show watched bangumis setting failed, using default false',
         error: e,
         stackTrace: stackTrace,
@@ -149,7 +149,7 @@ class CollectRepository implements ICollectRepository {
       await GStorage.putSetting(
           SettingsKeys.timelineNotShowWatchedBangumis, value);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: update timeline not show watched bangumis setting failed. value=$value',
         error: e,
         stackTrace: stackTrace,
@@ -164,7 +164,7 @@ class CollectRepository implements ICollectRepository {
           GStorage.getSetting(SettingsKeys.timelineOnlyShowWatchingBangumis);
       return value;
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: get timeline only show watching bangumis setting failed, using default false',
         error: e,
         stackTrace: stackTrace,
@@ -179,7 +179,7 @@ class CollectRepository implements ICollectRepository {
       await GStorage.putSetting(
           SettingsKeys.timelineOnlyShowWatchingBangumis, value);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: update timeline only show watching bangumis setting failed. value=$value',
         error: e,
         stackTrace: stackTrace,
@@ -195,7 +195,7 @@ class CollectRepository implements ICollectRepository {
       final value = GStorage.getSetting(SettingsKeys.privateMode);
       return value;
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: get private mode setting failed, using default false',
         error: e,
         stackTrace: stackTrace,

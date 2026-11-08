@@ -10,7 +10,7 @@ Future<void> mountApp(WidgetTester tester) async {
   await tester.pumpWidget(MaterialApp(
     navigatorKey: rootNavigatorKey,
     scaffoldMessengerKey: rootScaffoldMessengerKey,
-    navigatorObservers: [KazumiDialog.observer],
+    navigatorObservers: [CyanmoonDialog.observer],
     home: const Scaffold(body: Text('home')),
   ));
   await tester.pumpAndSettle();
@@ -28,22 +28,22 @@ void main() {
       (tester) async {
     late BuildContext pageContext;
     await tester.pumpWidget(MaterialApp(
-      navigatorObservers: [KazumiDialog.observer],
+      navigatorObservers: [CyanmoonDialog.observer],
       home: Builder(builder: (context) {
         pageContext = context;
         return const Scaffold(body: Text('home'));
       }),
     ));
     await tester.pumpAndSettle();
-    final result = KazumiDialog.show<bool>(
+    final result = CyanmoonDialog.show<bool>(
       builder: (_) => const AlertDialog(title: Text('operation')),
     );
     await tester.pumpAndSettle();
     expect(find.text('operation'), findsOneWidget);
-    KazumiDialog.dismiss(popWith: true);
+    CyanmoonDialog.dismiss(popWith: true);
     await tester.pumpAndSettle();
     expect(await result, isTrue);
-    KazumiDialog.showToast(context: pageContext, message: 'scoped result');
+    CyanmoonDialog.showToast(context: pageContext, message: 'scoped result');
     await tester.pumpAndSettle();
     expect(find.text('scoped result'), findsOneWidget);
   });
@@ -51,18 +51,18 @@ void main() {
   testWidgets('dismiss removes the tracked dialog beneath a newer page',
       (tester) async {
     await mountApp(tester);
-    final result = KazumiDialog.show<bool>(
+    final result = CyanmoonDialog.show<bool>(
       builder: (_) => const AlertDialog(title: Text('operation')),
     );
     await tester.pumpAndSettle();
     await pushPage(tester);
 
-    KazumiDialog.dismiss(popWith: true);
+    CyanmoonDialog.dismiss(popWith: true);
     await tester.pumpAndSettle();
 
     expect(await result, isTrue);
     expect(find.text('new page'), findsOneWidget);
-    expect(KazumiDialog.observer.hasKazumiDialog, isFalse);
+    expect(CyanmoonDialog.observer.hasKazumiDialog, isFalse);
     rootNavigatorKey.currentState!.pop();
     await tester.pumpAndSettle();
   });
@@ -70,14 +70,14 @@ void main() {
   testWidgets('handles preserve another dialog and return the correct type',
       (tester) async {
     await mountApp(tester);
-    final first = KazumiDialogHandle<bool>();
-    final firstResult = KazumiDialog.show<bool>(
+    final first = CyanmoonDialogHandle<bool>();
+    final firstResult = CyanmoonDialog.show<bool>(
       handle: first,
       builder: (_) => const AlertDialog(title: Text('first')),
     );
     await tester.pumpAndSettle();
-    final second = KazumiDialogHandle<int>();
-    final secondResult = KazumiDialog.show<int>(
+    final second = CyanmoonDialogHandle<int>();
+    final secondResult = CyanmoonDialog.show<int>(
       handle: second,
       builder: (_) => const AlertDialog(title: Text('second')),
     );
@@ -98,8 +98,8 @@ void main() {
   testWidgets('a dialog can finish before its builder is first called',
       (tester) async {
     await mountApp(tester);
-    final dialog = KazumiDialogHandle<int>();
-    final result = KazumiDialog.show<int>(
+    final dialog = CyanmoonDialogHandle<int>();
+    final result = CyanmoonDialog.show<int>(
       handle: dialog,
       builder: (_) => const AlertDialog(title: Text('fast operation')),
     );
@@ -115,18 +115,18 @@ void main() {
       (tester) async {
     await mountApp(tester);
     late BuildContext firstContext;
-    final first = KazumiDialog.show<bool>(builder: (context) {
+    final first = CyanmoonDialog.show<bool>(builder: (context) {
       firstContext = context;
       return const AlertDialog(title: Text('first'));
     });
     await tester.pumpAndSettle();
-    final second = KazumiDialogHandle<int>();
-    final secondResult = KazumiDialog.show<int>(
+    final second = CyanmoonDialogHandle<int>();
+    final secondResult = CyanmoonDialog.show<int>(
       handle: second,
       builder: (_) => const AlertDialog(title: Text('second')),
     );
     await tester.pumpAndSettle();
-    KazumiDialog.dismiss(context: firstContext, popWith: true);
+    CyanmoonDialog.dismiss(context: firstContext, popWith: true);
     await tester.pumpAndSettle();
     expect(await first, isTrue);
     expect(second.isActive, isTrue);
@@ -138,11 +138,11 @@ void main() {
   testWidgets('back invalidates a handle immediately and awaits cleanup once',
       (tester) async {
     await mountApp(tester);
-    final dialog = KazumiDialogHandle<void>();
+    final dialog = CyanmoonDialogHandle<void>();
     final cleanup = Completer<void>();
     var cleanupCalls = 0;
     var finished = false;
-    final result = KazumiDialog.show<void>(
+    final result = CyanmoonDialog.show<void>(
       handle: dialog,
       builder: (_) => const AlertDialog(title: Text('operation')),
       onDismiss: () async {
@@ -166,14 +166,14 @@ void main() {
   testWidgets('reusing an active handle does not orphan the first dialog',
       (tester) async {
     await mountApp(tester);
-    final dialog = KazumiDialogHandle<void>();
-    final result = KazumiDialog.show<void>(
+    final dialog = CyanmoonDialogHandle<void>();
+    final result = CyanmoonDialog.show<void>(
       handle: dialog,
       builder: (_) => const AlertDialog(title: Text('first')),
     );
     await tester.pumpAndSettle();
     await expectLater(
-      KazumiDialog.show<void>(handle: dialog, builder: (_) => const SizedBox()),
+      CyanmoonDialog.show<void>(handle: dialog, builder: (_) => const SizedBox()),
       throwsStateError,
     );
     expect(dialog.isActive, isTrue);
@@ -185,12 +185,12 @@ void main() {
   testWidgets('a toast posted after closing a dialog remains visible',
       (tester) async {
     await mountApp(tester);
-    final dialog = KazumiDialog.show<void>(
+    final dialog = CyanmoonDialog.show<void>(
       builder: (_) => const AlertDialog(title: Text('share rule')),
     );
     await tester.pumpAndSettle();
-    KazumiDialog.dismiss();
-    KazumiDialog.showToast(message: 'rule copied');
+    CyanmoonDialog.dismiss();
+    CyanmoonDialog.showToast(message: 'rule copied');
     await tester.pumpAndSettle();
     await dialog;
     expect(find.text('rule copied'), findsOneWidget);
@@ -199,7 +199,7 @@ void main() {
   testWidgets('page pop clears its old toast', (tester) async {
     await mountApp(tester);
     await pushPage(tester);
-    KazumiDialog.showToast(message: 'old page');
+    CyanmoonDialog.showToast(message: 'old page');
     await tester.pumpAndSettle();
     rootNavigatorKey.currentState!.pop();
     await tester.pumpAndSettle();
@@ -210,10 +210,10 @@ void main() {
       (tester) async {
     await mountApp(tester);
     await pushPage(tester);
-    KazumiDialog.showToast(message: 'old page');
+    CyanmoonDialog.showToast(message: 'old page');
     await tester.pumpAndSettle();
     rootNavigatorKey.currentState!.pop();
-    KazumiDialog.showToast(message: 'new result');
+    CyanmoonDialog.showToast(message: 'new result');
     await tester.pumpAndSettle();
     expect(find.text('new result'), findsOneWidget);
   });
@@ -221,11 +221,11 @@ void main() {
   testWidgets('an action can replace its toast with progress feedback',
       (tester) async {
     await mountApp(tester);
-    KazumiDialog.showToast(
+    CyanmoonDialog.showToast(
       message: 'updates available',
       showActionButton: true,
       actionLabel: 'update all',
-      onActionPressed: () => KazumiDialog.showToast(message: 'updating'),
+      onActionPressed: () => CyanmoonDialog.showToast(message: 'updating'),
     );
     await tester.pumpAndSettle();
     await tester.tap(find.text('update all'));
@@ -242,8 +242,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('定时关闭'), findsOneWidget);
 
-    final second = KazumiDialogHandle<int>();
-    final result = KazumiDialog.show<int>(
+    final second = CyanmoonDialogHandle<int>();
+    final result = CyanmoonDialog.show<int>(
       handle: second,
       builder: (_) => const AlertDialog(title: Text('unrelated')),
     );

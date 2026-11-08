@@ -26,7 +26,7 @@ class EpisodeCommentsSheet extends StatefulWidget {
 }
 
 class _EpisodeCommentsSheetState extends State<EpisodeCommentsSheet>
-    with KazumiDialogOwner {
+    with CyanmoonDialogOwner {
   VideoPageController get _controller => widget.videoPageController;
   late int _selectedEpisode;
   bool _isLoading = false;
@@ -116,7 +116,7 @@ class _EpisodeCommentsSheetState extends State<EpisodeCommentsSheet>
             BangumiApi.getBangumiEpisodesByID(controller.bangumiItem.id),
       );
       if (episodes.isEmpty) {
-        KazumiDialog.showToast(message: '未找到分集列表');
+        CyanmoonDialog.showToast(message: '未找到分集列表');
         return;
       }
       for (var index = 0; index < episodes.length; index++) {

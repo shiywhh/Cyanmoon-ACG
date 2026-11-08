@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cyanmoon_acg/bean/widget/collect_button.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 
 /// A one-shot lease that keeps the player panel visible until released.
@@ -130,7 +130,7 @@ class PlayerPanelHoldMenuAnchor extends StatefulWidget {
 
   final PlayerPanelHold Function() acquirePlayerPanelHold;
   final ValueChanged<bool> onVisibilityChanged;
-  final KazumiMenuBuilder builder;
+  final CyanmoonMenuBuilder builder;
   final List<Widget> menuChildren;
 
   @override
@@ -168,7 +168,7 @@ class _PlayerPanelHoldMenuAnchorState extends State<PlayerPanelHoldMenuAnchor> {
 
   @override
   Widget build(BuildContext context) {
-    return KazumiMenuButton(
+    return CyanmoonMenuButton(
       animated: false,
       onOpen: _handleOpen,
       onClose: _handleClose,

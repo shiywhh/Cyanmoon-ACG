@@ -229,7 +229,7 @@ class _DownloadEpisodeSheetState extends State<DownloadEpisodeSheet> {
       );
     }
 
-    KazumiDialog.showToast(
+    CyanmoonDialog.showToast(
       message: '已添加 ${sortedEpisodes.length} 集到下载队列，可在下载管理中查看',
     );
   }

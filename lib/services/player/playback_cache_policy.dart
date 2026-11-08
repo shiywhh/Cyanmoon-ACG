@@ -66,7 +66,7 @@ class PlaybackCachePolicy {
         await pp.setProperty('demuxer-max-back-bytes', size);
       });
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'PlaybackCachePolicy: failed to apply demuxer cache size',
         error: e,
       );

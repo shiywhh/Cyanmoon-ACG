@@ -97,7 +97,7 @@ class _InfoPageState extends State<InfoPage>
         });
       }
     } catch (e) {
-      KazumiLogger().e('InfoPage: failed to load characters', error: e);
+      CyanmoonLogger().e('InfoPage: failed to load characters', error: e);
       if (mounted) {
         setState(() {
           charactersIsLoading = false;
@@ -126,7 +126,7 @@ class _InfoPageState extends State<InfoPage>
         });
       }
     } catch (e) {
-      KazumiLogger().e('InfoPage: failed to load staff', error: e);
+      CyanmoonLogger().e('InfoPage: failed to load staff', error: e);
       if (mounted) {
         setState(() {
           staffIsLoading = false;
@@ -141,7 +141,7 @@ class _InfoPageState extends State<InfoPage>
       await infoController
           .queryBangumiRelationsByID(infoController.bangumiItem.id);
     } catch (e) {
-      KazumiLogger().e('InfoPage: failed to load relations', error: e);
+      CyanmoonLogger().e('InfoPage: failed to load relations', error: e);
     }
   }
 
@@ -162,7 +162,7 @@ class _InfoPageState extends State<InfoPage>
         });
       }
     } catch (e) {
-      KazumiLogger().e('InfoPage: failed to load comments', error: e);
+      CyanmoonLogger().e('InfoPage: failed to load comments', error: e);
       if (mounted) {
         setState(() {
           commentsIsLoading = false;
@@ -176,18 +176,18 @@ class _InfoPageState extends State<InfoPage>
     final token =
         GStorage.getSetting(SettingsKeys.bangumiAccessToken).toString().trim();
     if (token.isEmpty) {
-      KazumiDialog.showToast(message: '请先在同步设置中绑定 Bangumi');
+      CyanmoonDialog.showToast(message: '请先在同步设置中绑定 Bangumi');
       return;
     }
     final localType = infoController.collectController
         .getCollectType(infoController.bangumiItem);
     if (localType == 0) {
-      KazumiDialog.showToast(message: '请先追番');
+      CyanmoonDialog.showToast(message: '请先追番');
       return;
     }
     final editing =
         infoController.bangumiItem.interest?.hasReviewContent ?? false;
-    final submitted = await KazumiDialog.show<bool>(
+    final submitted = await CyanmoonDialog.show<bool>(
       context: context,
       builder: (context) => RatingReviewDialog(
         bangumiItem: infoController.bangumiItem,
@@ -197,7 +197,7 @@ class _InfoPageState extends State<InfoPage>
     );
     if (submitted == true && mounted) {
       setState(() {});
-      KazumiDialog.showToast(
+      CyanmoonDialog.showToast(
         context: context,
         message: editing ? '吐槽已更新' : '吐槽已发表',
       );
@@ -286,7 +286,7 @@ class _InfoPageState extends State<InfoPage>
         type: 'attach',
       );
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('InfoPage: failed to query bangumi info by ID', error: e);
     } finally {
       if (mounted) {
@@ -303,7 +303,7 @@ class _InfoPageState extends State<InfoPage>
   void _startWatching() {
     if (widget.pluginsController.pluginList.isEmpty) {
       // 规则编辑器已随原版页面移除：仅提示，不再提供指向死路由的入口。
-      KazumiDialog.showToast(
+      CyanmoonDialog.showToast(
         message: '还没有可用规则，请先订阅规则仓库',
         duration: const Duration(seconds: 4),
       );

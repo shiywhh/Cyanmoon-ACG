@@ -11,7 +11,7 @@ import 'package:cyanmoon_acg/utils/async_session.dart';
 import 'package:cyanmoon_acg/utils/device.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'kazumi_deep_link.dart';
+import 'cyanmoon_deep_link.dart';
 
 class AppDeepLinks {
   static final AppDeepLinks _instance = AppDeepLinks._internal();
@@ -20,7 +20,7 @@ class AppDeepLinks {
 
   StreamSubscription<Uri>? _subscription;
   final _sessions = AsyncSessionOwner();
-  final _dialogs = KazumiDialogController();
+  final _dialogs = CyanmoonDialogController();
   final _ready = Completer<void>();
 
   void start() {
@@ -28,7 +28,7 @@ class AppDeepLinks {
     _subscription = AppLinks().uriLinkStream.listen(
       _receive,
       onError: (Object error) {
-        KazumiLogger().w('Deep link: failed to receive', error: error);
+        CyanmoonLogger().w('Deep link: failed to receive', error: error);
       },
     );
   }
@@ -38,18 +38,18 @@ class AppDeepLinks {
   }
 
   void _receive(Uri uri) {
-    final link = KazumiDeepLink.parse(uri);
+    final link = CyanmoonDeepLink.parse(uri);
     if (link == null) return;
     final session = _sessions.begin();
     _dialogs.cancel();
     unawaited(_open(link, session).catchError((Object error) {
       if (session.isStale) return;
-      KazumiLogger().w('Deep link: failed to open', error: error);
-      KazumiDialog.showToast(message: '无法打开链接');
+      CyanmoonLogger().w('Deep link: failed to open', error: error);
+      CyanmoonDialog.showToast(message: '无法打开链接');
     }));
   }
 
-  Future<void> _open(KazumiDeepLink link, AsyncSession session) async {
+  Future<void> _open(CyanmoonDeepLink link, AsyncSession session) async {
     await _ready.future;
     if (session.isStale) return;
     // Windows: raised by the forwarding instance (main.cpp). Mobile: the OS.
@@ -67,7 +67,7 @@ class AppDeepLinks {
             action: () => BangumiApi.getBangumiInfoByID(id),
           );
           if (item == null) {
-            KazumiDialog.showToast(message: '无法获取番剧详情');
+            CyanmoonDialog.showToast(message: '无法获取番剧详情');
             return;
           }
           _push(session, '/info/', arguments: item);
@@ -82,7 +82,7 @@ class AppDeepLinks {
     final navigator = rootNavigatorKey.currentState;
     if (session.isStale || navigator == null || !navigator.mounted) return;
     if (!popForExternalNavigation(navigator)) {
-      KazumiDialog.showToast(message: '当前操作进行中，未打开链接');
+      CyanmoonDialog.showToast(message: '当前操作进行中，未打开链接');
       return;
     }
     unawaited(navigator.context.pushNamed(path, arguments: arguments));

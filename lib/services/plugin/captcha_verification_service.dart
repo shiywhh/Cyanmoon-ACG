@@ -98,10 +98,10 @@ class CaptchaVerificationService {
     if (_disposed) return;
 
     _logSub?.cancel();
-    _logSub = _controller!.onLog.listen((msg) => KazumiLogger().d(msg));
+    _logSub = _controller!.onLog.listen((msg) => CyanmoonLogger().d(msg));
 
     _isInitialized = true;
-    KazumiLogger().i('[CaptchaVerificationService] WebView initialized');
+    CyanmoonLogger().i('[CaptchaVerificationService] WebView initialized');
   }
 
   /// 加载指定页面并开始监听验证码图片
@@ -117,7 +117,7 @@ class CaptchaVerificationService {
 
     _imageFoundSub?.cancel();
     _imageFoundSub = _controller!.onCaptchaImageFound.listen((src) {
-      KazumiLogger()
+      CyanmoonLogger()
           .i('[CaptchaVerificationService] Captcha image found: $src');
       if (!_captchaImageStreamController.isClosed) {
         _captchaImageStreamController.add(src);
@@ -125,7 +125,7 @@ class CaptchaVerificationService {
     });
 
     await _controller!.loadPage(url, captchaXpath, inputXpath: inputXpath);
-    KazumiLogger().i('[CaptchaVerificationService] Page loading: $url');
+    CyanmoonLogger().i('[CaptchaVerificationService] Page loading: $url');
   }
 
   /// 在页面中填写 [captchaCode] 并点击 [buttonXpath] 提交
@@ -140,12 +140,12 @@ class CaptchaVerificationService {
     void Function()? onFinalizing,
   }) async {
     if (_controller == null) {
-      KazumiLogger()
+      CyanmoonLogger()
           .w('[CaptchaVerificationService] submitCaptcha called before init');
       return;
     }
 
-    KazumiLogger()
+    CyanmoonLogger()
         .i('[CaptchaVerificationService] Submitting captcha code via interact');
 
     _listenForVerification(pluginName, onVerified, onFinalizing: onFinalizing);
@@ -166,7 +166,7 @@ class CaptchaVerificationService {
 
     _listenForVerification(pluginName, onVerified, logPrefix: '(type2) ');
     await _controller!.loadPageForButtonClick(url, buttonXpath);
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         '[CaptchaVerificationService] (type2) Page loading for button click: $url');
   }
 
@@ -183,7 +183,7 @@ class CaptchaVerificationService {
 
     _listenForVerification(pluginName, onVerified, logPrefix: '(type3) ');
     await _controller!.loadPageForCustomScript(url, script);
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         '[CaptchaVerificationService] (type3) Page loading for custom script: $url');
   }
 
@@ -226,23 +226,23 @@ class CaptchaVerificationService {
       // 先收割：等待结果页稳定的同时，也让 JS 写入的 Cookie 落地后再读取。
       if (harvestHtml) {
         pageHtml = await _waitForPageHtml(controller);
-        KazumiLogger().i(
+        CyanmoonLogger().i(
             '[CaptchaVerificationService] ${logPrefix}Harvested page html length: ${pageHtml.length}');
       }
       final cookieString = await controller.getCookieString(_pageUrl);
       final userAgent = await controller.getUserAgent();
-      KazumiLogger().i(
+      CyanmoonLogger().i(
           '[CaptchaVerificationService] ${logPrefix}Captured cookies: $cookieString');
       if (cookieString.isNotEmpty) {
         await PluginCookieManager.instance.saveFromWebView(
             pluginName, _pageUrl, cookieString,
             userAgent: userAgent);
-        KazumiLogger().i(
+        CyanmoonLogger().i(
             '[CaptchaVerificationService] ${logPrefix}Cookies saved for plugin: $pluginName');
       }
       await controller.unloadPage();
     } catch (error, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         '[CaptchaVerificationService] ${logPrefix}Finalize failed',
         error: error,
         stackTrace: stackTrace,
@@ -278,6 +278,6 @@ class CaptchaVerificationService {
     _controller?.dispose();
     _controller = null;
     _isInitialized = false;
-    KazumiLogger().i('[CaptchaVerificationService] Disposed');
+    CyanmoonLogger().i('[CaptchaVerificationService] Disposed');
   }
 }

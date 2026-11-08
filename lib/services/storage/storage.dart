@@ -231,14 +231,14 @@ class GStorage {
       }
     }
     final e = lastError!;
-    KazumiLogger().e(
+    CyanmoonLogger().e(
       'GStorage: Box "$boxName" failed to open',
       error: e,
     );
     if (e is! HiveError) {
       throw e;
     }
-    KazumiLogger().w(
+    CyanmoonLogger().w(
       'GStorage: Box "$boxName" corrupted, attempting recovery',
     );
 
@@ -248,12 +248,12 @@ class GStorage {
     // Try to open again (will create a new empty box)
     try {
       final box = await Hive.openBox<T>(boxName);
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'GStorage: Box "$boxName" recovered successfully (data lost)',
       );
       return box;
     } catch (e2) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: Failed to recover box "$boxName"',
         error: e2,
       );
@@ -271,14 +271,14 @@ class GStorage {
     try {
       if (await boxFile.exists()) {
         await boxFile.delete();
-        KazumiLogger().i('GStorage: Deleted corrupted box file: $boxName.hive');
+        CyanmoonLogger().i('GStorage: Deleted corrupted box file: $boxName.hive');
       }
       if (await lockFile.exists()) {
         await lockFile.delete();
-        KazumiLogger().i('GStorage: Deleted lock file: $boxName.lock');
+        CyanmoonLogger().i('GStorage: Deleted lock file: $boxName.lock');
       }
     } catch (e) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: Failed to delete box files for "$boxName"',
         error: e,
       );
@@ -290,9 +290,9 @@ class GStorage {
     final hiveBoxFile = File('${appDocumentDir.path}/hive/$boxName.hive');
     if (await hiveBoxFile.exists()) {
       await hiveBoxFile.copy(backupFilePath);
-      KazumiLogger().i('GStorage: backup success: $backupFilePath');
+      CyanmoonLogger().i('GStorage: backup success: $backupFilePath');
     } else {
-      KazumiLogger().w('GStorage: Hive box does not exist: $boxName');
+      CyanmoonLogger().w('GStorage: Hive box does not exist: $boxName');
     }
   }
 
@@ -329,7 +329,7 @@ class GStorage {
       bytes: backupContent,
     );
     final tempBoxItems = tempBox.toMap().entries;
-    KazumiLogger().i(
+    CyanmoonLogger().i(
       'WebDav: restoring collectibles. tempCollectiblesBox length ${tempBoxItems.length}',
     );
 
@@ -350,7 +350,7 @@ class GStorage {
       bytes: backupContent,
     );
     final tempBoxItems = tempBox.toMap().entries;
-    KazumiLogger().i(
+    CyanmoonLogger().i(
       'WebDav: get collectibles from file. tempCollectiblesBox length ${tempBoxItems.length}',
     );
 
@@ -372,7 +372,7 @@ class GStorage {
       bytes: backupContent,
     );
     final tempBoxItems = tempBox.toMap().entries;
-    KazumiLogger().i(
+    CyanmoonLogger().i(
       'WebDav: get collectChanges from file. tempCollectChangesBox length ${tempBoxItems.length}',
     );
 

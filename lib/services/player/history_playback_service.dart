@@ -89,7 +89,7 @@ class HistoryPlaybackService {
         roads: roads,
       );
     } catch (_) {
-      KazumiLogger().w("QueryManager: failed to query roads");
+      CyanmoonLogger().w("QueryManager: failed to query roads");
       return null;
     }
   }

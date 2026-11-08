@@ -24,7 +24,7 @@ class BangumiAvatar extends StatelessWidget {
       placeholder: (context, url) => _fallback(),
       errorWidget: (context, url, error) => _fallback(),
       errorListener: (error) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'BangumiAvatar: image load failed',
           error: error,
         );

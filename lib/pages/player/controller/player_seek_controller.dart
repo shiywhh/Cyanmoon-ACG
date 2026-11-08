@@ -73,7 +73,7 @@ class PlayerSeekController {
         await _onSeekCompleted(enableSync);
       } catch (e) {
         // Callers often drop this future; it must not complete with an error.
-        KazumiLogger()
+        CyanmoonLogger()
             .w('PlayerSeekController: seek completion failed', error: e);
       }
     });

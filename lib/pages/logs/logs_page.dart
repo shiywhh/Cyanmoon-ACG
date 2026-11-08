@@ -165,7 +165,7 @@ class _LogsPageState extends State<LogsPage> {
       });
     } catch (e) {
       if (!mounted) return;
-      KazumiDialog.showToast(message: '清空失败: $e');
+      CyanmoonDialog.showToast(message: '清空失败: $e');
     }
   }
 
@@ -173,10 +173,10 @@ class _LogsPageState extends State<LogsPage> {
     try {
       await Clipboard.setData(ClipboardData(text: _fullContent));
       if (!mounted) return;
-      KazumiDialog.showToast(message: '已复制到剪贴板');
+      CyanmoonDialog.showToast(message: '已复制到剪贴板');
     } catch (e) {
       if (!mounted) return;
-      KazumiDialog.showToast(message: '复制失败: $e');
+      CyanmoonDialog.showToast(message: '复制失败: $e');
     }
   }
 

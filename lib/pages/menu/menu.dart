@@ -88,7 +88,7 @@ class _ScaffoldMenu extends State<ScaffoldMenu> with RouteAware {
     if (lastPromptAt == null ||
         now.difference(lastPromptAt) > const Duration(seconds: 2)) {
       _lastExitPromptAt = now;
-      KazumiDialog.showToast(message: '再按一次退出应用', context: context);
+      CyanmoonDialog.showToast(message: '再按一次退出应用', context: context);
       return;
     }
 

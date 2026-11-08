@@ -349,7 +349,7 @@ class _SourceSheetViewState extends State<_SourceSheetView> {
 
   Widget _buildSourceMenu(_SourceSearchGroup group) => TooltipVisibility(
         visible: false,
-        child: KazumiMenuButton(
+        child: CyanmoonMenuButton(
           animated: true,
           builder: (context, toggle) => IconButton(
             tooltip: '${group.name} 的更多操作',
@@ -357,19 +357,19 @@ class _SourceSheetViewState extends State<_SourceSheetView> {
             onPressed: toggle,
           ),
           menuChildren: [
-            KazumiMenuItem(
+            CyanmoonMenuItem(
               label: '修改此来源的检索词',
               onPressed: () => widget.onSourceSearch(group.name),
             ),
-            KazumiMenuItem(
+            CyanmoonMenuItem(
               label: '使用别名检索此来源',
               onPressed: () => widget.onSourceAliasSearch(group.name),
             ),
-            KazumiMenuItem(
+            CyanmoonMenuItem(
               label: '重新检索此来源',
               onPressed: () => widget.onRetry(group.name),
             ),
-            KazumiMenuItem(
+            CyanmoonMenuItem(
               label: '在浏览器中打开',
               onPressed: () => widget.onOpenBrowser(group.name),
             ),

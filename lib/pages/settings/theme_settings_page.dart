@@ -152,7 +152,7 @@ class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
                 leading: Icons.palette_rounded,
                 enabled: !useDynamicColor,
                 onPressed: (_) async {
-                  KazumiDialog.show(
+                  CyanmoonDialog.show(
                     builder: (context) {
                       return AlertDialog(
                         title: Text('配色方案'),
@@ -173,7 +173,7 @@ class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
                                           index == 0
                                               ? resetTheme()
                                               : setTheme(e['color']);
-                                          KazumiDialog.dismiss();
+                                          CyanmoonDialog.dismiss();
                                         },
                                         child: Column(
                                           children: [

@@ -174,7 +174,7 @@ class DownloadManager implements IDownloadManager {
     } on MissingPluginException {
       return -1;
     } catch (e) {
-      KazumiLogger().w('DownloadManager: failed to get storage info', error: e);
+      CyanmoonLogger().w('DownloadManager: failed to get storage info', error: e);
       return -1;
     }
   }
@@ -469,7 +469,7 @@ class DownloadManager implements IDownloadManager {
       try {
         m3u8Content = await _fetchM3u8(m3u8Url, httpHeaders, task.cancelToken);
       } on _NotM3u8Exception {
-        KazumiLogger().i(
+        CyanmoonLogger().i(
           'DownloadManager: URL is not M3U8, falling back to direct file download '
           'for episode ${task.episodeNumber}',
         );
@@ -568,7 +568,7 @@ class DownloadManager implements IDownloadManager {
       final previousSource =
           await sourceFile.exists() ? await sourceFile.readAsString() : null;
       if (previousSource != null && previousSource != sourceFingerprint) {
-        KazumiLogger().i(
+        CyanmoonLogger().i(
             'DownloadManager: episode ${task.episodeNumber} source changed, discarding old segments');
         await for (final entity in Directory(episodeDir).list()) {
           final name = path.basename(entity.path);
@@ -582,7 +582,7 @@ class DownloadManager implements IDownloadManager {
       try {
         await sourceFile.writeAsString(sourceFingerprint);
       } catch (e) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
             'DownloadManager: failed to write segment source fingerprint',
             error: e);
       }
@@ -650,7 +650,7 @@ class DownloadManager implements IDownloadManager {
               _speedTrackers[key]?.update(sessionBytes);
               _notifyProgress(task, episode);
             } catch (e) {
-              KazumiLogger().w('DownloadManager: progress notify failed',
+              CyanmoonLogger().w('DownloadManager: progress notify failed',
                   error: e);
             }
             if (completedCount + failedCount >= pendingIndices.length &&
@@ -709,7 +709,7 @@ class DownloadManager implements IDownloadManager {
           finalVideoBytes > 0 ? finalVideoBytes : existingBytes + sessionBytes;
       _notifyProgress(task, episode);
 
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'DownloadManager: episode ${task.episodeNumber} completed. '
         '${segments.length} segments, ${(episode.totalBytes / 1024 / 1024).toStringAsFixed(1)} MB',
       );
@@ -718,12 +718,12 @@ class DownloadManager implements IDownloadManager {
       episode.errorMessage =
           '存储空间不足 (可用: ${fmt.formatBytes(e.availableBytes)})';
       _notifyProgress(task, episode);
-      KazumiLogger().w('DownloadManager: insufficient storage space', error: e);
+      CyanmoonLogger().w('DownloadManager: insufficient storage space', error: e);
     } on FileSystemException catch (e) {
       episode.status = DownloadStatus.failed;
       episode.errorMessage = _getStorageErrorMessage(e);
       _notifyProgress(task, episode);
-      KazumiLogger().e('DownloadManager: file system error', error: e);
+      CyanmoonLogger().e('DownloadManager: file system error', error: e);
     } on NetworkException catch (e) {
       if (e.type == NetworkExceptionType.cancel) {
         if (task.isPaused) {
@@ -738,7 +738,7 @@ class DownloadManager implements IDownloadManager {
       episode.status = DownloadStatus.failed;
       episode.errorMessage = e.toString();
       _notifyProgress(task, episode);
-      KazumiLogger().e('DownloadManager: episode download failed', error: e);
+      CyanmoonLogger().e('DownloadManager: episode download failed', error: e);
     } finally {
       _onTaskComplete(task);
     }
@@ -786,7 +786,7 @@ class DownloadManager implements IDownloadManager {
         );
       } on NetworkException catch (e) {
         if (e.statusCode == 416 && useRange) {
-          KazumiLogger().w(
+          CyanmoonLogger().w(
             'DownloadManager: 416 Range Not Satisfiable, deleting tmp file and retrying',
           );
           await tmpFile.delete();
@@ -806,7 +806,7 @@ class DownloadManager implements IDownloadManager {
       // 服务器可能忽略 Range 头返回 200+全量内容：此时必须清零重下，
       // 否则 append 模式会产出「半截旧数据 + 全量文件」的损坏视频。
       if (useRange && (response.statusCode ?? 0) != 206) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'DownloadManager: server ignored Range header '
           '(status ${response.statusCode}), restarting from scratch',
         );
@@ -865,7 +865,7 @@ class DownloadManager implements IDownloadManager {
       episode.totalBytes = await File(filePath).length();
       _notifyProgress(task, episode);
 
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'DownloadManager: episode ${task.episodeNumber} completed (direct download). '
         '${(episode.totalBytes / 1024 / 1024).toStringAsFixed(1)} MB',
       );
@@ -874,12 +874,12 @@ class DownloadManager implements IDownloadManager {
       episode.errorMessage =
           '存储空间不足 (可用: ${fmt.formatBytes(e.availableBytes)})';
       _notifyProgress(task, episode);
-      KazumiLogger().w('DownloadManager: insufficient storage space', error: e);
+      CyanmoonLogger().w('DownloadManager: insufficient storage space', error: e);
     } on FileSystemException catch (e) {
       episode.status = DownloadStatus.failed;
       episode.errorMessage = _getStorageErrorMessage(e);
       _notifyProgress(task, episode);
-      KazumiLogger().e('DownloadManager: file system error', error: e);
+      CyanmoonLogger().e('DownloadManager: file system error', error: e);
     } on NetworkException catch (e) {
       if (e.type == NetworkExceptionType.cancel) {
         if (task.isPaused) {
@@ -894,7 +894,7 @@ class DownloadManager implements IDownloadManager {
       episode.status = DownloadStatus.failed;
       episode.errorMessage = e.toString();
       _notifyProgress(task, episode);
-      KazumiLogger()
+      CyanmoonLogger()
           .e('DownloadManager: direct file download failed', error: e);
     }
   }

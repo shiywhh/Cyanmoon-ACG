@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cyanmoon_acg/bean/settings/settings_list.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 
 class SettingsDropdownTile<T> extends StatefulWidget {
   const SettingsDropdownTile({
@@ -44,14 +44,14 @@ class _SettingsDropdownTileState<T> extends State<SettingsDropdownTile<T>> {
       enabled: enabled,
       onPressed: (_) =>
           _controller.isOpen ? _controller.close() : _controller.open(),
-      value: KazumiMenuButton(
+      value: CyanmoonMenuButton(
         controller: _controller,
         enabled: enabled,
         builder: (_, _) =>
             Text(widget.options[widget.value] ?? widget.fallbackLabel),
         menuChildren: [
           for (final entry in widget.options.entries)
-            KazumiMenuItem(
+            CyanmoonMenuItem(
               label: entry.value,
               selected: entry.key == widget.value,
               leadingIcon: widget.icons[entry.key] == null

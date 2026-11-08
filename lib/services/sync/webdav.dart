@@ -65,9 +65,9 @@ class WebDav {
       await _ensureRemoteDirectory(_syncRootPath);
       await _ensureLocalTempDirectory();
       initialized = true;
-      KazumiLogger().i('WebDav: webDav backup directory ready');
+      CyanmoonLogger().i('WebDav: webDav backup directory ready');
     } catch (e) {
-      KazumiLogger().e('WebDav: WebDAV ping failed', error: e);
+      CyanmoonLogger().e('WebDav: WebDAV ping failed', error: e);
       rethrow;
     }
   }
@@ -135,7 +135,7 @@ class WebDav {
         try {
           await runDirectory.delete(recursive: true);
         } catch (e) {
-          KazumiLogger()
+          CyanmoonLogger()
               .w('WebDav: failed to clean danmaku shield sync files', error: e);
         }
       }
@@ -166,7 +166,7 @@ class WebDav {
       try {
         await _runWebDavExclusive(_syncHistory);
       } catch (e) {
-        KazumiLogger().e('WebDav: history sync failed', error: e);
+        CyanmoonLogger().e('WebDav: history sync failed', error: e);
         rethrow;
       }
     });
@@ -181,7 +181,7 @@ class WebDav {
         }
       });
     } catch (e) {
-      KazumiLogger().e('WebDav: update collectibles failed', error: e);
+      CyanmoonLogger().e('WebDav: update collectibles failed', error: e);
       rethrow;
     }
   }
@@ -219,13 +219,13 @@ class WebDav {
     List<Future<void>> downloadFutures = [];
     if (collectiblesExists) {
       downloadFutures.add(_downloadBox('collectibles').catchError((e) {
-        KazumiLogger().e('WebDav: download collectibles failed', error: e);
+        CyanmoonLogger().e('WebDav: download collectibles failed', error: e);
         throw Exception('WebDav: download collectibles failed');
       }));
     }
     if (changesExists) {
       downloadFutures.add(_downloadBox('collectchanges').catchError((e) {
-        KazumiLogger().e('WebDav: download collectchanges failed', error: e);
+        CyanmoonLogger().e('WebDav: download collectchanges failed', error: e);
         throw Exception('WebDav: download collectchanges failed');
       }));
     }
@@ -242,7 +242,7 @@ class WebDav {
             '${webDavLocalTempDirectory.path}/collectchanges.tmp');
       }
     } catch (e) {
-      KazumiLogger().e('WebDav: get collectibles failed', error: e);
+      CyanmoonLogger().e('WebDav: get collectibles failed', error: e);
       throw Exception('WebDav: get collectibles from file failed');
     }
     if (remoteChanges.isNotEmpty || remoteCollectibles.isNotEmpty) {
@@ -337,7 +337,7 @@ class WebDav {
           await runDirectory.delete(recursive: true);
         }
       } catch (e) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'WebDav: failed to clean history sync temp directory',
           error: e,
         );
@@ -370,7 +370,7 @@ class WebDav {
         needsRepair: false,
       );
     } catch (e, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'WebDav: invalid history snapshot, rebuilding from event logs',
         error: e,
         stackTrace: stackTrace,
@@ -396,7 +396,7 @@ class WebDav {
       eventFiles: eventFiles.map((eventFile) => eventFile.localFile),
       onInvalidFile: (file, error, stackTrace) async {
         final remoteName = eventFilesByPath[file.path]!;
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'WebDav: invalid remote history event log $remoteName, skipping',
           error: error,
           stackTrace: stackTrace,
@@ -431,7 +431,7 @@ class WebDav {
         }
         await entity.delete(recursive: true);
       } catch (e) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'WebDav: failed to remove stale history sync directory $name',
           error: e,
         );
@@ -538,7 +538,7 @@ class WebDav {
     try {
       await client.remove(remotePath);
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'WebDav: failed to remove checkpointed device history log',
         error: e,
       );
@@ -607,7 +607,7 @@ class WebDav {
     try {
       await client.read2File('$_syncRootPath/$fileName', existingFile.path);
     } catch (e, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'WebDav: failed to download legacy history backup, skipping import',
         error: e,
         stackTrace: stackTrace,
@@ -617,10 +617,10 @@ class WebDav {
 
     try {
       await GStorage.patchHistory(existingFile.path);
-      KazumiLogger().i('WebDav: imported legacy history backup');
+      CyanmoonLogger().i('WebDav: imported legacy history backup');
       return true;
     } catch (e, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'WebDav: invalid legacy history backup, skipping import',
         error: e,
         stackTrace: stackTrace,
@@ -651,11 +651,11 @@ class WebDav {
         quarantinePath,
         false,
       );
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'WebDav: moved invalid $description to $quarantinePath',
       );
     } catch (e, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'WebDav: failed to quarantine invalid $description',
         error: e,
         stackTrace: stackTrace,
@@ -667,7 +667,7 @@ class WebDav {
     try {
       await client.ping();
     } catch (e) {
-      KazumiLogger().e('WebDav: WebDav ping failed', error: e);
+      CyanmoonLogger().e('WebDav: WebDav ping failed', error: e);
       rethrow;
     }
   }

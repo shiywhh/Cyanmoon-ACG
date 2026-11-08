@@ -118,7 +118,7 @@ class RuleEngine {
       );
     } catch (error) {
       if (_logFailures) {
-        KazumiLogger().i(
+        CyanmoonLogger().i(
           'Plugin: ${config.pluginName} harvested page not parseable, '
           'falling back to re-search ($error)',
         );
@@ -270,7 +270,7 @@ class RuleEngine {
   ) {
     if (!_logFailures || diagnostics.isEmpty) return;
     final preview = diagnostics.take(3).join('; ');
-    KazumiLogger().w(
+    CyanmoonLogger().w(
       'Plugin: ${config.pluginName} $phase skipped ${diagnostics.length} '
       'node(s): $preview',
     );
@@ -283,7 +283,7 @@ class RuleEngine {
     StackTrace stackTrace,
   ) {
     if (!_logFailures) return;
-    KazumiLogger().w(
+    CyanmoonLogger().w(
       'Plugin: ${config.pluginName} $phase failed',
       error: error,
       stackTrace: stackTrace,

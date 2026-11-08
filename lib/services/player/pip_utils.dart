@@ -27,7 +27,7 @@ class PipUtils {
           await pipChannel.invokeMethod('isPictureInPictureSupported');
       return supported ?? false;
     } on PlatformException catch (e) {
-      KazumiLogger().e("Failed to check Android PIP support: '${e.message}'.");
+      CyanmoonLogger().e("Failed to check Android PIP support: '${e.message}'.");
       return false;
     }
   }
@@ -47,7 +47,7 @@ class PipUtils {
       });
       return entered ?? false;
     } on PlatformException catch (e) {
-      KazumiLogger().e("Failed to enter Android PIP mode: '${e.message}'.");
+      CyanmoonLogger().e("Failed to enter Android PIP mode: '${e.message}'.");
       return false;
     }
   }
@@ -78,7 +78,7 @@ class PipUtils {
         },
       });
     } on PlatformException catch (e) {
-      KazumiLogger().e("Failed to update Android PIP actions: '${e.message}'.");
+      CyanmoonLogger().e("Failed to update Android PIP actions: '${e.message}'.");
     }
   }
 
@@ -92,7 +92,7 @@ class PipUtils {
         'enabled': enabled,
       });
     } on PlatformException catch (e) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
           "Failed to set Android auto-enter PIP enabled state: '${e.message}'.");
     }
   }
@@ -107,7 +107,7 @@ class PipUtils {
         'inPlayerPage': inPlayerPage,
       });
     } on PlatformException catch (e) {
-      KazumiLogger().e("Failed to set Android PIP page state: '${e.message}'.");
+      CyanmoonLogger().e("Failed to set Android PIP page state: '${e.message}'.");
     }
   }
 

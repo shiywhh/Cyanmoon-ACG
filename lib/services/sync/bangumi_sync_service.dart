@@ -75,7 +75,7 @@ class BangumiSyncService extends ChangeNotifier {
       _verifiedToken = null;
       _username = '';
       _lastError = describeError(e);
-      KazumiLogger().w('Bangumi: connection failed', error: e);
+      CyanmoonLogger().w('Bangumi: connection failed', error: e);
       rethrow;
     } finally {
       _isConnecting = false;
@@ -248,7 +248,7 @@ class BangumiSyncService extends ChangeNotifier {
         }
         onProgress?.call('Bangumi 状态同步完成', 1, 1);
       } catch (e) {
-        KazumiLogger().e('Bangumi sync failed', error: e);
+        CyanmoonLogger().e('Bangumi sync failed', error: e);
         rethrow;
       }
     });

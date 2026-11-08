@@ -105,7 +105,7 @@ class VideoWebviewAppleImpl
           ],
         ),
         onWebViewCreated: (controller) {
-          KazumiLogger().i('WebView: created');
+          CyanmoonLogger().i('WebView: created');
           webviewController = controller;
           initEventController.add(true);
         },
@@ -116,7 +116,7 @@ class VideoWebviewAppleImpl
           logEventController.add('loading completed: $url');
         },
         onReceivedError: (controller, request, error) {
-          KazumiLogger().e(
+          CyanmoonLogger().e(
               'WebView: error: ${error.toString()} - Request: ${request.url}');
         },
       ),

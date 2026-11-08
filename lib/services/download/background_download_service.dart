@@ -54,7 +54,7 @@ class BackgroundDownloadService {
     FlutterForegroundTask.initCommunicationPort();
 
     _isInitialized = true;
-    KazumiLogger().i('BackgroundDownloadService: initialized');
+    CyanmoonLogger().i('BackgroundDownloadService: initialized');
   }
 
   Future<bool> needsNotificationPermission() async {
@@ -85,18 +85,18 @@ class BackgroundDownloadService {
         if (userAgreed) {
           final granted = await requestNotificationPermission();
           if (!granted) {
-            KazumiLogger().w(
+            CyanmoonLogger().w(
                 'BackgroundDownloadService: notification permission denied by user');
           }
         } else {
-          KazumiLogger()
+          CyanmoonLogger()
               .i('BackgroundDownloadService: user declined permission dialog');
         }
       } else {
         // 没有设置回调，直接请求权限（兼容旧行为）
         final granted = await requestNotificationPermission();
         if (!granted) {
-          KazumiLogger()
+          CyanmoonLogger()
               .w('BackgroundDownloadService: notification permission denied');
         }
       }
@@ -115,14 +115,14 @@ class BackgroundDownloadService {
       _isRunning = result is ServiceRequestSuccess;
 
       if (_isRunning) {
-        KazumiLogger().i('BackgroundDownloadService: service started');
+        CyanmoonLogger().i('BackgroundDownloadService: service started');
       } else {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
             'BackgroundDownloadService: service start returned non-success: $result');
       }
       return _isRunning;
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('BackgroundDownloadService: failed to start service', error: e);
       return false;
     }
@@ -134,9 +134,9 @@ class BackgroundDownloadService {
     try {
       await FlutterForegroundTask.stopService();
       _isRunning = false;
-      KazumiLogger().i('BackgroundDownloadService: service stopped');
+      CyanmoonLogger().i('BackgroundDownloadService: service stopped');
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('BackgroundDownloadService: failed to stop service', error: e);
       // 停止失败也要复位标记：否则后续 stopService/updateNotification 会被
       // !_isRunning 短路，前台服务状态与真实状态永久脱节。

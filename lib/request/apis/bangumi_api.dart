@@ -51,7 +51,7 @@ class BangumiApi {
         bangumiCalendar.add(bangumiList);
       }
     } catch (e) {
-      KazumiLogger().e('Resolve calendar failed', error: e);
+      CyanmoonLogger().e('Resolve calendar failed', error: e);
       // 失败向上抛出：调用方进入错误态并可重试，而不是静默展示残缺时间表。
       rethrow;
     }
@@ -90,7 +90,7 @@ class BangumiApi {
         }
       }
     } catch (e) {
-      KazumiLogger().e('Resolve bangumi list failed', error: e);
+      CyanmoonLogger().e('Resolve bangumi list failed', error: e);
       // 页失败向上抛出：由调用方进入错误态并可重试，而不是静默丢掉该季度的这一页。
       rethrow;
     }
@@ -105,7 +105,7 @@ class BangumiApi {
         bangumiCalendar.add(bangumiDayList);
       }
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('Network: fetch bangumi item to calendar failed', error: e);
     }
     return bangumiCalendar;
@@ -144,7 +144,7 @@ class BangumiApi {
         bangumiCalendar.add(bangumiList);
       }
     } catch (e) {
-      KazumiLogger().e('Network: resolve bangumi mirror season calendar failed',
+      CyanmoonLogger().e('Network: resolve bangumi mirror season calendar failed',
           error: e);
     }
     return bangumiCalendar;
@@ -191,7 +191,7 @@ class BangumiApi {
         }
       }
     } catch (e) {
-      KazumiLogger().e('Network: resolve bangumi list failed', error: e);
+      CyanmoonLogger().e('Network: resolve bangumi list failed', error: e);
     }
     return bangumiList;
   }
@@ -216,7 +216,7 @@ class BangumiApi {
         }
       }
     } catch (e) {
-      KazumiLogger().e('Network: resolve bangumi trends list failed', error: e);
+      CyanmoonLogger().e('Network: resolve bangumi trends list failed', error: e);
     }
     return bangumiList;
   }
@@ -258,7 +258,7 @@ class BangumiApi {
         }
       }
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('Network: resolve bangumi mirror popular list failed', error: e);
     }
     return bangumiList;
@@ -348,7 +348,7 @@ class BangumiApi {
               bangumiList.add(bangumiItem);
             }
           } catch (e) {
-            KazumiLogger()
+            CyanmoonLogger()
                 .e('Network: resolve search results failed', error: e);
           }
         }
@@ -358,7 +358,7 @@ class BangumiApi {
         rawCount: jsonList.length,
       );
     } catch (e) {
-      KazumiLogger().e('Network: unknown search problem', error: e);
+      CyanmoonLogger().e('Network: unknown search problem', error: e);
       return null;
     }
   }
@@ -373,7 +373,7 @@ class BangumiApi {
       );
       return BangumiItem.fromJson(jsonData);
     } catch (e) {
-      KazumiLogger().e('Network: resolve bangumi item failed', error: e);
+      CyanmoonLogger().e('Network: resolve bangumi item failed', error: e);
       return null;
     }
   }
@@ -399,7 +399,7 @@ class BangumiApi {
           BangumiRelation.fromJson(Map<String, dynamic>.from(jsonItem)),
         );
       } catch (e, stackTrace) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'BangumiApi: skipped malformed relation item',
           error: e,
           stackTrace: stackTrace,
@@ -423,7 +423,7 @@ class BangumiApi {
       );
       episodeInfo = EpisodeInfo.fromJson(jsonData['data'][0]);
     } catch (e) {
-      KazumiLogger().e('Network: resolve bangumi episode failed', error: e);
+      CyanmoonLogger().e('Network: resolve bangumi episode failed', error: e);
     }
     return episodeInfo;
   }
@@ -455,7 +455,7 @@ class BangumiApi {
         offset += data.length;
       } while (total == null || offset < total);
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('Network: resolve bangumi episode list failed', error: e);
     }
     return episodeList;
@@ -522,7 +522,7 @@ class BangumiApi {
       );
       characterFullItem = CharacterFullItem.fromJson(jsonData);
     } catch (e) {
-      KazumiLogger().e('Network: resolve character info failed', error: e);
+      CyanmoonLogger().e('Network: resolve character info failed', error: e);
     }
     return characterFullItem;
   }
@@ -541,7 +541,7 @@ class BangumiApi {
         return User.fromJson(Map<String, dynamic>.from(jsonData));
       }
     } catch (e) {
-      KazumiLogger().e('Network: get current user failed', error: e);
+      CyanmoonLogger().e('Network: get current user failed', error: e);
       rethrow;
     }
     return null;
@@ -579,7 +579,7 @@ class BangumiApi {
           requiresAuth: true,
         );
         if (jsonData is! Map || jsonData['data'] is! List) {
-          KazumiLogger().e(
+          CyanmoonLogger().e(
             'BangumiApi: invalid collection response format at offset=$offset',
           );
           throw const FormatException(
@@ -598,7 +598,7 @@ class BangumiApi {
                 items.add(collection);
               }
             } catch (e) {
-              KazumiLogger().e(
+              CyanmoonLogger().e(
                 'BangumiApi: parse collection item failed: ${e.toString()}',
                 error: e,
               );
@@ -617,7 +617,7 @@ class BangumiApi {
           firstPageJson['data'] as List<dynamic>;
 
       if (rawTotal == null) {
-        KazumiLogger().e(
+        CyanmoonLogger().e(
           'BangumiApi: missing or invalid total in collection response',
         );
         throw const FormatException(
@@ -631,7 +631,7 @@ class BangumiApi {
       progressCurrent += firstPageList.length;
 
       if (total > 0 && firstPageReceivedCount == 0) {
-        KazumiLogger().e(
+        CyanmoonLogger().e(
           'BangumiApi: received empty data on first page while total > 0 (total=$total)',
         );
         throw const FormatException(
@@ -645,9 +645,9 @@ class BangumiApi {
       );
 
       if (total == 0 || firstPageReceivedCount >= total) {
-        KazumiLogger()
+        CyanmoonLogger()
             .d('get Bangumi collection count: ${bangumiCollection.length}');
-        KazumiLogger().d('get item failed count: $failedItemCount');
+        CyanmoonLogger().d('get item failed count: $failedItemCount');
         return bangumiCollection;
       }
 
@@ -700,12 +700,12 @@ class BangumiApi {
         }
       }
     } catch (e) {
-      KazumiLogger().e('Network: get bangumi collection failed', error: e);
+      CyanmoonLogger().e('Network: get bangumi collection failed', error: e);
       rethrow;
     }
-    KazumiLogger()
+    CyanmoonLogger()
         .d('get Bangumi collection count: ${bangumiCollection.length}');
-    KazumiLogger().d('get item failed count: $failedItemCount');
+    CyanmoonLogger().d('get item failed count: $failedItemCount');
     return bangumiCollection;
   }
 
@@ -721,7 +721,7 @@ class BangumiApi {
         data: data,
         requiresAuth: true,
       );
-      KazumiLogger().d('Update to Bangumi: Id: $id');
+      CyanmoonLogger().d('Update to Bangumi: Id: $id');
       return true;
     } on NetworkException catch (e) {
       String str;
@@ -738,10 +738,10 @@ class BangumiApi {
         default:
           str = 'Error $e';
       }
-      KazumiLogger().e('BangumiApi: $str', error: e);
+      CyanmoonLogger().e('BangumiApi: $str', error: e);
       return false;
     } catch (e) {
-      KazumiLogger().e('Network: update bangumi collection failed', error: e);
+      CyanmoonLogger().e('Network: update bangumi collection failed', error: e);
       rethrow;
     }
   }

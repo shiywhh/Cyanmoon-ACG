@@ -61,13 +61,13 @@ class _DownloadSettingsPageState extends State<DownloadSettingsPage> {
       if (mounted) {
         setState(() => downloadDirectory = selectedPath);
       }
-      KazumiDialog.showToast(message: '下载位置已更新，仅对新下载生效');
+      CyanmoonDialog.showToast(message: '下载位置已更新，仅对新下载生效');
     } on DownloadDirectoryException catch (e) {
-      KazumiDialog.showToast(message: e.message);
+      CyanmoonDialog.showToast(message: e.message);
     } on FileSystemException catch (e) {
-      KazumiDialog.showToast(message: '无法写入该目录: ${e.message}');
+      CyanmoonDialog.showToast(message: '无法写入该目录: ${e.message}');
     } catch (e) {
-      KazumiDialog.showToast(message: '选择下载位置失败: $e');
+      CyanmoonDialog.showToast(message: '选择下载位置失败: $e');
     } finally {
       if (mounted) {
         setState(() => isSelectingDirectory = false);
@@ -80,7 +80,7 @@ class _DownloadSettingsPageState extends State<DownloadSettingsPage> {
     if (mounted) {
       setState(() => downloadDirectory = '');
     }
-    KazumiDialog.showToast(message: '已恢复默认下载位置，仅对新下载生效');
+    CyanmoonDialog.showToast(message: '已恢复默认下载位置，仅对新下载生效');
   }
 
   @override

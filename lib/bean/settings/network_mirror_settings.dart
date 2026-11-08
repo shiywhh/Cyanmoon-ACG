@@ -89,7 +89,7 @@ Future<bool> selectAccelerationMode<T extends AccelerationMode>(
   required List<T> modes,
   required SettingKey<String> setting,
 }) async {
-  final selected = await KazumiDialog.show<T>(
+  final selected = await CyanmoonDialog.show<T>(
     context: context,
     builder: (context) => SimpleDialog(
       title: Text(title),

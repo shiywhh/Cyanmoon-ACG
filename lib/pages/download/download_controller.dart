@@ -94,7 +94,7 @@ abstract class _DownloadController with Store {
           recordChanged = true;
           migratedCount++;
         } catch (e) {
-          KazumiLogger().w(
+          CyanmoonLogger().w(
               'DownloadController: danmaku migration failed for episode ${entry.key}',
               error: e);
         }
@@ -104,7 +104,7 @@ abstract class _DownloadController with Store {
       }
     }
     if (migratedCount > 0) {
-      KazumiLogger().i(
+      CyanmoonLogger().i(
           'DownloadController: migrated danmaku data for $migratedCount episodes');
     }
   }
@@ -175,7 +175,7 @@ abstract class _DownloadController with Store {
       try {
         await _updateBackgroundNotification();
       } catch (e) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'DownloadController: background notification update failed',
           error: e,
         );
@@ -210,7 +210,7 @@ abstract class _DownloadController with Store {
 
     final started = await _backgroundService.startService();
     if (started) {
-      KazumiLogger().i('DownloadController: background service started');
+      CyanmoonLogger().i('DownloadController: background service started');
     }
   }
 
@@ -401,7 +401,7 @@ abstract class _DownloadController with Store {
       }
       return null;
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .w('DownloadController: failed to read danmaku file', error: e);
       return null;
     }
@@ -456,10 +456,10 @@ abstract class _DownloadController with Store {
         episode.danmakuData = '';
         await _repository.updateEpisode(recordKey, episodeNumber, episode);
       }
-      KazumiLogger().i(
+      CyanmoonLogger().i(
           'DownloadController: updated cached danmakus for episode $episodeNumber');
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .w('DownloadController: failed to update cached danmaku', error: e);
     }
   }
@@ -489,7 +489,7 @@ abstract class _DownloadController with Store {
     if (episodePageUrl.isNotEmpty) {
       for (final entry in record.episodes.entries) {
         if (entry.value.episodePageUrl == episodePageUrl) {
-          KazumiLogger().i(
+          CyanmoonLogger().i(
               'DownloadController: episode URL already exists at position ${entry.key}, skipping');
           return;
         }
@@ -575,7 +575,7 @@ abstract class _DownloadController with Store {
 
       final fullUrl = plugin.buildFullUrl(request.episodePageUrl);
 
-      KazumiLogger().i(
+      CyanmoonLogger().i(
           'DownloadController: resolving video URL for episode ${request.episodeNumber} from $fullUrl');
 
       String? m3u8Url;
@@ -593,17 +593,17 @@ abstract class _DownloadController with Store {
         if (lease.isCancelled) {
           wasCancelled = true;
         } else {
-          KazumiLogger().w('DownloadController: WebView resolution timed out');
+          CyanmoonLogger().w('DownloadController: WebView resolution timed out');
         }
       } on VideoSourceCancelledException {
         wasCancelled = true;
-        KazumiLogger().i('DownloadController: WebView resolution cancelled');
+        CyanmoonLogger().i('DownloadController: WebView resolution cancelled');
       } catch (e) {
         if (lease.isCancelled) {
           wasCancelled = true;
         } else {
           lease.retire();
-          KazumiLogger()
+          CyanmoonLogger()
               .e('DownloadController: WebView resolution failed', error: e);
         }
       }
@@ -617,7 +617,7 @@ abstract class _DownloadController with Store {
         return;
       }
 
-      KazumiLogger().i(
+      CyanmoonLogger().i(
           'DownloadController: resolved M3U8 URL for episode ${request.episodeNumber}: $m3u8Url');
 
       final freshRecord = _repository.getRecord(request.recordKey);
@@ -700,14 +700,14 @@ abstract class _DownloadController with Store {
       int bangumiId, int episodeNumber, String downloadDirectory) {
     Future(() async {
       try {
-        KazumiLogger().i(
+        CyanmoonLogger().i(
             'DownloadController: fetching danmaku for episode $episodeNumber (async)');
 
         // 获取 DanDan 番剧 ID
         final danDanBangumiID =
             await DanmakuApi.getDanDanBangumiIDByBgmBangumiID(bangumiId);
         if (danDanBangumiID == 0) {
-          KazumiLogger().w(
+          CyanmoonLogger().w(
               'DownloadController: failed to get DanDan bangumiID for $bangumiId');
           return;
         }
@@ -716,7 +716,7 @@ abstract class _DownloadController with Store {
         final danmakus =
             await DanmakuApi.getDanDanmaku(danDanBangumiID, episodeNumber);
         if (danmakus.isEmpty) {
-          KazumiLogger().i(
+          CyanmoonLogger().i(
               'DownloadController: no danmaku found for episode $episodeNumber');
           return;
         }
@@ -724,11 +724,11 @@ abstract class _DownloadController with Store {
         // 写入独立文件
         await _writeDanmakuToFile(downloadDirectory, danmakus, danDanBangumiID);
 
-        KazumiLogger().i(
+        CyanmoonLogger().i(
             'DownloadController: cached ${danmakus.length} danmakus for episode $episodeNumber');
       } catch (e) {
         // 弹幕获取失败不影响下载
-        KazumiLogger()
+        CyanmoonLogger()
             .w('DownloadController: failed to fetch danmaku', error: e);
       }
     });
@@ -743,7 +743,7 @@ abstract class _DownloadController with Store {
     episode.errorMessage = message;
     _repository.updateEpisode(recordKey, episodeNumber, episode);
     _refreshRecord(recordKey);
-    KazumiLogger()
+    CyanmoonLogger()
         .w('DownloadController: episode $episodeNumber failed: $message');
   }
 
@@ -766,7 +766,7 @@ abstract class _DownloadController with Store {
   }
 
   Future<void> pauseAllDownloads() async {
-    KazumiLogger().i('DownloadController: pausing all downloads');
+    CyanmoonLogger().i('DownloadController: pausing all downloads');
 
     _cancelAllResolves();
 
@@ -991,7 +991,7 @@ abstract class _DownloadController with Store {
     }
 
     if (incompleteEpisodes.isNotEmpty) {
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'DownloadController: resumed ${incompleteEpisodes.length} downloads for $recordKey',
       );
     }

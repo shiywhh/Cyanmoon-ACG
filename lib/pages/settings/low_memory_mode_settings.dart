@@ -17,7 +17,7 @@ class LowMemoryModeSettingsTile extends StatelessWidget {
         description: Text(mode.statusDescription(isMetered)),
         value: Text(mode.label),
         trailing: const Icon(Icons.chevron_right_rounded),
-        onPressed: (_) => KazumiDialog.show<void>(
+        onPressed: (_) => CyanmoonDialog.show<void>(
           builder: (_) => const _LowMemoryModeDialog(),
         ),
       );
@@ -41,11 +41,11 @@ class _LowMemoryModeDialogState extends State<_LowMemoryModeDialog> {
     try {
       await mode.save();
       if (!mounted) return;
-      KazumiDialog.dismiss(context: context);
+      CyanmoonDialog.dismiss(context: context);
     } catch (_) {
       if (!mounted) return;
       setState(() => _saving = false);
-      KazumiDialog.showToast(context: context, message: '设置保存失败，请重试');
+      CyanmoonDialog.showToast(context: context, message: '设置保存失败，请重试');
     }
   }
 
@@ -127,7 +127,7 @@ class _LowMemoryModeDialogState extends State<_LowMemoryModeDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => KazumiDialog.dismiss(context: context),
+          onPressed: () => CyanmoonDialog.dismiss(context: context),
           child: const Text('取消'),
         ),
       ],

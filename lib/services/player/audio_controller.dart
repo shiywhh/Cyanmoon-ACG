@@ -81,7 +81,7 @@ class AudioController {
             });
       }
     } catch (e) {
-      KazumiLogger().w('AudioController: audio_session init failed', error: e);
+      CyanmoonLogger().w('AudioController: audio_session init failed', error: e);
     }
   }
 
@@ -115,7 +115,7 @@ class AudioController {
         await _onPause!();
       }
     } catch (e) {
-      KazumiLogger().w('AudioController: interruption pause failed', error: e);
+      CyanmoonLogger().w('AudioController: interruption pause failed', error: e);
     }
   }
 
@@ -125,7 +125,7 @@ class AudioController {
         await _onPlay!();
       }
     } catch (e) {
-      KazumiLogger().w('AudioController: interruption resume failed', error: e);
+      CyanmoonLogger().w('AudioController: interruption resume failed', error: e);
     }
   }
 
@@ -135,7 +135,7 @@ class AudioController {
     try {
       await _audioSession?.setActive(active);
     } catch (e) {
-      KazumiLogger().w('AudioController: setActive($active) failed', error: e);
+      CyanmoonLogger().w('AudioController: setActive($active) failed', error: e);
     }
   }
 
@@ -294,7 +294,7 @@ class AudioController {
           .timeout(const Duration(seconds: 8));
       resolved = Uri.file(file.path);
     } catch (e) {
-      KazumiLogger().w('AudioController: artwork resolution failed', error: e);
+      CyanmoonLogger().w('AudioController: artwork resolution failed', error: e);
     }
     if (binding.isStale) return;
     _artworkUri = resolved;

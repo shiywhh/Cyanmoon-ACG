@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cyanmoon_acg/bean/card/network_img_layer.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/bean/widget/loading_indicator.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_type.dart';
 import 'package:cyanmoon_acg/modules/history/history_module.dart';
@@ -251,14 +251,14 @@ class HistoryRecordTile extends StatelessWidget {
         onPressed: onPlay,
         icon: const Icon(Icons.play_arrow_rounded),
       ),
-      KazumiMenuButton(
+      CyanmoonMenuButton(
         menuChildren: [
-          KazumiMenuItem(onPressed: onDetails, label: '番剧详情'),
+          CyanmoonMenuItem(onPressed: onDetails, label: '番剧详情'),
           collectionControl ??
               SubmenuButton(
                 menuChildren: [
                   for (final type in CollectType.values)
-                    KazumiMenuItem(
+                    CyanmoonMenuItem(
                       selected: collectType == type,
                       onPressed: onChangeCollect == null
                           ? null
@@ -269,7 +269,7 @@ class HistoryRecordTile extends StatelessWidget {
                 child: Text(collectType.label),
               ),
           const Divider(),
-          KazumiMenuItem(destructive: true, onPressed: onDelete, label: '删除记录'),
+          CyanmoonMenuItem(destructive: true, onPressed: onDelete, label: '删除记录'),
         ],
         builder: (context, toggle) => IconButton(
           tooltip: '更多操作',

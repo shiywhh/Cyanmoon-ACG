@@ -12,7 +12,7 @@ class TimedShutdownService {
 
   Timer? _shutdownTimer;
   int _remainingSeconds = 0;
-  KazumiDialogHandle<void>? _expiryDialog;
+  CyanmoonDialogHandle<void>? _expiryDialog;
   int _lastSetMinutes = 0;
   VoidCallback? _onExpiredCallback;
 
@@ -70,7 +70,7 @@ class TimedShutdownService {
     try {
       _onExpiredCallback?.call();
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('TimedShutdownService: onExpired callback failed', error: e);
     }
 
@@ -79,9 +79,9 @@ class TimedShutdownService {
 
   void _showTimerExpiredDialog() {
     if (_expiryDialog?.isActive ?? false) return;
-    final dialog = _expiryDialog = KazumiDialogHandle<void>();
+    final dialog = _expiryDialog = CyanmoonDialogHandle<void>();
 
-    KazumiDialog.show<void>(
+    CyanmoonDialog.show<void>(
       handle: dialog,
       clickMaskDismiss: false,
       onDismiss: () {
@@ -95,7 +95,7 @@ class TimedShutdownService {
             TextButton(
               onPressed: () {
                 start(_lastSetMinutes, onExpired: _onExpiredCallback);
-                KazumiDialog.showToast(message: '已重新开始 $_lastSetMinutes 分钟定时');
+                CyanmoonDialog.showToast(message: '已重新开始 $_lastSetMinutes 分钟定时');
               },
               child: const Text('重复'),
             ),
@@ -137,7 +137,7 @@ class TimedShutdownService {
   static void showCustomTimerDialog({
     VoidCallback? onExpired,
   }) {
-    KazumiDialog.show(
+    CyanmoonDialog.show(
       builder: (context) => _CustomTimerDialog(
         onExpired: onExpired,
       ),
@@ -180,12 +180,12 @@ class _CustomTimerDialogState extends State<_CustomTimerDialog> {
   void _confirm() {
     final totalMinutes = _selectedHours * 60 + _selectedMinutes;
     if (totalMinutes <= 0) {
-      KazumiDialog.showToast(message: '请选择有效的时间');
+      CyanmoonDialog.showToast(message: '请选择有效的时间');
       return;
     }
-    KazumiDialog.dismiss(context: context);
+    CyanmoonDialog.dismiss(context: context);
     TimedShutdownService().start(totalMinutes, onExpired: widget.onExpired);
-    KazumiDialog.showToast(
+    CyanmoonDialog.showToast(
       message:
           '已设置 ${TimedShutdownService().formatMinutesToDisplay(totalMinutes)} 后定时关闭',
     );
@@ -260,7 +260,7 @@ class _CustomTimerDialogState extends State<_CustomTimerDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => KazumiDialog.dismiss(context: context),
+          onPressed: () => CyanmoonDialog.dismiss(context: context),
           child: Text(
             '取消',
             style: TextStyle(color: Theme.of(context).colorScheme.outline),

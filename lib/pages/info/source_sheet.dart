@@ -8,7 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:cyanmoon_acg/bean/dialog/dialog_helper.dart';
 import 'package:cyanmoon_acg/bean/dialog/material_bottom_sheet.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/bean/widget/loading_indicator.dart';
 import 'package:cyanmoon_acg/bean/widget/empty_state_widget.dart';
 import 'package:cyanmoon_acg/bean/widget/split_list_row.dart';
@@ -41,7 +41,7 @@ class SourceSheet extends StatefulWidget {
   State<SourceSheet> createState() => _SourceSheetState();
 }
 
-class _SourceSheetState extends State<SourceSheet> with KazumiDialogOwner {
+class _SourceSheetState extends State<SourceSheet> with CyanmoonDialogOwner {
   final CollectController _collectController = inject<CollectController>();
   final PluginsController _pluginsController = inject<PluginsController>();
   final Map<String, String> _sourceKeywords = {};
@@ -90,7 +90,7 @@ class _SourceSheetState extends State<SourceSheet> with KazumiDialogOwner {
   void _showVerifiedResult(Plugin plugin, String pageHtml) {
     if (!mounted) return;
     if (_searchService.applyHarvestedSearchResult(plugin.name, pageHtml)) {
-      KazumiDialog.showToast(message: '验证成功');
+      CyanmoonDialog.showToast(message: '验证成功');
       return;
     }
     _captchaFlow.showSuccess(
@@ -113,9 +113,9 @@ class _SourceSheetState extends State<SourceSheet> with KazumiDialogOwner {
         return;
       }
     } catch (error) {
-      KazumiLogger().w('SourceSheet: failed to open browser', error: error);
+      CyanmoonLogger().w('SourceSheet: failed to open browser', error: error);
     }
-    if (mounted) KazumiDialog.showToast(message: '无法打开浏览器，请稍后重试');
+    if (mounted) CyanmoonDialog.showToast(message: '无法打开浏览器，请稍后重试');
   }
 
   Future<void> _openSearchItem(String name, SearchItem searchItem) async {
@@ -142,14 +142,14 @@ class _SourceSheetState extends State<SourceSheet> with KazumiDialogOwner {
             ),
           ));
     }, onError: (error, stackTrace) {
-      KazumiLogger().w('SourceSheet: failed to query playlist', error: error);
-      KazumiDialog.showToast(message: '未能获取播放列表，请重试或选择其他结果');
+      CyanmoonLogger().w('SourceSheet: failed to query playlist', error: error);
+      CyanmoonDialog.showToast(message: '未能获取播放列表，请重试或选择其他结果');
     });
   }
 
   void _showAliasPicker(String pluginName) {
     if (widget.infoController.bangumiItem.alias.isEmpty) {
-      KazumiDialog.showToast(message: '无可用别名，试试修改检索关键词');
+      CyanmoonDialog.showToast(message: '无可用别名，试试修改检索关键词');
       return;
     }
     _showAliasPickerDialog(

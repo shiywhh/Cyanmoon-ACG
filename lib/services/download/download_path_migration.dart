@@ -17,7 +17,7 @@ Future<void> rebaseIosDownloadPaths(
   } catch (error, stackTrace) {
     // Existing boxes remain usable even if migration cannot be persisted (for
     // example on a full disk). Retry from the saved records on the next launch.
-    KazumiLogger().e(
+    CyanmoonLogger().e(
       'DownloadStorage: iOS download path migration failed',
       error: error,
       stackTrace: stackTrace,

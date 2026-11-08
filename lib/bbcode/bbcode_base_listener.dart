@@ -59,7 +59,7 @@ class BBCodeBaseListener implements BBCodeListener {
         bbCodeTag.color.add(bbcode.length);
         break;
       default:
-        KazumiLogger().e(
+        CyanmoonLogger().e(
             'BBCode: unrecognized Tag: ${ctx.text}, please submit an issue with logs, bangumi, and episode information');
         break;
     }
@@ -216,7 +216,7 @@ class BBCodeBaseListener implements BBCodeListener {
         }
         break;
       default:
-        KazumiLogger().e(
+        CyanmoonLogger().e(
             'BBCode: unrecognized Tag: ${ctx.text}, please submit an issue with logs, bangumi, and episode information');
         break;
     }

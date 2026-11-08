@@ -5,7 +5,7 @@ import 'package:canvas_danmaku/models/danmaku_content_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/bean/widget/play_pause_icon.dart';
 import 'package:cyanmoon_acg/services/logging/logger.dart';
 import 'package:cyanmoon_acg/pages/player/player_adjustment_hud.dart';
@@ -138,7 +138,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
       textFieldFocus.unfocus();
 
       if (message.trim().isEmpty) {
-        KazumiDialog.showToast(message: '弹幕内容为空');
+        CyanmoonDialog.showToast(message: '弹幕内容为空');
         _holdResumeForDestinationSheet = false;
         _onDanmakuEditFocusChanged();
         return;
@@ -156,13 +156,13 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
 
       widget.keyboardFocus.requestFocus();
       if (message.length > 100) {
-        KazumiDialog.showToast(message: '弹幕内容过长');
+        CyanmoonDialog.showToast(message: '弹幕内容过长');
         return;
       }
 
       if (destination == DanmakuDestination.chatRoom) {
         if (playerController.syncplay.syncplayRoom.isEmpty) {
-          KazumiDialog.showToast(message: '你还没有加入一起看，无法发送聊天室弹幕');
+          CyanmoonDialog.showToast(message: '你还没有加入一起看，无法发送聊天室弹幕');
           return;
         }
 
@@ -180,7 +180,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
         unawaited(playerController.sendSyncPlayChatMessage(message));
       } else {
         if (target == null) {
-          KazumiDialog.showToast(message: '当前剧集不支持发送');
+          CyanmoonDialog.showToast(message: '当前剧集不支持发送');
           return;
         }
         await target.send(
@@ -198,7 +198,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
       if (mounted) textController.clear();
     } catch (error) {
       if (mounted)
-        KazumiDialog.showToast(
+        CyanmoonDialog.showToast(
           message: error is StateError ? error.message.toString() : '发送失败',
         );
     } finally {
@@ -328,7 +328,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
   }
 
   void _showForwardChange() {
-    KazumiDialog.show(
+    CyanmoonDialog.show(
       builder: (context) {
         var input = '';
         return AlertDialog(
@@ -345,7 +345,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () => KazumiDialog.dismiss(),
+              onPressed: () => CyanmoonDialog.dismiss(),
               child: Text(
                 '取消',
                 style: TextStyle(color: Theme.of(context).colorScheme.outline),
@@ -356,7 +356,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
                 if (input.isNotEmpty) {
                   playerController.setButtonForwardTime(int.parse(input));
                 }
-                KazumiDialog.dismiss();
+                CyanmoonDialog.dismiss();
               },
               child: const Text('确定'),
             ),
@@ -660,7 +660,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
     required void Function(T) onSelected,
   }) => [
     for (final value in values)
-      KazumiMenuItem(
+      CyanmoonMenuItem(
         onPressed: () => onSelected(value),
         label: label(value),
         selected: selected(value),
@@ -723,10 +723,10 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
   );
 
   Widget get _syncPlayMenuItem =>
-      KazumiMenuItem(onPressed: widget.showSyncPlayPanel, label: '一起看');
+      CyanmoonMenuItem(onPressed: widget.showSyncPlayPanel, label: '一起看');
 
   Widget get _danmakuSettingsMenuItem =>
-      KazumiMenuItem(onPressed: _showDanmakuSettings, label: '弹幕设置');
+      CyanmoonMenuItem(onPressed: _showDanmakuSettings, label: '弹幕设置');
 
   Widget get _wideControls => Row(
     children: [
@@ -935,7 +935,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
                         // 仅在窗口操作成功后翻转状态，失败时按钮语义不再反向。
                         videoPageController.isPip = !videoPageController.isPip;
                       } catch (e) {
-                        KazumiLogger()
+                        CyanmoonLogger()
                             .w('PlayerPanel: desktop PiP failed', error: e);
                       }
                       return;
@@ -979,27 +979,27 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
                     ),
                     _syncPlayMenuItem,
                   ],
-                  KazumiMenuItem(
+                  CyanmoonMenuItem(
                     onPressed: widget.showDanmakuSwitch,
                     label: '弹幕切换',
                   ),
                   if (compact) _danmakuSettingsMenuItem,
-                  KazumiMenuItem(
+                  CyanmoonMenuItem(
                     onPressed: widget.showVideoInfo,
                     label: '视频详情',
                   ),
                   if (!playerController.isLocalPlayback &&
                       playerController.referer.isEmpty)
-                    KazumiMenuItem(
+                    CyanmoonMenuItem(
                       onPressed: () {
                         // Renderers fetch the URL themselves: they cannot reach
                         // a file on this device or send the rule's Referer.
                         if (playerController.isLocalPlayback) {
-                          KazumiDialog.showToast(message: '暂不支持离线视频');
+                          CyanmoonDialog.showToast(message: '暂不支持离线视频');
                           return;
                         }
                         if (playerController.referer.isNotEmpty) {
-                          KazumiDialog.showToast(message: '暂不支持该规则');
+                          CyanmoonDialog.showToast(message: '暂不支持该规则');
                           return;
                         }
                         final needRestart = playerController.playback.playing;
@@ -1017,25 +1017,25 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
                       },
                       label: '远程投屏',
                     ),
-                  KazumiMenuItem(
+                  CyanmoonMenuItem(
                     onPressed: playerController.launchExternalPlayer,
                     label: '外部播放',
                   ),
                   SubmenuButton(
                     menuChildren: [
-                      KazumiMenuItem(
+                      CyanmoonMenuItem(
                         onPressed: TimedShutdownService().cancel,
                         label: '不开启',
                         selected: !TimedShutdownService().isActive,
                       ),
                       for (final int minutes in [15, 30, 60])
-                        KazumiMenuItem(
+                        CyanmoonMenuItem(
                           onPressed: () {
                             TimedShutdownService().start(
                               minutes,
                               onExpired: widget.pauseForTimedShutdown,
                             );
-                            KazumiDialog.showToast(
+                            CyanmoonDialog.showToast(
                               message:
                                   '已设置 ${TimedShutdownService().formatMinutesToDisplay(minutes)} 后定时关闭',
                             );
@@ -1044,7 +1044,7 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
                           selected:
                               TimedShutdownService().setMinutes == minutes,
                         ),
-                      KazumiMenuItem(
+                      CyanmoonMenuItem(
                         onPressed: () {
                           TimedShutdownService.showCustomTimerDialog(
                             onExpired: widget.pauseForTimedShutdown,

@@ -7,7 +7,7 @@ import 'package:cyanmoon_acg/navigation.dart';
 import 'package:cyanmoon_acg/utils/constants.dart';
 
 /// Single-use ownership of a route, including before its first frame.
-class KazumiDialogHandle<T> {
+class CyanmoonDialogHandle<T> {
   Route<T>? _route;
   bool _used = false;
   bool _dismissed = false;
@@ -18,7 +18,7 @@ class KazumiDialogHandle<T> {
     if (_dismissed) return;
     _dismissed = true;
     final route = _route;
-    if (route != null) KazumiDialog._dismissRoute(route, popWith);
+    if (route != null) CyanmoonDialog._dismissRoute(route, popWith);
   }
 
   void _attach(Route<T> route) {
@@ -32,24 +32,24 @@ class KazumiDialogHandle<T> {
   }
 }
 
-class KazumiDialog {
-  static final KazumiDialogObserver observer = KazumiDialogObserver();
+class CyanmoonDialog {
+  static final CyanmoonDialogObserver observer = CyanmoonDialogObserver();
   // Allows modal sheets to use the same dismissal and route tracking.
-  static const routeSettings = RouteSettings(name: 'KazumiDialog');
+  static const routeSettings = RouteSettings(name: 'CyanmoonDialog');
   static int _toastRevision = 0;
 
-  KazumiDialog._internal();
+  CyanmoonDialog._internal();
 
   static Future<T?> show<T>({
     BuildContext? context,
-    KazumiDialogHandle<T>? handle,
+    CyanmoonDialogHandle<T>? handle,
     bool clickMaskDismiss = true,
     FutureOr<void> Function()? onDismiss,
     Duration? transitionDuration,
     RouteTransitionsBuilder? transitionBuilder,
     required WidgetBuilder builder,
   }) async {
-    final dialog = handle ?? KazumiDialogHandle<T>();
+    final dialog = handle ?? CyanmoonDialogHandle<T>();
     if (dialog._used) {
       throw StateError('A dialog handle can only be used once.');
     }
@@ -200,7 +200,7 @@ class _KazumiDialogRoute<T> extends DialogRoute<T> {
       super.buildTransitions(context, animation, secondaryAnimation, child);
 }
 
-class KazumiDialogObserver extends NavigatorObserver {
+class CyanmoonDialogObserver extends NavigatorObserver {
   final List<Route<dynamic>> _kazumiDialogRoutes = [];
   bool _snackBarClearScheduled = false;
 
@@ -249,16 +249,16 @@ class KazumiDialogObserver extends NavigatorObserver {
   }
 
   bool _isKazumiDialogRoute(Route<dynamic>? route) =>
-      route?.settings.name == KazumiDialog.routeSettings.name;
+      route?.settings.name == CyanmoonDialog.routeSettings.name;
 
   void _scheduleSnackBarClear() {
     if (_snackBarClearScheduled) return;
     _snackBarClearScheduled = true;
-    final revision = KazumiDialog._toastRevision;
+    final revision = CyanmoonDialog._toastRevision;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _snackBarClearScheduled = false;
       // Only clear the old page's toast, never one posted after navigation.
-      if (revision == KazumiDialog._toastRevision) {
+      if (revision == CyanmoonDialog._toastRevision) {
         rootScaffoldMessengerKey.currentState?.removeCurrentSnackBar();
       }
     });

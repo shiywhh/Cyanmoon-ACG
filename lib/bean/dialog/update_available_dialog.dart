@@ -97,11 +97,11 @@ class _UpdateAvailableDialogState extends State<UpdateAvailableDialog> {
       actions: [
         TextButton(
           style: TextButton.styleFrom(minimumSize: const Size(64, 48)),
-          onPressed: () => KazumiDialog.dismiss(context: context),
+          onPressed: () => CyanmoonDialog.dismiss(context: context),
           child: const Text('稍后'),
         ),
         StateActionButton(
-          onPressed: () => KazumiDialog.dismiss(
+          onPressed: () => CyanmoonDialog.dismiss(
             context: context,
             popWith: (type: _type, source: _source),
           ),

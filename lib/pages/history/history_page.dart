@@ -47,7 +47,7 @@ class _HistoryPageState extends State<HistoryPage> {
       }
     } catch (_) {
       if (mounted) {
-        KazumiDialog.showToast(context: context, message: '删除失败，请稍后重试');
+        CyanmoonDialog.showToast(context: context, message: '删除失败，请稍后重试');
       }
     } finally {
       if (mounted) setState(() => _deleting.remove(history.key));
@@ -56,7 +56,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   Future<void> _clearHistory() async {
     if (_clearing || _deleting.isNotEmpty) return;
-    final confirmed = await KazumiDialog.show<bool>(
+    final confirmed = await CyanmoonDialog.show<bool>(
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(Icons.delete_sweep_outlined),
@@ -87,7 +87,7 @@ class _HistoryPageState extends State<HistoryPage> {
       if (mounted) setState(() => _editing = false);
     } catch (_) {
       if (mounted) {
-        KazumiDialog.showToast(context: context, message: '清空失败，请稍后重试');
+        CyanmoonDialog.showToast(context: context, message: '清空失败，请稍后重试');
       }
     } finally {
       if (mounted) setState(() => _clearing = false);
@@ -183,7 +183,7 @@ class _HistoryCard extends StatefulWidget {
   State<_HistoryCard> createState() => _HistoryCardState();
 }
 
-class _HistoryCardState extends State<_HistoryCard> with KazumiDialogOwner {
+class _HistoryCardState extends State<_HistoryCard> with CyanmoonDialogOwner {
   final CollectController _collectController = inject<CollectController>();
   final HistoryPlaybackService _playbackService =
       inject<HistoryPlaybackService>();
@@ -206,7 +206,7 @@ class _HistoryCardState extends State<_HistoryCard> with KazumiDialogOwner {
             (context) => context.pushNamed('/video/', arguments: args),
           );
         case HistoryPlaybackUnavailable(:final reason):
-          KazumiDialog.showToast(message: reason);
+          CyanmoonDialog.showToast(message: reason);
       }
     }, errorMessage: '暂时无法继续播放，请稍后重试');
   }
@@ -220,7 +220,7 @@ class _HistoryCardState extends State<_HistoryCard> with KazumiDialogOwner {
         type: type.value,
       );
     } catch (_) {
-      KazumiDialog.showToast(message: '修改收藏状态失败，请稍后重试');
+      CyanmoonDialog.showToast(message: '修改收藏状态失败，请稍后重试');
     } finally {
       if (mounted) setState(() => _updatingCollect = false);
     }

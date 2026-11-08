@@ -89,17 +89,17 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
   }
 
   Future<void> resetPlayerSettings() async {
-    final bool shouldReset = await KazumiDialog.show<bool>(
+    final bool shouldReset = await CyanmoonDialog.show<bool>(
           builder: (context) => AlertDialog(
             title: const Text('恢复默认播放设置'),
             content: const Text('播放设置、硬件解码器、视频渲染器和超分辨率设置将恢复为默认值。'),
             actions: [
               TextButton(
-                onPressed: () => KazumiDialog.dismiss(popWith: false),
+                onPressed: () => CyanmoonDialog.dismiss(popWith: false),
                 child: Text('取消'),
               ),
               TextButton(
-                onPressed: () => KazumiDialog.dismiss(popWith: true),
+                onPressed: () => CyanmoonDialog.dismiss(popWith: true),
                 child: Text('恢复默认'),
               ),
             ],
@@ -114,7 +114,7 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
     }
     if (!mounted) return;
     setState(_loadSettingsFromStorage);
-    KazumiDialog.showToast(message: '已恢复默认播放设置');
+    CyanmoonDialog.showToast(message: '已恢复默认播放设置');
   }
 
   void updateDefaultPlaySpeed(double speed) {
@@ -164,7 +164,7 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
 
   Future<int?> _showSkipTimeChangeDialog(
       {required String title, required String initialValue}) async {
-    return KazumiDialog.show<int>(builder: (context) {
+    return CyanmoonDialog.show<int>(builder: (context) {
       String input = "";
       return AlertDialog(
         title: Text(title),
@@ -185,7 +185,7 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
         }),
         actions: <Widget>[
           TextButton(
-            onPressed: () => KazumiDialog.dismiss(),
+            onPressed: () => CyanmoonDialog.dismiss(),
             child: Text(
               '取消',
               style: TextStyle(color: Theme.of(context).colorScheme.outline),
@@ -196,15 +196,15 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
               final int? newValue = int.tryParse(input);
 
               if (newValue == null) {
-                KazumiDialog.showToast(message: '请输入数字');
+                CyanmoonDialog.showToast(message: '请输入数字');
                 return;
               }
 
               if (newValue <= 0) {
-                KazumiDialog.showToast(message: '请输入大于0的数字');
+                CyanmoonDialog.showToast(message: '请输入大于0的数字');
                 return;
               }
-              KazumiDialog.dismiss(popWith: newValue);
+              CyanmoonDialog.dismiss(popWith: newValue);
             },
             child: const Text('确定'),
           ),

@@ -283,7 +283,7 @@ abstract class _VideoPageController with Store implements Disposable {
     } else {
       _playbackHistoryIdentity = null;
     }
-    KazumiLogger().i(
+    CyanmoonLogger().i(
       'VideoPageController: initialized for offline playback, episode $episodeNumber (position: ${selected.episode})',
     );
   }
@@ -528,7 +528,7 @@ abstract class _VideoPageController with Store implements Disposable {
 
     final resolvedEpisode = _resolveOnlineEpisode(episode, road: currentRoad);
     if (resolvedEpisode == null) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'VideoPageController: failed to resolve online episode. road=$currentRoad, episode=$episode',
       );
       _failLoading('集数解析失败');
@@ -538,7 +538,7 @@ abstract class _VideoPageController with Store implements Disposable {
     _applyResolvedSelection(resolvedEpisode);
     _setOnlineHistoryIdentity(resolvedEpisode);
 
-    KazumiLogger().i(
+    CyanmoonLogger().i(
       'VideoPageController: changed to ${resolvedEpisode.displayTitle}',
     );
     final urlItem = normalizeEpisodeUrl(
@@ -566,7 +566,7 @@ abstract class _VideoPageController with Store implements Disposable {
       road: selection.road,
     );
     if (resolvedEpisode == null) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'VideoPageController: failed to resolve offline episode. road=${selection.road}, episode=${selection.episode}',
       );
       _failLoading('集数解析失败');
@@ -592,7 +592,7 @@ abstract class _VideoPageController with Store implements Disposable {
         ? offset
         : getHistoryOffsetFor(_playbackHistoryIdentity!);
 
-    KazumiLogger().i(
+    CyanmoonLogger().i(
       'VideoPageController: offline episode changed to ${resolvedEpisode.historyEpisodeNumber} (index: ${selection.episode}), path: $localPath',
     );
 
@@ -724,16 +724,16 @@ abstract class _VideoPageController with Store implements Disposable {
         } else {
           playerController.danmaku.applyUnavailableDanmakuLoad(result);
           if (result.isFailed) {
-            KazumiDialog.showToast(message: '弹幕加载失败，可手动检索');
+            CyanmoonDialog.showToast(message: '弹幕加载失败，可手动检索');
           }
         }
       }
     } catch (e) {
       if (session.isActive && danmakuSession.isActive) {
         playerController.danmaku.finishDanmakuLoad(disableDanmaku: true);
-        KazumiDialog.showToast(message: '弹幕加载失败，可手动检索');
+        CyanmoonDialog.showToast(message: '弹幕加载失败，可手动检索');
       }
-      KazumiLogger().w('VideoPageController: failed to load danmaku', error: e);
+      CyanmoonLogger().w('VideoPageController: failed to load danmaku', error: e);
     }
   }
 
@@ -781,7 +781,7 @@ abstract class _VideoPageController with Store implements Disposable {
         return;
       }
       _finishLoading();
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         currentPlugin.name == CycaniApi.pluginName
             ? '次元城播放地址已取得'
             : 'VideoPageController: video URL resolved',
@@ -873,7 +873,7 @@ abstract class _VideoPageController with Store implements Disposable {
       }
       _failLoading('视频解析超时，请重试');
     } on VideoSourceCancelledException {
-      KazumiLogger().i('VideoPageController: video URL resolution cancelled');
+      CyanmoonLogger().i('VideoPageController: video URL resolution cancelled');
     } catch (e) {
       if (session.isStale) {
         return;
@@ -927,7 +927,7 @@ abstract class _VideoPageController with Store implements Disposable {
       );
     }
     _applyEpisodeComments(episode, latestEpisodeInfo, commentsList);
-    KazumiLogger().i(
+    CyanmoonLogger().i(
       'VideoPageController: loaded comments list length ${episodeCommentsList.length}',
     );
     return true;

@@ -10,12 +10,12 @@ class ProxyManager {
 
   static void applyProxy() {
     _resetClients();
-    KazumiLogger().i('Proxy: 网络客户端配置已刷新');
+    CyanmoonLogger().i('Proxy: 网络客户端配置已刷新');
   }
 
   static void clearProxy() {
     _resetClients();
-    KazumiLogger().i('Proxy: 网络客户端代理已清除');
+    CyanmoonLogger().i('Proxy: 网络客户端代理已清除');
   }
 
   static void _resetClients() {

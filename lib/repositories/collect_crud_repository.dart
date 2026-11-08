@@ -69,7 +69,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
     try {
       return _collectiblesBox.values.cast<CollectedBangumi>().toList();
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'GStorage: get all collectibles failed',
         error: e,
       );
@@ -82,7 +82,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
     try {
       return _collectiblesBox.get(id);
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'GStorage: get collectible failed. id=$id',
         error: e,
       );
@@ -96,7 +96,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
       final collectible = _collectiblesBox.get(id);
       return collectible?.type ?? 0;
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'GStorage: get collect type failed. id=$id',
         error: e,
       );
@@ -114,7 +114,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
       );
       await GStorage.putCollectible(collectedBangumi);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: add collectible failed. id=${bangumiItem.id}, type=$type',
         error: e,
         stackTrace: stackTrace,
@@ -128,7 +128,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
     try {
       final collectible = _collectiblesBox.get(bangumiItem.id);
       if (collectible == null) {
-        KazumiLogger().i(
+        CyanmoonLogger().i(
           'GStorage: update collectible failed. collectible not found, id=${bangumiItem.id}',
         );
         return;
@@ -136,7 +136,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
       collectible.bangumiItem = bangumiItem;
       await GStorage.putCollectible(collectible);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: update collectible failed. id=${bangumiItem.id}',
         error: e,
         stackTrace: stackTrace,
@@ -150,7 +150,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
     try {
       await GStorage.deleteCollectible(id);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: delete collectible failed. id=$id',
         error: e,
         stackTrace: stackTrace,
@@ -164,7 +164,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
     try {
       await GStorage.putCollectChange(change);
     } catch (e, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'GStorage: record collect change failed. changeId=${change.id}',
         error: e,
         stackTrace: stackTrace,
@@ -178,7 +178,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
     try {
       return _favoritesBox.values.cast<BangumiItem>().toList();
     } catch (e) {
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'GStorage: get favorites failed',
         error: e,
       );
@@ -192,7 +192,7 @@ class CollectCrudRepository implements ICollectCrudRepository {
       await _favoritesBox.clear();
       await _favoritesBox.flush();
     } catch (e) {
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'GStorage: clear favorites failed',
         error: e,
       );

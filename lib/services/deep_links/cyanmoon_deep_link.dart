@@ -1,7 +1,7 @@
-sealed class KazumiDeepLink {
-  const KazumiDeepLink();
+sealed class CyanmoonDeepLink {
+  const CyanmoonDeepLink();
 
-  static KazumiDeepLink? parse(Uri uri) {
+  static CyanmoonDeepLink? parse(Uri uri) {
     if (uri.scheme != 'kazumi') return null;
     try {
       if (uri.host == 'bangumi' && uri.pathSegments.length == 1) {
@@ -21,12 +21,12 @@ sealed class KazumiDeepLink {
   }
 }
 
-final class BangumiDeepLink extends KazumiDeepLink {
+final class BangumiDeepLink extends CyanmoonDeepLink {
   const BangumiDeepLink(this.id);
   final int id;
 }
 
-final class SearchDeepLink extends KazumiDeepLink {
+final class SearchDeepLink extends CyanmoonDeepLink {
   const SearchDeepLink(this.query);
   final String query;
 }

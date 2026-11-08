@@ -155,7 +155,7 @@ class AutoUpdater {
 
       return null;
     } catch (e) {
-      KazumiLogger().e('Update: check for updates failed', error: e);
+      CyanmoonLogger().e('Update: check for updates failed', error: e);
       rethrow;
     }
   }
@@ -179,7 +179,7 @@ class AutoUpdater {
         _showUpdateDialog(updateInfo, isAutoCheck: true);
       }
     } catch (e) {
-      KazumiLogger().w('Update: auto check for updates failed', error: e);
+      CyanmoonLogger().w('Update: auto check for updates failed', error: e);
     }
   }
 
@@ -189,17 +189,17 @@ class AutoUpdater {
       if (updateInfo != null) {
         _showUpdateDialog(updateInfo, isAutoCheck: false);
       } else {
-        KazumiDialog.showToast(message: '当前已经是最新版本！');
+        CyanmoonDialog.showToast(message: '当前已经是最新版本！');
       }
     } catch (e) {
-      KazumiDialog.showToast(message: '检查更新失败');
+      CyanmoonDialog.showToast(message: '检查更新失败');
     }
   }
 
   Future<void> _showUpdateDialog(UpdateInfo updateInfo,
       {bool isAutoCheck = false}) async {
     var disableAutoUpdate = false;
-    final choice = await KazumiDialog.show<UpdateDialogChoice>(
+    final choice = await CyanmoonDialog.show<UpdateDialogChoice>(
       builder: (context) => UpdateAvailableDialog(
         updateInfo: updateInfo,
         onDisableAutoUpdateChanged:
@@ -208,7 +208,7 @@ class AutoUpdater {
     );
     if (disableAutoUpdate) {
       GStorage.putSetting(SettingsKeys.autoUpdate, false);
-      KazumiDialog.showToast(message: '已关闭自动更新');
+      CyanmoonDialog.showToast(message: '已关闭自动更新');
     }
     if (choice != null) {
       _downloadUpdateWithType(updateInfo, choice.type, choice.source);
@@ -229,7 +229,7 @@ class AutoUpdater {
                 mode: LaunchMode.externalApplication)
             .then((launched) {
           if (!launched) {
-            KazumiLogger()
+            CyanmoonLogger()
                 .w('AutoUpdater: failed to open release page $releaseUrl');
           }
         }));
@@ -239,7 +239,7 @@ class AutoUpdater {
       final asset = getUpdateAssetForType(updateInfo.assets, selectedType);
       final downloadUrl = getUpdateDownloadUrlFromAsset(asset, source);
       if (asset == null || downloadUrl.isEmpty) {
-        KazumiDialog.showToast(message: '没有找到 ${selectedType.label} 的下载链接');
+        CyanmoonDialog.showToast(message: '没有找到 ${selectedType.label} 的下载链接');
         return;
       }
 
@@ -257,8 +257,8 @@ class AutoUpdater {
 
       _downloadUpdate(downloadInfo, expectedHash);
     } catch (e) {
-      KazumiDialog.showToast(message: '下载失败: ${e.toString()}');
-      KazumiLogger().e('Update: download update failed', error: e);
+      CyanmoonDialog.showToast(message: '下载失败: ${e.toString()}');
+      CyanmoonLogger().e('Update: download update failed', error: e);
     }
   }
 
@@ -294,7 +294,7 @@ class AutoUpdater {
             ),
             actions: [
               TextButton(
-                onPressed: () => KazumiDialog.dismiss(context: context),
+                onPressed: () => CyanmoonDialog.dismiss(context: context),
                 child: const Text('取消'),
               ),
             ],
@@ -306,14 +306,14 @@ class AutoUpdater {
     }, onError: (e, stackTrace) {
       final errorMessage = getUpdateDownloadErrorMessage(e);
 
-      KazumiDialog.show(
+      CyanmoonDialog.show(
         builder: (context) {
           return AlertDialog(
             title: const Text('下载失败'),
             content: Text(errorMessage),
             actions: [
               TextButton(
-                onPressed: () => KazumiDialog.dismiss(context: context),
+                onPressed: () => CyanmoonDialog.dismiss(context: context),
                 child: const Text('确定'),
               ),
             ],
@@ -321,7 +321,7 @@ class AutoUpdater {
         },
       );
 
-      KazumiLogger().e(
+      CyanmoonLogger().e(
           'Update: download failed | source=${updateInfo.downloadUrl} | '
           '${describeUpdateDownloadError(e, stackTrace)}',
           error: e);
@@ -329,10 +329,10 @@ class AutoUpdater {
   }
 
   final ValueNotifier<double> _downloadProgress = ValueNotifier(0.0);
-  final _downloadDialogs = KazumiDialogController();
+  final _downloadDialogs = CyanmoonDialogController();
 
   void _showDownloadCompleteDialog(String filePath, UpdateInfo updateInfo) {
-    KazumiDialog.show(
+    CyanmoonDialog.show(
       builder: (context) {
         return AlertDialog(
           title: const Text('下载完成'),
@@ -389,7 +389,7 @@ class AutoUpdater {
           ),
           actions: [
             TextButton(
-              onPressed: () => KazumiDialog.dismiss(),
+              onPressed: () => CyanmoonDialog.dismiss(),
               child: Text(
                 '稍后安装',
                 style: TextStyle(color: Theme.of(context).colorScheme.outline),
@@ -398,14 +398,14 @@ class AutoUpdater {
             if (isDesktop())
               TextButton(
                 onPressed: () {
-                  KazumiDialog.dismiss(context: context);
+                  CyanmoonDialog.dismiss(context: context);
                   _revealInFileManager(filePath);
                 },
                 child: const Text('打开文件夹'),
               ),
             TextButton(
               onPressed: () {
-                KazumiDialog.dismiss();
+                CyanmoonDialog.dismiss();
                 _installUpdate(
                     filePath, updateInfo.recommendedInstallationType);
               },
@@ -434,7 +434,7 @@ class AutoUpdater {
   void _installUpdate(
       String filePath, InstallationType installationType) async {
     try {
-      KazumiDialog.showToast(message: '准备安装更新，应用即将退出...');
+      CyanmoonDialog.showToast(message: '准备安装更新，应用即将退出...');
 
       await Future.delayed(const Duration(seconds: 2));
 
@@ -459,13 +459,13 @@ class AutoUpdater {
       } else if (Platform.isAndroid) {
         final result = await OpenFilex.open(filePath);
         if (result.type != ResultType.done) {
-          KazumiDialog.showToast(message: '无法打开安装文件: ${result.message}');
+          CyanmoonDialog.showToast(message: '无法打开安装文件: ${result.message}');
           return;
         }
       }
     } catch (e) {
-      KazumiDialog.showToast(message: '启动安装程序失败: ${e.toString()}');
-      KazumiLogger().e('Update: launch installer failed', error: e);
+      CyanmoonDialog.showToast(message: '启动安装程序失败: ${e.toString()}');
+      CyanmoonLogger().e('Update: launch installer failed', error: e);
     }
   }
 
@@ -474,7 +474,7 @@ class AutoUpdater {
       final type = await FileSystemEntity.type(filePath);
       String targetDirOrFile;
       if (type == FileSystemEntityType.notFound) {
-        KazumiDialog.showToast(message: '文件或目录不存在');
+        CyanmoonDialog.showToast(message: '文件或目录不存在');
         return;
       } else if (type == FileSystemEntityType.directory) {
         targetDirOrFile = filePath;
@@ -500,11 +500,11 @@ class AutoUpdater {
       } else if (Platform.isLinux) {
         await Process.start('xdg-open', [targetDirOrFile]);
       } else {
-        KazumiDialog.showToast(message: '此平台不支持通过此方法打开文件管理器');
+        CyanmoonDialog.showToast(message: '此平台不支持通过此方法打开文件管理器');
       }
     } catch (e) {
-      KazumiDialog.showToast(message: '无法打开文件管理器');
-      KazumiLogger().w('Update: reveal in file manager failed', error: e);
+      CyanmoonDialog.showToast(message: '无法打开文件管理器');
+      CyanmoonLogger().w('Update: reveal in file manager failed', error: e);
     }
   }
 

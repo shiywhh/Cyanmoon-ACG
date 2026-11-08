@@ -86,7 +86,7 @@ class _VideoDetailsSheetState extends State<_VideoDetailsSheet>
 
   void _copyToClipboard(BuildContext context, String value) {
     Clipboard.setData(ClipboardData(text: value));
-    KazumiDialog.showToast(message: '已复制到剪贴板', context: context);
+    CyanmoonDialog.showToast(message: '已复制到剪贴板', context: context);
   }
 
   @override

@@ -188,7 +188,7 @@ class PlayerController implements Disposable {
     currentRoad = params.currentRoad;
     referer = params.referer;
 
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         'PlayerController: ${params.isLocalPlayback ? "local" : "online"} playback, url: ${params.videoUrl}');
 
     playback.resetForInit();
@@ -222,7 +222,7 @@ class PlayerController implements Disposable {
         return false;
       }
       playback.loading = false;
-      KazumiLogger()
+      CyanmoonLogger()
           .e('PlayerController: failed to initialize video', error: e);
       return false;
     }
@@ -281,7 +281,7 @@ class PlayerController implements Disposable {
     if (!_ownsInitialization(initialization, player)) {
       return false;
     }
-    KazumiLogger().i('PlayerController: video initialized');
+    CyanmoonLogger().i('PlayerController: video initialized');
     playback.loading = false;
 
     coverUrl = params.coverUrl;
@@ -403,7 +403,7 @@ class PlayerController implements Disposable {
     _shutdownFuture = shutdown;
     unawaited(
       shutdown.catchError((Object error, StackTrace stackTrace) {
-        KazumiLogger().e(
+        CyanmoonLogger().e(
           'PlayerController: failed to dispose asynchronously',
           error: error,
           stackTrace: stackTrace,
@@ -434,7 +434,7 @@ class PlayerController implements Disposable {
     try {
       await FlutterVolumeController.updateShowSystemUI(true);
     } catch (error, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'PlayerController: failed to restore the system volume UI',
         error: error,
         stackTrace: stackTrace,

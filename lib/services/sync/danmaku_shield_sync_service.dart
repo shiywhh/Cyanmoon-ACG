@@ -39,7 +39,7 @@ class DanmakuShieldSyncService {
     try {
       await sync();
     } catch (e, stackTrace) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'WebDav: automatic danmaku shield sync failed; keeping local changes',
         error: e,
         stackTrace: stackTrace,

@@ -44,13 +44,13 @@ Future<void> showDanmakuSourceSheet(
       context: context,
       maxHeightFactor: 0.88,
       useRootNavigator: true,
-      routeSettings: KazumiDialog.routeSettings,
+      routeSettings: CyanmoonDialog.routeSettings,
       builder: buildSheet,
     );
     return;
   }
 
-  await KazumiDialog.show<void>(
+  await CyanmoonDialog.show<void>(
     context: context,
     transitionDuration: MediaQuery.disableAnimationsOf(context)
         ? Duration.zero
@@ -157,7 +157,7 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
           _historyKey,
           List<String>.of(_recentKeywords),
         ).catchError((Object error) {
-          KazumiLogger().w(
+          CyanmoonLogger().w(
             'Danmaku search history failed to save',
             error: error,
           );
@@ -174,7 +174,7 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
         if (response.animes.isEmpty) _error = '未找到番剧';
       });
     } catch (error) {
-      KazumiLogger().w('Danmaku source search failed', error: error);
+      CyanmoonLogger().w('Danmaku source search failed', error: error);
       if (!mounted) return;
       setState(() {
         _loading = false;
@@ -207,7 +207,7 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
         if (_episodes.isEmpty) _error = '暂无分集';
       });
     } catch (error) {
-      KazumiLogger().w('Danmaku episode list failed to load', error: error);
+      CyanmoonLogger().w('Danmaku episode list failed to load', error: error);
       if (!mounted) return;
       setState(() {
         _loading = false;
@@ -224,14 +224,14 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
           .getDanDanmakuByEpisodeID(episode.episodeId);
       if (!mounted) return;
       widget.danmakuController.setDanmakuEnabled(hasDanmakus);
-      KazumiDialog.dismiss(context: context);
-      KazumiDialog.showToast(message: hasDanmakus ? '已切换弹幕源' : '暂无弹幕');
+      CyanmoonDialog.dismiss(context: context);
+      CyanmoonDialog.showToast(message: hasDanmakus ? '已切换弹幕源' : '暂无弹幕');
     } catch (e) {
       // 真正改播放器状态的一步不应吞掉异常细节（对照 _searchAnime/_selectAnime 均有日志）。
-      KazumiLogger().w('DanmakuSourceSheet: switch episode failed', error: e);
+      CyanmoonLogger().w('DanmakuSourceSheet: switch episode failed', error: e);
       if (!mounted) return;
       setState(() => _loading = false);
-      KazumiDialog.showToast(message: '弹幕源切换失败');
+      CyanmoonDialog.showToast(message: '弹幕源切换失败');
     }
   }
 
@@ -259,7 +259,7 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
   void _jumpToEpisode() {
     final number = int.tryParse(_episodeJumpController.text.trim());
     if (number == null || number < 1 || number > _episodes.length) {
-      KazumiDialog.showToast(message: '集号范围：1–${_episodes.length}');
+      CyanmoonDialog.showToast(message: '集号范围：1–${_episodes.length}');
       return;
     }
 
@@ -329,7 +329,7 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
                 onBack: _step == _SourceStep.search || _loading
                     ? null
                     : _goBack,
-                onClose: () => KazumiDialog.dismiss(context: context),
+                onClose: () => CyanmoonDialog.dismiss(context: context),
               ),
               Flexible(child: _loading ? _buildLoading() : _buildBody()),
             ],
@@ -439,7 +439,7 @@ class _DanmakuSourceSheetState extends State<_DanmakuSourceSheet> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () => KazumiDialog.dismiss(context: context),
+                  onPressed: () => CyanmoonDialog.dismiss(context: context),
                   child: const Text('取消'),
                 ),
                 const SizedBox(width: 10),

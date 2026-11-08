@@ -103,7 +103,7 @@ class _DownloadPageState extends State<DownloadPage> {
             record.bangumiId,
             record.pluginName,
           );
-          KazumiDialog.showToast(message: '已开始恢复下载');
+          CyanmoonDialog.showToast(message: '已开始恢复下载');
         },
         onDeleteAll: () => _confirmDeleteRecord(record),
         totalSpeed: totalSpeed,
@@ -213,7 +213,7 @@ class _DownloadPageState extends State<DownloadPage> {
               pluginName: record.pluginName,
               episodeNumber: episode.episodeNumber,
             );
-            KazumiDialog.showToast(message: '已插队优先下载');
+            CyanmoonDialog.showToast(message: '已插队优先下载');
           },
           tooltip: '优先下载',
           visualDensity: VisualDensity.compact,
@@ -241,7 +241,7 @@ class _DownloadPageState extends State<DownloadPage> {
       episode.episodeNumber,
     );
     if (localPath == null) {
-      KazumiDialog.showToast(message: '本地文件不存在');
+      CyanmoonDialog.showToast(message: '本地文件不存在');
       return;
     }
 
@@ -281,14 +281,14 @@ class _DownloadPageState extends State<DownloadPage> {
   }
 
   void _confirmDeleteEpisode(DownloadRecord record, DownloadEpisode episode) {
-    KazumiDialog.show(
+    CyanmoonDialog.show(
       builder: (context) => AlertDialog(
         title: const Text('删除下载'),
         content: Text(
             '确定要删除「${episode.episodeName.isNotEmpty ? episode.episodeName : '第${episode.episodeNumber}集'}」的下载文件吗？'),
         actions: [
           TextButton(
-            onPressed: () => KazumiDialog.dismiss(),
+            onPressed: () => CyanmoonDialog.dismiss(),
             child: Text(
               '取消',
               style: TextStyle(color: Theme.of(context).colorScheme.outline),
@@ -296,7 +296,7 @@ class _DownloadPageState extends State<DownloadPage> {
           ),
           TextButton(
             onPressed: () async {
-              KazumiDialog.dismiss();
+              CyanmoonDialog.dismiss();
               await _deleteDownload(
                 () => downloadController.deleteEpisode(
                   record.bangumiId,
@@ -316,13 +316,13 @@ class _DownloadPageState extends State<DownloadPage> {
   }
 
   void _confirmDeleteRecord(DownloadRecord record) {
-    KazumiDialog.show(
+    CyanmoonDialog.show(
       builder: (context) => AlertDialog(
         title: const Text('删除全部下载'),
         content: Text('确定要删除「${record.bangumiName}」的所有下载文件吗？'),
         actions: [
           TextButton(
-            onPressed: () => KazumiDialog.dismiss(),
+            onPressed: () => CyanmoonDialog.dismiss(),
             child: Text(
               '取消',
               style: TextStyle(color: Theme.of(context).colorScheme.outline),
@@ -330,7 +330,7 @@ class _DownloadPageState extends State<DownloadPage> {
           ),
           TextButton(
             onPressed: () async {
-              KazumiDialog.dismiss();
+              CyanmoonDialog.dismiss();
               await _deleteDownload(
                 () => downloadController.deleteRecord(
                   record.bangumiId,
@@ -352,16 +352,16 @@ class _DownloadPageState extends State<DownloadPage> {
     try {
       await delete();
     } catch (e) {
-      KazumiLogger().w('DownloadPage: failed to delete download', error: e);
+      CyanmoonLogger().w('DownloadPage: failed to delete download', error: e);
       if (!mounted) return;
-      KazumiDialog.show(
+      CyanmoonDialog.show(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('删除失败'),
           content: const Text('删除下载文件失败，请稍后重试'),
           actions: [
             TextButton(
-              onPressed: () => KazumiDialog.dismiss(context: context),
+              onPressed: () => CyanmoonDialog.dismiss(context: context),
               child: const Text('确定'),
             ),
           ],

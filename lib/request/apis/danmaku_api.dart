@@ -62,7 +62,7 @@ class DanmakuApi {
     final conversion = DanmakuChConvert.fromValue(
       GStorage.getSetting(SettingsKeys.danmakuChConvert),
     );
-    KazumiLogger().i('Danmaku: final request URL $endPoint');
+    CyanmoonLogger().i('Danmaku: final request URL $endPoint');
     final jsonData = await _client.get(
       endPoint,
       queryParameters: {

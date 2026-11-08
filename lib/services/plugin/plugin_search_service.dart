@@ -96,7 +96,7 @@ class PluginSearchService {
 
   void _handleSearchError(Plugin plugin, Object error) {
     if (error is CaptchaRequiredException) {
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'PluginSearchService: captcha required for ${error.pluginName}',
       );
       infoController.pluginSearchStatus[error.pluginName] =
@@ -104,7 +104,7 @@ class PluginSearchService {
       return;
     }
     if (error is NoResultException) {
-      KazumiLogger().i(
+      CyanmoonLogger().i(
         'PluginSearchService: no results for ${error.pluginName}',
       );
       infoController.pluginSearchStatus[error.pluginName] =
@@ -112,7 +112,7 @@ class PluginSearchService {
       return;
     }
     final name = error is SearchErrorException ? error.pluginName : plugin.name;
-    KazumiLogger().w('PluginSearchService: search error for $name');
+    CyanmoonLogger().w('PluginSearchService: search error for $name');
     infoController.pluginSearchStatus[name] = PluginSearchStatus.error;
   }
 

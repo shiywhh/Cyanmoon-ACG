@@ -57,7 +57,7 @@ class DanmakuShieldRepository implements IDanmakuShieldRepository {
       } on FormatException catch (e) {
         await GStorage.putSetting(
             SettingsKeys.danmakuShieldSyncCorruptState, saved);
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'Danmaku: restoring shield sync metadata from local rules',
           error: e,
         );

@@ -119,7 +119,7 @@ class _KeyboardSettingsPageState extends State<KeyboardSettingsPage> {
         if (otherFunc == func && i == index) continue;
         if (otherKeys[i] == rawKey) {
           final name = shortcutsChineseName[otherFunc] ?? otherFunc;
-          KazumiDialog.showToast(message: "按键已被【$name】占用，请重新输入");
+          CyanmoonDialog.showToast(message: "按键已被【$name】占用，请重新输入");
           return true;
         }
       }
@@ -181,7 +181,7 @@ class _KeyboardSettingsPageState extends State<KeyboardSettingsPage> {
         GStorage.putStringListSettingByName('shortcut_$func', shortcuts[func]!);
       }
     });
-    KazumiDialog.showToast(message: '已恢复默认快捷键');
+    CyanmoonDialog.showToast(message: '已恢复默认快捷键');
   }
 
   List<_ShortcutGroup> get displayGroups {

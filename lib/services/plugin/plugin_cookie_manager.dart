@@ -35,7 +35,7 @@ class PluginCookieManager {
     if (cookies.isEmpty) return;
 
     await jar.saveFromResponse(uri, cookies);
-    KazumiLogger().i(
+    CyanmoonLogger().i(
         '[PluginCookieManager] Saved ${cookies.length} cookies for $pluginName');
   }
 

@@ -60,7 +60,7 @@ abstract class _PlayerDebugController with Store {
         playerLog.removeRange(0, playerLog.length - 200);
       }
       if (playerDebugMode) {
-        KazumiLogger().i("MPV: ${event.toString()}", forceLog: true);
+        CyanmoonLogger().i("MPV: ${event.toString()}", forceLog: true);
       }
     });
     await playerWidthSubscription?.cancel();

@@ -74,7 +74,7 @@ class _PlayerItemState extends State<PlayerItem>
         WindowListener,
         WidgetsBindingObserver,
         TickerProviderStateMixin,
-        KazumiDialogOwner {
+        CyanmoonDialogOwner {
   late final PlayerController playerController;
   late final VideoPageController videoPageController =
       widget.videoPageController;
@@ -189,7 +189,7 @@ class _PlayerItemState extends State<PlayerItem>
     try {
       await PipUtils.setAndroidAutoEnterPIPEnabled(autoEnterPIPEnabled);
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'PlayerItem: failed to sync android auto enter pip setting',
         error: e,
       );
@@ -203,7 +203,7 @@ class _PlayerItemState extends State<PlayerItem>
     try {
       await PipUtils.setAndroidPIPInPlayerPage(inPlayerPage);
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'PlayerItem: failed to sync android pip player page state',
         error: e,
       );
@@ -287,7 +287,7 @@ class _PlayerItemState extends State<PlayerItem>
       return;
     }
     if (!supported) {
-      KazumiDialog.showToast(message: '当前设备不支持画中画');
+      CyanmoonDialog.showToast(message: '当前设备不支持画中画');
       return;
     }
     setState(() {
@@ -305,7 +305,7 @@ class _PlayerItemState extends State<PlayerItem>
     if (entered || !mounted) {
       return;
     }
-    KazumiDialog.showToast(message: '进入画中画失败');
+    CyanmoonDialog.showToast(message: '进入画中画失败');
     setState(() {
       _pipEnterRequested = false;
     });
@@ -411,11 +411,11 @@ class _PlayerItemState extends State<PlayerItem>
     }
 
     if (targetEpisode > episodes.length) {
-      KazumiDialog.showToast(message: '已经是最新一集');
+      CyanmoonDialog.showToast(message: '已经是最新一集');
       return;
     }
     if (targetEpisode <= 0) {
-      KazumiDialog.showToast(message: '已经是第一集');
+      CyanmoonDialog.showToast(message: '已经是第一集');
       return;
     }
 
@@ -425,7 +425,7 @@ class _PlayerItemState extends State<PlayerItem>
     );
     final targetRef = videoPageController.resolveEpisode(targetSelection);
     if (targetRef != null) {
-      KazumiDialog.showToast(message: '正在加载${targetRef.displayTitle}');
+      CyanmoonDialog.showToast(message: '正在加载${targetRef.displayTitle}');
     }
     widget.changeEpisode(targetEpisode, currentRoad: currentRoad);
   }
@@ -438,7 +438,7 @@ class _PlayerItemState extends State<PlayerItem>
         ),
       );
     } catch (e) {
-      KazumiLogger().e('PlayerController: seek failed', error: e);
+      CyanmoonLogger().e('PlayerController: seek failed', error: e);
     }
   }
 
@@ -469,7 +469,7 @@ class _PlayerItemState extends State<PlayerItem>
           ),
         );
       } catch (e) {
-        KazumiLogger().e('PlayerController: seek failed', error: e);
+        CyanmoonLogger().e('PlayerController: seek failed', error: e);
       }
     }
   }
@@ -603,7 +603,7 @@ class _PlayerItemState extends State<PlayerItem>
         var webDav = WebDav();
         await webDav.syncHistory();
       } catch (e) {
-        KazumiLogger().w('WebDav: auto history sync failed', error: e);
+        CyanmoonLogger().w('WebDav: auto history sync failed', error: e);
       }
     }
   }
@@ -620,7 +620,7 @@ class _PlayerItemState extends State<PlayerItem>
       );
       _syncAudioServiceState();
     } catch (e) {
-      KazumiLogger().w('AudioController: failed to bind callbacks', error: e);
+      CyanmoonLogger().w('AudioController: failed to bind callbacks', error: e);
     }
   }
 
@@ -671,7 +671,7 @@ class _PlayerItemState extends State<PlayerItem>
         ),
       );
     } catch (e) {
-      KazumiLogger().w(
+      CyanmoonLogger().w(
         'AudioController: failed to sync playback state',
         error: e,
       );
@@ -711,7 +711,7 @@ class _PlayerItemState extends State<PlayerItem>
         cancelled: cancelled,
       );
     } catch (e) {
-      KazumiLogger().e('PlayerController: interactive seek failed', error: e);
+      CyanmoonLogger().e('PlayerController: interactive seek failed', error: e);
     }
     if (!mounted ||
         (!completed && playerController.seeking.hasActiveInteractiveSeek)) {
@@ -752,7 +752,7 @@ class _PlayerItemState extends State<PlayerItem>
     final source = videoPageController.src;
     final player = playerController.playback.mediaPlayer;
     if (videoPageController.loading || player == null) {
-      KazumiDialog.showToast(message: '暂未获取到画面，请等视频显示后重试');
+      CyanmoonDialog.showToast(message: '暂未获取到画面，请等视频显示后重试');
       return;
     }
     final added = await _screenshots.capture(
@@ -774,7 +774,7 @@ class _PlayerItemState extends State<PlayerItem>
     if (!_screenshotSheetOpen) {
       showVideoController();
       if (!added || _screenshots.candidates.length == 1) {
-        KazumiDialog.showToast(
+        CyanmoonDialog.showToast(
           message: added
               ? '已截取画面，点击右上角图库挑选保存'
               : _screenshots.message ?? '截图失败，请重试',
@@ -792,7 +792,7 @@ class _PlayerItemState extends State<PlayerItem>
       final screenshot = await playerController.screenshotPng();
       if (!mounted) return;
       if (screenshot == null || screenshot.isEmpty) {
-        KazumiDialog.showToast(message: '截图失败：未获取到图像');
+        CyanmoonDialog.showToast(message: '截图失败：未获取到图像');
         return;
       }
       final result = await SaverGallery.saveImage(
@@ -802,10 +802,10 @@ class _PlayerItemState extends State<PlayerItem>
         skipIfExists: false,
       );
       if (mounted && !result.isSuccess) {
-        KazumiDialog.showToast(message: '截图保存失败：${result.errorMessage}');
+        CyanmoonDialog.showToast(message: '截图保存失败：${result.errorMessage}');
       }
     } catch (e) {
-      if (mounted) KazumiDialog.showToast(message: '截图失败：$e');
+      if (mounted) CyanmoonDialog.showToast(message: '截图失败：$e');
     }
   }
 
@@ -873,7 +873,7 @@ class _PlayerItemState extends State<PlayerItem>
       );
 
       if (androidVideoRenderer == 'mediacodec_embed') {
-        await KazumiDialog.show(
+        await CyanmoonDialog.show(
           builder: (context) {
             return AlertDialog(
               title: const Text('兼容性提示'),
@@ -884,7 +884,7 @@ class _PlayerItemState extends State<PlayerItem>
               actions: [
                 TextButton(
                   onPressed: () {
-                    KazumiDialog.dismiss(context: context);
+                    CyanmoonDialog.dismiss(context: context);
                   },
                   child: const Text('确定'),
                 ),
@@ -904,7 +904,7 @@ class _PlayerItemState extends State<PlayerItem>
     if (requiresPerformanceWarning && !warningDisabled) {
       bool confirmed = false;
 
-      await KazumiDialog.show(
+      await CyanmoonDialog.show(
         builder: (context) {
           bool dontAskAgain = false;
 
@@ -941,7 +941,7 @@ class _PlayerItemState extends State<PlayerItem>
                         );
                       }
                       if (!context.mounted) return;
-                      KazumiDialog.dismiss(context: context);
+                      CyanmoonDialog.dismiss(context: context);
                     },
                     child: const Text('取消'),
                   ),
@@ -955,7 +955,7 @@ class _PlayerItemState extends State<PlayerItem>
                         );
                       }
                       if (!context.mounted) return;
-                      KazumiDialog.dismiss(context: context);
+                      CyanmoonDialog.dismiss(context: context);
                     },
                     child: const Text('确认'),
                   ),
@@ -1057,18 +1057,18 @@ class _PlayerItemState extends State<PlayerItem>
           index++;
           setPlaybackSpeed(defaultPlaySpeedList[index]);
         } else {
-          KazumiDialog.showToast(message: '已达倍速上限');
+          CyanmoonDialog.showToast(message: '已达倍速上限');
         }
       } else if (type == "down") {
         if (index > 0) {
           index--;
           setPlaybackSpeed(defaultPlaySpeedList[index]);
         } else {
-          KazumiDialog.showToast(message: '已达倍速下限');
+          CyanmoonDialog.showToast(message: '已达倍速下限');
         }
       }
     } catch (e) {
-      KazumiLogger().e('PlayerController: speed change failed', error: e);
+      CyanmoonLogger().e('PlayerController: speed change failed', error: e);
     }
   }
 
@@ -1094,7 +1094,7 @@ class _PlayerItemState extends State<PlayerItem>
       _showVolumeAdjustmentHud();
       _scheduleAdjustmentHudHide(delay: const Duration(seconds: 1));
     } catch (e) {
-      KazumiLogger().e('PlayerController: volume change failed', error: e);
+      CyanmoonLogger().e('PlayerController: volume change failed', error: e);
     }
   }
 
@@ -1254,7 +1254,7 @@ class _PlayerItemState extends State<PlayerItem>
           // Let the controller report resolution failures without retrying every tick.
           final nextRef = videoPageController.resolveEpisode(nextSelection);
           if (nextRef != null) {
-            KazumiDialog.showToast(message: '正在加载${nextRef.displayTitle}');
+            CyanmoonDialog.showToast(message: '正在加载${nextRef.displayTitle}');
           }
           try {
             playerTimer!.cancel();

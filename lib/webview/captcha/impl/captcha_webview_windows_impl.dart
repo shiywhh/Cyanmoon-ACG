@@ -114,7 +114,7 @@ class CaptchaWebviewWindowsImpl
 ''');
       return result?.toString().contains('present') ?? false;
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] _isCaptchaPresent error: $e');
+      CyanmoonLogger().d('[Captcha WebView] _isCaptchaPresent error: $e');
       return false;
     }
   }
@@ -236,7 +236,7 @@ class CaptchaWebviewWindowsImpl
     try {
       await _headlessWebview?.executeScript(script);
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] inject script error: $e');
+      CyanmoonLogger().e('[Captcha WebView] inject script error: $e');
     }
   }
 
@@ -316,7 +316,7 @@ $script
       logEventController
           .add('[Captcha WebView] Custom script execute result: $result');
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] injectCustomScript error: $e');
+      CyanmoonLogger().e('[Captcha WebView] injectCustomScript error: $e');
       logEventController
           .add('[Captcha WebView] Custom script inject error: $e');
     }
@@ -376,7 +376,7 @@ $script
     try {
       await _headlessWebview?.executeScript(script);
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] injectButtonClickScript error: $e');
+      CyanmoonLogger().e('[Captcha WebView] injectButtonClickScript error: $e');
     }
   }
 
@@ -424,7 +424,7 @@ $script
     try {
       await _headlessWebview?.executeScript(script);
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] submitCaptchaInteract error: $e');
+      CyanmoonLogger().e('[Captcha WebView] submitCaptchaInteract error: $e');
     }
   }
 
@@ -434,7 +434,7 @@ $script
       final result = await _headlessWebview?.getCookies(pageUrl);
       return result ?? '';
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] getCookieString error: $e');
+      CyanmoonLogger().e('[Captcha WebView] getCookieString error: $e');
       return '';
     }
   }
@@ -446,7 +446,7 @@ $script
           "document.readyState === 'loading' ? '' : document.documentElement.outerHTML;");
       return result is String ? result : '';
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] getPageHtml error: $e');
+      CyanmoonLogger().d('[Captcha WebView] getPageHtml error: $e');
       return '';
     }
   }
@@ -458,7 +458,7 @@ $script
           await _headlessWebview?.executeScript('navigator.userAgent;');
       return result is String ? result : '';
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] getUserAgent error: $e');
+      CyanmoonLogger().d('[Captcha WebView] getUserAgent error: $e');
       return '';
     }
   }
@@ -469,7 +469,7 @@ $script
       await _headlessWebview
           ?.executeScript("window.location.href = 'about:blank';");
     } catch (e) {
-      KazumiLogger().d('[Captcha WebView] unloadPage skipped: $e');
+      CyanmoonLogger().d('[Captcha WebView] unloadPage skipped: $e');
     }
   }
 
@@ -509,9 +509,9 @@ $script
       await WebviewController.initializeEnvironment(
         additionalArguments: '--proxy-server=$formattedProxy',
       );
-      KazumiLogger().i('[Captcha WebView] 代理设置成功 $formattedProxy');
+      CyanmoonLogger().i('[Captcha WebView] 代理设置成功 $formattedProxy');
     } catch (e) {
-      KazumiLogger().e('[Captcha WebView] 设置代理失败 $e');
+      CyanmoonLogger().e('[Captcha WebView] 设置代理失败 $e');
     }
   }
 }

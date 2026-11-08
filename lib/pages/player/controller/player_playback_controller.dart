@@ -43,7 +43,7 @@ final class _OwnedPlayer {
     try {
       await player.dispose();
     } catch (error, stackTrace) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'PlayerPlaybackController: failed to dispose media player',
         error: error,
         stackTrace: stackTrace,
@@ -171,7 +171,7 @@ abstract class _PlayerPlaybackController with Store {
       await player.play();
       startOffset = 0;
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .w('PlayerController: failed to restart from beginning', error: e);
     }
   }
@@ -258,7 +258,7 @@ abstract class _PlayerPlaybackController with Store {
         }
         await pp.setProperty('demuxer-readahead-secs', wanted ? '0' : '1');
       } catch (e) {
-        KazumiLogger().w(
+        CyanmoonLogger().w(
           'PlayerController: failed to ${wanted ? 'suspend' : 'resume'} demuxer prefetch',
           error: e,
         );
@@ -358,7 +358,7 @@ abstract class _PlayerPlaybackController with Store {
           if (!isCurrentPlayer(player)) {
             return await _discardIfNotCurrent(candidate);
           }
-          KazumiLogger().i('Player: HTTP 代理设置成功 $formattedProxy');
+          CyanmoonLogger().i('Player: HTTP 代理设置成功 $formattedProxy');
         }
       } else if (SystemProxyService.isActive) {
         final proxy = SystemProxyService.proxyFor('https');
@@ -367,7 +367,7 @@ abstract class _PlayerPlaybackController with Store {
           if (!isCurrentPlayer(player)) {
             return await _discardIfNotCurrent(candidate);
           }
-          KazumiLogger().i('Player: 跟随系统代理 http://${proxy.$1}:${proxy.$2}');
+          CyanmoonLogger().i('Player: 跟随系统代理 http://${proxy.$1}:${proxy.$2}');
         }
       }
 
@@ -431,16 +431,16 @@ abstract class _PlayerPlaybackController with Store {
             isBuffering: playerBuffering,
           );
           if (actionableMessage != null) {
-            KazumiDialog.showToast(
+            CyanmoonDialog.showToast(
                 message: actionableMessage, showActionButton: true);
           } else if (showPlayerError) {
-            KazumiDialog.showToast(
+            CyanmoonDialog.showToast(
                 message: '播放器内部错误 ${event.toString()} ${videoUrl()}',
                 duration: const Duration(seconds: 5),
                 showActionButton: true);
           }
         }
-        KazumiLogger().e('PlayerController: Player intent error ${videoUrl()}',
+        CyanmoonLogger().e('PlayerController: Player intent error ${videoUrl()}',
             error: event);
       });
 
@@ -468,7 +468,7 @@ abstract class _PlayerPlaybackController with Store {
       }
 
       if (cachePolicy.networkAutomatic) {
-        KazumiDialog.showToast(message: '移动数据下已自动开启低内存模式，可在播放设置中改为始终关闭');
+        CyanmoonDialog.showToast(message: '移动数据下已自动开启低内存模式，可在播放设置中改为始终关闭');
       }
 
       return player;
@@ -522,7 +522,7 @@ abstract class _PlayerPlaybackController with Store {
       }
       superResolutionMode = mode;
     } catch (e) {
-      KazumiLogger().w('PlayerController: failed to set shader', error: e);
+      CyanmoonLogger().w('PlayerController: failed to set shader', error: e);
     }
   }
 
@@ -531,7 +531,7 @@ abstract class _PlayerPlaybackController with Store {
     try {
       mediaPlayer!.setRate(playerSpeed);
     } catch (e) {
-      KazumiLogger()
+      CyanmoonLogger()
           .e('PlayerController: failed to set playback speed', error: e);
     }
   }

@@ -61,7 +61,7 @@ class DownloadDirectoryService {
       }
     } catch (e) {
       _accessLost = true;
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'DownloadDirectoryService: failed to restore access to $directory',
         error: e,
       );
@@ -139,7 +139,7 @@ class DownloadDirectoryService {
     try {
       bookmark = await _bookmarks.bookmark(Directory(directory));
     } catch (e) {
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'DownloadDirectoryService: failed to bookmark $directory',
         error: e,
       );

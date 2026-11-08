@@ -241,7 +241,7 @@ class CycaniApi extends ChangeNotifier {
     try {
       await _persist();
     } catch (e) {
-      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+      CyanmoonLogger().w('CycaniApi: failed to persist session', error: e);
     }
     notifyListeners();
   }
@@ -255,12 +255,12 @@ class CycaniApi extends ChangeNotifier {
     try {
       await _vault.write(null);
     } catch (e) {
-      KazumiLogger().w('CycaniApi: failed to clear session vault', error: e);
+      CyanmoonLogger().w('CycaniApi: failed to clear session vault', error: e);
     }
     try {
       await clearLibrarySnapshots();
     } catch (e) {
-      KazumiLogger().w('CycaniApi: failed to clear library snapshots', error: e);
+      CyanmoonLogger().w('CycaniApi: failed to clear library snapshots', error: e);
     }
     notifyListeners();
   }
@@ -376,7 +376,7 @@ class CycaniApi extends ChangeNotifier {
     try {
       await _persist();
     } catch (e) {
-      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+      CyanmoonLogger().w('CycaniApi: failed to persist session', error: e);
     }
     notifyListeners();
   }
@@ -403,7 +403,7 @@ class CycaniApi extends ChangeNotifier {
     try {
       await _persist();
     } catch (e) {
-      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+      CyanmoonLogger().w('CycaniApi: failed to persist session', error: e);
     }
     notifyListeners();
   }
@@ -417,7 +417,7 @@ class CycaniApi extends ChangeNotifier {
     try {
       await _persist();
     } catch (e) {
-      KazumiLogger().w('CycaniApi: failed to persist session', error: e);
+      CyanmoonLogger().w('CycaniApi: failed to persist session', error: e);
     }
     notifyListeners();
   }

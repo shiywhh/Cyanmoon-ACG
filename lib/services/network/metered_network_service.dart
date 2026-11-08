@@ -34,7 +34,7 @@ class MeteredNetworkService {
           _apply(results);
         },
         onError: (Object error) {
-          KazumiLogger().w('Network: 网络类型监听中断 $error');
+          CyanmoonLogger().w('Network: 网络类型监听中断 $error');
         },
       );
       final results = await Connectivity()
@@ -45,7 +45,7 @@ class MeteredNetworkService {
         _apply(results);
       }
     } catch (error) {
-      KazumiLogger().w('Network: 读取网络类型失败，保留上次状态 $error');
+      CyanmoonLogger().w('Network: 读取网络类型失败，保留上次状态 $error');
     }
   }
 
@@ -54,7 +54,7 @@ class MeteredNetworkService {
     if (metered == null || metered == _metered.value) {
       return;
     }
-    KazumiLogger()
+    CyanmoonLogger()
         .i(metered ? 'Network: 切换到移动数据网络' : 'Network: 切换到 WLAN / 局域网');
     _metered.value = metered;
   }

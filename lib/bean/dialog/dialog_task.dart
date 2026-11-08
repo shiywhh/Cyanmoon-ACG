@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:cyanmoon_acg/bean/dialog/dialog.dart'
-    show KazumiDialog, KazumiDialogHandle;
+    show CyanmoonDialog, CyanmoonDialogHandle;
 import 'package:cyanmoon_acg/bean/widget/loading_indicator.dart';
 
-mixin KazumiDialogOwner<T extends StatefulWidget> on State<T> {
-  late final dialogs = KazumiDialogController(context: () => context)
+mixin CyanmoonDialogOwner<T extends StatefulWidget> on State<T> {
+  late final dialogs = CyanmoonDialogController(context: () => context)
     ..addListener(_refreshDialogState);
 
   void _refreshDialogState() {
@@ -29,12 +29,12 @@ mixin KazumiDialogOwner<T extends StatefulWidget> on State<T> {
   }
 }
 
-class KazumiDialogController extends ChangeNotifier {
-  KazumiDialogController({BuildContext Function()? context})
+class CyanmoonDialogController extends ChangeNotifier {
+  CyanmoonDialogController({BuildContext Function()? context})
       : _context = context;
 
   final BuildContext Function()? _context;
-  KazumiDialogTask? _current;
+  CyanmoonDialogTask? _current;
   bool _disposed = false;
 
   bool get isRunning => _current?._isActive ?? false;
@@ -42,14 +42,14 @@ class KazumiDialogController extends ChangeNotifier {
   /// Await steps through the task to stop on cancellation. Replacing or disposing
   /// the owner skips [onCancelled]; user cancellation calls it after cleanup.
   Future<void> run(
-    Future<void> Function(KazumiDialogTask task) action, {
+    Future<void> Function(CyanmoonDialogTask task) action, {
     String? errorMessage,
     void Function(Object error, StackTrace stackTrace)? onError,
     VoidCallback? onCancelled,
   }) async {
     if (_disposed || !(_context?.call().mounted ?? true)) return;
     cancel();
-    final task = _current = KazumiDialogTask._(this);
+    final task = _current = CyanmoonDialogTask._(this);
     notifyListeners();
     try {
       await action(task);
@@ -60,7 +60,7 @@ class KazumiDialogController extends ChangeNotifier {
       if (onError != null) {
         onError(error, stackTrace);
       } else if (errorMessage != null) {
-        KazumiDialog.showToast(message: errorMessage);
+        CyanmoonDialog.showToast(message: errorMessage);
       } else {
         rethrow;
       }
@@ -89,12 +89,12 @@ class KazumiDialogController extends ChangeNotifier {
   }
 }
 
-class KazumiDialogTask {
-  KazumiDialogTask._(this._owner);
+class CyanmoonDialogTask {
+  CyanmoonDialogTask._(this._owner);
 
-  final KazumiDialogController _owner;
+  final CyanmoonDialogController _owner;
   final _cancelled = Completer<void>();
-  KazumiDialogHandle<dynamic>? _dialog;
+  CyanmoonDialogHandle<dynamic>? _dialog;
   FutureOr<void> Function()? _onCancel;
   Future<void>? _cancelCleanup;
 
@@ -148,10 +148,10 @@ class KazumiDialogTask {
     WidgetBuilder? builder,
   }) async {
     _checkActive();
-    final dialog = KazumiDialogHandle<void>();
+    final dialog = CyanmoonDialogHandle<void>();
     _dialog = dialog;
     _onCancel = onCancel;
-    final closed = KazumiDialog.show<void>(
+    final closed = CyanmoonDialog.show<void>(
       context: _owner._context?.call(),
       handle: dialog,
       clickMaskDismiss: barrierDismissible,
@@ -183,10 +183,10 @@ class KazumiDialogTask {
     bool clickMaskDismiss = true,
   }) async {
     _checkActive();
-    final dialog = KazumiDialogHandle<T>();
+    final dialog = CyanmoonDialogHandle<T>();
     _dialog = dialog;
     try {
-      final result = await wait(KazumiDialog.show<T>(
+      final result = await wait(CyanmoonDialog.show<T>(
         context: _owner._context?.call(),
         handle: dialog,
         clickMaskDismiss: clickMaskDismiss,

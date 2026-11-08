@@ -110,7 +110,7 @@ abstract class _CollectController with Store {
       return _BangumiDeleteSyncAction.deleteLocalOnly;
     }
 
-    return KazumiDialog.show<_BangumiDeleteSyncAction>(
+    return CyanmoonDialog.show<_BangumiDeleteSyncAction>(
       clickMaskDismiss: true,
       builder: (context) => AlertDialog(
         title: const Text('Bangumi 不支持删除收藏'),
@@ -147,7 +147,7 @@ abstract class _CollectController with Store {
       await launchUrl(url, mode: LaunchMode.externalApplication);
       return;
     }
-    KazumiDialog.showToast(message: '无法打开 Bangumi 网页');
+    CyanmoonDialog.showToast(message: '无法打开 Bangumi 网页');
   }
 
   Future<bool> _syncBangumiCollectIfEnabled(
@@ -163,26 +163,26 @@ abstract class _CollectController with Store {
     final bangumi = BangumiSyncService();
     try {
       if (showImmediateSyncToast) {
-        KazumiDialog.showToast(message: '正在同步到 Bangumi...');
+        CyanmoonDialog.showToast(message: '正在同步到 Bangumi...');
       }
       final bool synced =
           await bangumi.syncCollectibleWhenIdle(bangumiId, localType);
       if (synced && showImmediateSyncToast) {
-        KazumiDialog.showToast(message: '已同步到 Bangumi');
+        CyanmoonDialog.showToast(message: '已同步到 Bangumi');
         return true;
       } else if (!synced) {
-        KazumiDialog.showToast(message: '同步到 Bangumi 失败，已取消本次状态修改');
-        KazumiLogger().w(
+        CyanmoonDialog.showToast(message: '同步到 Bangumi 失败，已取消本次状态修改');
+        CyanmoonLogger().w(
           'Bangumi: immediate collect sync did not complete. bangumiId=$bangumiId, type=$localType',
         );
         return false;
       }
       return true;
     } catch (e, stackTrace) {
-      KazumiDialog.showToast(
+      CyanmoonDialog.showToast(
           message:
               '同步到 Bangumi 失败，已取消本次状态修改：${BangumiSyncService.describeError(e)}');
-      KazumiLogger().e(
+      CyanmoonLogger().e(
         'Bangumi: immediate collect sync failed. bangumiId=$bangumiId, type=$localType',
         error: e,
         stackTrace: stackTrace,
@@ -199,7 +199,7 @@ abstract class _CollectController with Store {
   void _reportSyncError(String message, ValueChanged<String> onError,
       {Object? error}) {
     if (error != null) {
-      KazumiLogger().e(message, error: error);
+      CyanmoonLogger().e(message, error: error);
     }
     onError(message);
   }
@@ -270,7 +270,7 @@ abstract class _CollectController with Store {
       }
       await _collectCrudRepository.clearFavorites();
       loadCollectibles();
-      KazumiLogger().d(
+      CyanmoonLogger().d(
           'GStorage: detected $count uncategorized favorites, migrated to collectibles');
     }
   }

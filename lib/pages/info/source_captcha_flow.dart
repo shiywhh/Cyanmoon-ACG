@@ -5,7 +5,7 @@ class _SourceCaptchaFlow {
 
   final void Function(Plugin plugin, String pageHtml) onVerified;
   final void Function(Plugin plugin) onCancelled;
-  final _dialogs = KazumiDialogController();
+  final _dialogs = CyanmoonDialogController();
 
   void dispose() => _dialogs.dispose();
 
@@ -286,7 +286,7 @@ class _CaptchaDialogState extends State<_CaptchaDialog> {
       actions: [
         TextButton(
           style: TextButton.styleFrom(minimumSize: const Size(72, 48)),
-          onPressed: () => KazumiDialog.dismiss(context: context),
+          onPressed: () => CyanmoonDialog.dismiss(context: context),
           child: const Text('返回来源'),
         ),
         FilledButton(
@@ -405,7 +405,7 @@ class _AutomatedVerifyDialog extends StatelessWidget {
         actions: [
           TextButton(
             style: TextButton.styleFrom(minimumSize: const Size(72, 48)),
-            onPressed: () => KazumiDialog.dismiss(context: context),
+            onPressed: () => CyanmoonDialog.dismiss(context: context),
             child: const Text('返回来源'),
           ),
         ],
@@ -437,7 +437,7 @@ class _VerificationCompleteDialogState
   void initState() {
     super.initState();
     _closeTimer = Timer(const Duration(seconds: 3), () {
-      KazumiDialog.dismiss(context: context, popWith: true);
+      CyanmoonDialog.dismiss(context: context, popWith: true);
     });
   }
 

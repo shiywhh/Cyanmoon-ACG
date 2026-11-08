@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef KazumiMenuBuilder =
+typedef CyanmoonMenuBuilder =
     Widget Function(BuildContext context, VoidCallback? toggle);
 
 const _menuItemStyle = ButtonStyle(
@@ -10,8 +10,8 @@ const _menuItemStyle = ButtonStyle(
   visualDensity: VisualDensity.standard,
 );
 
-class KazumiMenuButton extends StatelessWidget {
-  const KazumiMenuButton({
+class CyanmoonMenuButton extends StatelessWidget {
+  const CyanmoonMenuButton({
     super.key,
     required this.builder,
     required this.menuChildren,
@@ -24,7 +24,7 @@ class KazumiMenuButton extends StatelessWidget {
     this.style,
   });
 
-  final KazumiMenuBuilder builder;
+  final CyanmoonMenuBuilder builder;
   final List<Widget> menuChildren;
   final MenuController? controller;
   final bool enabled;
@@ -63,8 +63,8 @@ class KazumiMenuButton extends StatelessWidget {
   }
 }
 
-class KazumiMenuItem extends StatelessWidget {
-  const KazumiMenuItem({
+class CyanmoonMenuItem extends StatelessWidget {
+  const CyanmoonMenuItem({
     super.key,
     required this.label,
     required this.onPressed,

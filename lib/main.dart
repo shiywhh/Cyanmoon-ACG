@@ -113,7 +113,7 @@ void main() async {
     ModularApp(
       module: appModule,
       navigatorKey: rootNavigatorKey,
-      navigatorObservers: [KazumiDialog.observer, rootRouteObserver],
+      navigatorObservers: [CyanmoonDialog.observer, rootRouteObserver],
       defaultTransition: TransitionType.material,
       provide: (scoped) {
         scoped.addChangeNotifier<ThemeProvider>(ThemeProvider.new);

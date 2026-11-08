@@ -216,7 +216,7 @@ class SourceAccounts {
   Future<Options?> _xOptions() async {
     final epoch = _xEpoch;
     await _sessionWrites.timeout(const Duration(seconds: 2), onTimeout: () {
-      KazumiLogger().w('Xifan session read skipped a stuck write queue after 2s');
+      CyanmoonLogger().w('Xifan session read skipped a stuck write queue after 2s');
     });
     final raw = await _storage.read(key: _xKey);
     if (raw == null || epoch != _xEpoch) return null;
@@ -443,7 +443,7 @@ class SourceAccounts {
 
   Future<CatalogJson?> _checkGiriSession(int epoch) async {
     await _sessionWrites.timeout(const Duration(seconds: 2), onTimeout: () {
-      KazumiLogger().w('Giri session read skipped a stuck write queue after 2s');
+      CyanmoonLogger().w('Giri session read skipped a stuck write queue after 2s');
     });
     final raw = await _storage.read(key: _gKey);
     if (raw == null || epoch != _giriSessionEpoch) return null;
@@ -2574,9 +2574,9 @@ class _XifanProfileDialogState extends State<_XifanProfileDialog> {
             try {
               await widget.onVerify!();
             } catch (e) {
-              KazumiLogger().w('SourceAccounts: open verification failed',
+              CyanmoonLogger().w('SourceAccounts: open verification failed',
                   error: e);
-              KazumiDialog.showToast(
+              CyanmoonDialog.showToast(
                   message: e is StateError ? e.message : '打开身份验证失败');
             }
           },

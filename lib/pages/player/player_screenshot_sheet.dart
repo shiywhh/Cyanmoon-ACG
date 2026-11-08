@@ -6,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/pages/player/controller/player_screenshot_controller.dart';
 import 'package:cyanmoon_acg/pages/player/player_screenshot_image.dart';
 import 'package:cyanmoon_acg/services/player/screenshot_candidate.dart';
@@ -490,7 +490,7 @@ class _PlayerScreenshotSheetState extends State<_PlayerScreenshotSheet> {
           ),
         ),
         if (current != null)
-          KazumiMenuButton(
+          CyanmoonMenuButton(
             animated: true,
             enabled: !collection.busy,
             builder: (context, toggle) => IconButton(
@@ -499,13 +499,13 @@ class _PlayerScreenshotSheetState extends State<_PlayerScreenshotSheet> {
               onPressed: toggle,
             ),
             menuChildren: [
-              KazumiMenuItem(
+              CyanmoonMenuItem(
                 label: '移除所选',
                 onPressed: !collection.busy && collection.selectedCount > 0
                     ? _removeSelected
                     : null,
               ),
-              KazumiMenuItem(
+              CyanmoonMenuItem(
                 label: '清空候选',
                 onPressed: collection.busy
                     ? null

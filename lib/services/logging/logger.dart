@@ -13,7 +13,7 @@ String _singleLineLogText(Object? value) {
   return value.toString().replaceAll(RegExp(r'\s+'), ' ').trim();
 }
 
-class KazumiLogFilter extends LogFilter {
+class CyanmoonLogFilter extends LogFilter {
   @override
   bool shouldLog(LogEvent event) {
     final forceLog = Zone.current[_forceLogKey] as bool? ?? false;
@@ -24,7 +24,7 @@ class KazumiLogFilter extends LogFilter {
   }
 }
 
-class KazumiLogPrinter extends LogPrinter {
+class CyanmoonLogPrinter extends LogPrinter {
   static const int _fatalStackFrameLimit = 8;
 
   @override
@@ -93,7 +93,7 @@ class KazumiLogPrinter extends LogPrinter {
   }
 }
 
-class KazumiLogOutput extends LogOutput {
+class CyanmoonLogOutput extends LogOutput {
   static final Lock _logLock = Lock();
   static String? _logFilePath;
 
@@ -161,17 +161,17 @@ class KazumiLogOutput extends LogOutput {
   }
 }
 
-class KazumiLogger {
-  KazumiLogger._internal() {
+class CyanmoonLogger {
+  CyanmoonLogger._internal() {
     _logger = Logger(
-      filter: KazumiLogFilter(),
-      printer: KazumiLogPrinter(),
-      output: KazumiLogOutput(),
+      filter: CyanmoonLogFilter(),
+      printer: CyanmoonLogPrinter(),
+      output: CyanmoonLogOutput(),
     );
   }
 
-  static final KazumiLogger _instance = KazumiLogger._internal();
-  factory KazumiLogger() {
+  static final CyanmoonLogger _instance = CyanmoonLogger._internal();
+  factory CyanmoonLogger() {
     return _instance;
   }
 
@@ -240,7 +240,7 @@ Future<File> getLogsPath() async {
 
   final file = File(filename);
   if (!await file.exists()) {
-    await KazumiLogOutput._logLock.synchronized(() async {
+    await CyanmoonLogOutput._logLock.synchronized(() async {
       if (!await file.exists()) {
         await file.create();
       }
@@ -252,7 +252,7 @@ Future<File> getLogsPath() async {
 Future<bool> clearLogs() async {
   try {
     final file = await getLogsPath();
-    await KazumiLogOutput._logLock.synchronized(() async {
+    await CyanmoonLogOutput._logLock.synchronized(() async {
       await file.writeAsString('');
     });
     return true;

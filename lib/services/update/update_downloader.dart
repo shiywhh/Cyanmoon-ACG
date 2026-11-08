@@ -114,7 +114,7 @@ Future<String> downloadUpdateFile({
     try {
       localHash = await calculateFileHash(file);
     } catch (e) {
-      KazumiLogger().w('Update: cached file verification failed', error: e);
+      CyanmoonLogger().w('Update: cached file verification failed', error: e);
     }
     checkCancelled();
     if (localHash == hash) {
@@ -149,7 +149,7 @@ Future<String> downloadUpdateFile({
     try {
       await downloadDir.delete(recursive: true);
     } catch (e) {
-      KazumiLogger().w('Update: temp download cleanup failed', error: e);
+      CyanmoonLogger().w('Update: temp download cleanup failed', error: e);
     }
   }
 }

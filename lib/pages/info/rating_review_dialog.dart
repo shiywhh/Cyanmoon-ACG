@@ -159,11 +159,11 @@ class _RatingReviewDialogState extends State<RatingReviewDialog> {
   Future<void> _requestClose() async {
     if (_submitting || _confirmingClose || !_active) return;
     if (!_dirty) {
-      KazumiDialog.dismiss(context: context);
+      CyanmoonDialog.dismiss(context: context);
       return;
     }
     _confirmingClose = true;
-    final discard = await KazumiDialog.show<bool>(
+    final discard = await CyanmoonDialog.show<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         icon: const Icon(Icons.edit_note_rounded),
@@ -183,7 +183,7 @@ class _RatingReviewDialogState extends State<RatingReviewDialog> {
     );
     _confirmingClose = false;
     if (discard == true && mounted && _active) {
-      KazumiDialog.dismiss(context: context);
+      CyanmoonDialog.dismiss(context: context);
     }
   }
 
@@ -212,11 +212,11 @@ class _RatingReviewDialogState extends State<RatingReviewDialog> {
       final submitted = await widget.onSubmit(review);
       if (!mounted || !_active) return;
       if (submitted) {
-        KazumiDialog.dismiss(context: context, popWith: true);
+        CyanmoonDialog.dismiss(context: context, popWith: true);
         return;
       }
     } catch (error, stackTrace) {
-      KazumiLogger().e('RatingReviewDialog: failed to submit rating review',
+      CyanmoonLogger().e('RatingReviewDialog: failed to submit rating review',
           error: error, stackTrace: stackTrace);
     }
     if (!_active) return;

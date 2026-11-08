@@ -6,12 +6,12 @@ void _showAliasPickerDialog({
   required ValueChanged<String> onAliasSelected,
   required VoidCallback onAliasesChanged,
 }) {
-  KazumiDialog.show(
+  CyanmoonDialog.show(
     builder: (context) => _AliasPickerDialog(
       sourceName: sourceName,
       aliases: aliases,
       onAliasSelected: (alias) {
-        KazumiDialog.dismiss();
+        CyanmoonDialog.dismiss();
         onAliasSelected(alias);
       },
       onAliasesChanged: onAliasesChanged,
@@ -29,11 +29,11 @@ void _showCustomKeywordDialog({
   void submit(String value) {
     final trimmed = value.trim();
     if (trimmed.isEmpty) return;
-    KazumiDialog.dismiss();
+    CyanmoonDialog.dismiss();
     onSubmit(trimmed);
   }
 
-  KazumiDialog.show(
+  CyanmoonDialog.show(
     builder: (context) => AlertDialog(
       title: const Text('修改检索词'),
       content: TextFormField(
@@ -51,7 +51,7 @@ void _showCustomKeywordDialog({
       ),
       actions: [
         TextButton(
-          onPressed: KazumiDialog.dismiss,
+          onPressed: CyanmoonDialog.dismiss,
           child: Text(
             '取消',
             style: TextStyle(color: Theme.of(context).colorScheme.outline),
@@ -85,13 +85,13 @@ class _AliasPickerDialog extends StatefulWidget {
 
 class _AliasPickerDialogState extends State<_AliasPickerDialog> {
   void _confirmDelete(int index) {
-    KazumiDialog.show(
+    CyanmoonDialog.show(
       builder: (context) => AlertDialog(
         title: const Text('删除确认'),
         content: const Text('删除后无法恢复，确认要永久删除这个别名吗？'),
         actions: [
           TextButton(
-            onPressed: KazumiDialog.dismiss,
+            onPressed: CyanmoonDialog.dismiss,
             child: Text(
               '取消',
               style: TextStyle(color: Theme.of(context).colorScheme.outline),
@@ -99,7 +99,7 @@ class _AliasPickerDialogState extends State<_AliasPickerDialog> {
           ),
           TextButton(
             onPressed: () {
-              KazumiDialog.dismiss();
+              CyanmoonDialog.dismiss();
               // Aliases are shared across source rules.
               setState(() => widget.aliases.removeAt(index));
               widget.onAliasesChanged();

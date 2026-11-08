@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:cyanmoon_acg/bean/widget/bangumi_mirror_error_widget.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 import 'package:cyanmoon_acg/pages/popular/popular_controller.dart';
 import 'package:cyanmoon_acg/bean/card/bangumi_card.dart';
@@ -54,7 +54,7 @@ class _PopularPageState extends State<PopularPage> {
     if (scrollController.position.pixels >=
             scrollController.position.maxScrollExtent - 200 &&
         !popularController.isLoadingMore) {
-      KazumiLogger()
+      CyanmoonLogger()
           .i('PopularPageController: Fetching next recommendation batch');
       if (popularController.currentTag != '') {
         popularController.queryBangumiByTag();
@@ -191,14 +191,14 @@ class _PopularPageState extends State<PopularPage> {
                     child: Observer(
                       builder: (_) {
                         final bool isTrend = popularController.currentTag == '';
-                        return KazumiMenuButton(
+                        return CyanmoonMenuButton(
                           animated: true,
                           style: const MenuStyle(
                             maximumSize: WidgetStatePropertyAll(Size(240, 350)),
                           ),
                           menuChildren: [
                             for (final tag in ['', ...defaultAnimeTags])
-                              KazumiMenuItem(
+                              CyanmoonMenuItem(
                                 label: tag.isEmpty ? '热门番组' : tag,
                                 selected: tag == popularController.currentTag,
                                 onPressed: () => _selectTag(tag),

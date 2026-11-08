@@ -37,9 +37,9 @@ class VideoWebviewWindowsImpl
       await WebviewController.initializeEnvironment(
         additionalArguments: '--proxy-server=$formattedProxy',
       );
-      KazumiLogger().i('WebView: 代理设置成功 $formattedProxy');
+      CyanmoonLogger().i('WebView: 代理设置成功 $formattedProxy');
     } catch (e) {
-      KazumiLogger().e('WebView: 设置代理失败 $e');
+      CyanmoonLogger().e('WebView: 设置代理失败 $e');
     }
   }
 
@@ -119,7 +119,7 @@ class VideoWebviewWindowsImpl
         window.location.href = 'about:blank';
       ''');
     } catch (e) {
-      KazumiLogger().d('WebView: redirect2Blank skipped (likely disposed): $e');
+      CyanmoonLogger().d('WebView: redirect2Blank skipped (likely disposed): $e');
     }
   }
 }

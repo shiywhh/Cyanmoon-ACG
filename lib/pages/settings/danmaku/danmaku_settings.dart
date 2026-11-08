@@ -77,17 +77,17 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
 
   Future<void> resetDanmakuSettings() async {
     final bool shouldReset =
-        await KazumiDialog.show<bool>(
+        await CyanmoonDialog.show<bool>(
           builder: (context) => AlertDialog(
             title: const Text('恢复默认弹幕设置'),
             content: const Text('弹幕来源、显示和样式设置将恢复为默认值，关键词屏蔽列表不会被清空。'),
             actions: [
               TextButton(
-                onPressed: () => KazumiDialog.dismiss(popWith: false),
+                onPressed: () => CyanmoonDialog.dismiss(popWith: false),
                 child: Text('取消'),
               ),
               TextButton(
-                onPressed: () => KazumiDialog.dismiss(popWith: true),
+                onPressed: () => CyanmoonDialog.dismiss(popWith: true),
                 child: Text('恢复默认'),
               ),
             ],
@@ -99,7 +99,7 @@ class _DanmakuSettingsPageState extends State<DanmakuSettingsPage> {
     await GStorage.resetDanmakuSettings();
     if (!mounted) return;
     setState(_loadSettingsFromStorage);
-    KazumiDialog.showToast(message: '已恢复默认弹幕设置');
+    CyanmoonDialog.showToast(message: '已恢复默认弹幕设置');
   }
 
   void updateDanmakuArea(double i) async {

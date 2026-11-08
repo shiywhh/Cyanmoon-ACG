@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cyanmoon_acg/bean/dialog/dialog.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 import 'package:cyanmoon_acg/services/logging/logger.dart';
 import 'package:cyanmoon_acg/utils/device.dart';
@@ -29,7 +29,7 @@ class _InfoActionsMenuState extends State<InfoActionsMenu> {
       : widget.bangumiItem.nameCn;
 
   void _notify(String message) {
-    if (mounted) KazumiDialog.showToast(context: context, message: message);
+    if (mounted) CyanmoonDialog.showToast(context: context, message: message);
   }
 
   Future<void> _copyTitle() async {
@@ -37,7 +37,7 @@ class _InfoActionsMenuState extends State<InfoActionsMenu> {
       await Clipboard.setData(ClipboardData(text: _title));
       _notify('标题已复制');
     } catch (error) {
-      KazumiLogger().w('InfoActionsMenu: failed to copy title', error: error);
+      CyanmoonLogger().w('InfoActionsMenu: failed to copy title', error: error);
       _notify('复制失败，请重试');
     }
   }
@@ -51,7 +51,7 @@ class _InfoActionsMenuState extends State<InfoActionsMenu> {
         return;
       }
     } catch (error) {
-      KazumiLogger().w('InfoActionsMenu: failed to open browser', error: error);
+      CyanmoonLogger().w('InfoActionsMenu: failed to open browser', error: error);
     }
     _notify('无法打开浏览器');
   }
@@ -95,7 +95,7 @@ class _InfoActionsMenuState extends State<InfoActionsMenu> {
       }
       _notify('已保存到相册');
     } catch (error) {
-      KazumiLogger().w('InfoActionsMenu: failed to save cover', error: error);
+      CyanmoonLogger().w('InfoActionsMenu: failed to save cover', error: error);
       _notify('封面保存失败，请重试');
     } finally {
       if (mounted) setState(() => _savingCover = false);
@@ -104,17 +104,17 @@ class _InfoActionsMenuState extends State<InfoActionsMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return KazumiMenuButton(
+    return CyanmoonMenuButton(
       menuChildren: [
-        KazumiMenuItem(
+        CyanmoonMenuItem(
           onPressed: _savingCover ? null : _saveCover,
           label: _savingCover ? '保存中…' : '保存封面',
         ),
-        KazumiMenuItem(
+        CyanmoonMenuItem(
           onPressed: _title.trim().isEmpty ? null : _copyTitle,
           label: '复制标题',
         ),
-        KazumiMenuItem(
+        CyanmoonMenuItem(
           onPressed: _openExternally,
           label: '外部打开',
         ),

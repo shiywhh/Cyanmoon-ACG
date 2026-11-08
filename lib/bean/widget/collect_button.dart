@@ -2,7 +2,7 @@ import 'package:cyanmoon_acg/features/cycani/catalog_identity.dart';
 import 'package:cyanmoon_acg/features/cycani/catalog_follow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:cyanmoon_acg/bean/widget/kazumi_menu.dart';
+import 'package:cyanmoon_acg/bean/widget/cyanmoon_menu.dart';
 import 'package:cyanmoon_acg/modules/bangumi/bangumi_item.dart';
 import 'package:cyanmoon_acg/modules/collect/collect_type.dart';
 import 'package:cyanmoon_acg/pages/collect/collect_controller.dart';
@@ -72,7 +72,7 @@ class _CollectButtonState extends State<CollectButton> {
     final collectType = CollectType.fromValue(
       _collectController.getCollectType(widget.bangumiItem),
     );
-    return KazumiMenuButton(
+    return CyanmoonMenuButton(
       onClose: widget.onClose,
       onOpen: widget.onOpen,
       crossAxisUnconstrained: false,
@@ -89,7 +89,7 @@ class _CollectButtonState extends State<CollectButton> {
             ),
       menuChildren: [
         for (final type in CollectType.values)
-          KazumiMenuItem(
+          CyanmoonMenuItem(
             label: _labelFor(type),
             selected: type == collectType,
             onPressed: () => _selectType(type),
