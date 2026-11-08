@@ -335,7 +335,12 @@ void main() {
     }
   }
 
-  testWidgets('shared account visual preview', (tester) async {
+  testWidgets(
+    'shared account visual preview',
+    // 手工预览截图生成器：仅在显式设置 CATALOG_UI_PREVIEW 时运行，
+    // 常规测试套件中显式 skip 而不是空转返回假装通过。
+    skip: Platform.environment['CATALOG_UI_PREVIEW'] == null,
+    (tester) async {
     final output = Platform.environment['CATALOG_UI_PREVIEW'];
     if (output == null) return;
     await tester.runAsync(() async {

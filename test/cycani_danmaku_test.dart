@@ -58,8 +58,10 @@ void main() {
 
   test(
     'missing credentials fail before an unsigned external request',
+    // CI 会经 --dart-define 注入凭据：显式 skip 而不是在用例体里空转返回，
+    // 否则测试报告永远显示绿色 pass 但实际没有执行任何断言。
+    skip: hasDandanCredentials ? 'CI 已注入凭据，此用例仅适用于无凭据环境' : false,
     () async {
-      if (hasDandanCredentials) return;
       expect(
         () => DanmakuClient.instance.get(
           'https://api.dandanplay.net/api/v2/search/episodes',

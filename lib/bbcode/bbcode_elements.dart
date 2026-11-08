@@ -1,29 +1,31 @@
 // 记录进入 tag 时 list 所在位置
 class BBCodeTag {
-  int? bold;
-  int? italic;
-  int? underline;
-  int? strikeThrough;
-  int? masked;
-  int? quoted;
-  int? code;
-  int? size;
-  int? color;
-  int? link;
-  int? img;
+  // 同类标签嵌套（如 [quote] 套 [quote]）时，单字段会被内层覆盖，
+  // 外层退出时会从内层位置开始叠加样式导致区间错乱。改用栈保存各自起点。
+  final List<int> bold = [];
+  final List<int> italic = [];
+  final List<int> underline = [];
+  final List<int> strikeThrough = [];
+  final List<int> masked = [];
+  final List<int> quoted = [];
+  final List<int> code = [];
+  final List<int> size = [];
+  final List<int> color = [];
+  final List<int> link = [];
+  final List<int> img = [];
 
   void clear() {
-    bold = null;
-    italic = null;
-    underline = null;
-    strikeThrough = null;
-    masked = null;
-    quoted = null;
-    code = null;
-    size = null;
-    color = null;
-    link = null;
-    img = null;
+    bold.clear();
+    italic.clear();
+    underline.clear();
+    strikeThrough.clear();
+    masked.clear();
+    quoted.clear();
+    code.clear();
+    size.clear();
+    color.clear();
+    link.clear();
+    img.clear();
   }
 }
 

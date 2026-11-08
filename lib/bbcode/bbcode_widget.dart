@@ -26,6 +26,16 @@ class BBCodeWidget extends StatefulWidget {
 
 class _BBCodeWidgetState extends State<BBCodeWidget> {
   bool _isVisible = false;
+  final Set<TapGestureRecognizer> _liveRecognizers = {};
+
+  @override
+  void dispose() {
+    for (final recognizer in _liveRecognizers) {
+      recognizer.dispose();
+    }
+    _liveRecognizers.clear();
+    super.dispose();
+  }
 
   Color? _parseColor(String hex) {
     if (hex.startsWith('#')) {
@@ -58,6 +68,11 @@ class _BBCodeWidgetState extends State<BBCodeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // 释放上一批 recognizer（RichText 不会代为释放，重建即泄漏一批）
+    for (final recognizer in _liveRecognizers) {
+      recognizer.dispose();
+    }
+    _liveRecognizers.clear();
     BBCodeParser.checkVersion();
     final input = InputStream.fromString(widget.bbcode);
     final lexer = BBCodeLexer(input);
@@ -96,18 +111,24 @@ class _BBCodeWidgetState extends State<BBCodeWidget> {
                   mouseCursor: (e.link != null || e.masked)
                       ? SystemMouseCursors.click
                       : SystemMouseCursors.text,
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = (e.link != null || e.masked)
-                        ? () {
-                            if ((!e.masked || _isVisible) && e.link != null) {
-                              launchUrl(Uri.parse(e.link!));
-                            } else if (e.masked) {
-                              setState(() {
-                                _isVisible = !_isVisible;
-                              });
+                  // RichText 不自动释放 TextSpan.recognizer：登记到 State 统一 dispose，
+                  // 每次 build 先释放上一批，避免 mask 点击/父级重建反复泄漏。
+                  recognizer: () {
+                    final recognizer = TapGestureRecognizer()
+                      ..onTap = (e.link != null || e.masked)
+                          ? () {
+                              if ((!e.masked || _isVisible) && e.link != null) {
+                                launchUrl(Uri.parse(e.link!));
+                              } else if (e.masked) {
+                                setState(() {
+                                  _isVisible = !_isVisible;
+                                });
+                              }
                             }
-                          }
-                        : null,
+                          : null;
+                    _liveRecognizers.add(recognizer);
+                    return recognizer;
+                  }(),
                   style: TextStyle(
                     fontWeight: (e.bold) ? FontWeight.bold : null,
                     fontStyle: (e.italic) ? FontStyle.italic : null,

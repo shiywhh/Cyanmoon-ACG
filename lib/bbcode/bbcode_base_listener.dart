@@ -9,56 +9,54 @@ import 'generated/BBCodeParser.dart';
 class BBCodeBaseListener implements BBCodeListener {
   final List<dynamic> bbcode = [];
 
-  /// 记录进入标签时的位置
+  /// 记录进入标签时的位置（同类嵌套用栈，后进先出）
   void _enterTag(TagContext ctx) {
     final tagName = ctx.tagName?.text;
 
     switch (tagName) {
       case 'URL':
       case 'url':
-        bbCodeTag.link = bbcode.length;
-        break;
       case 'USER':
       case 'user':
-        bbCodeTag.link = bbcode.length;
+        bbCodeTag.link.add(bbcode.length);
         break;
       case 'QUOTE':
       case 'quote':
-        bbCodeTag.quoted = bbcode.length;
+        bbCodeTag.quoted.add(bbcode.length);
         break;
       case 'B':
       case 'b':
-        bbCodeTag.bold = bbcode.length;
+        bbCodeTag.bold.add(bbcode.length);
         break;
       case 'I':
       case 'i':
-        bbCodeTag.italic = bbcode.length;
+        bbCodeTag.italic.add(bbcode.length);
         break;
       case 'S':
       case 's':
-        bbCodeTag.strikeThrough = bbcode.length;
+        bbCodeTag.strikeThrough.add(bbcode.length);
         break;
       case 'U':
       case 'u':
-        bbCodeTag.underline = bbcode.length;
+        bbCodeTag.underline.add(bbcode.length);
         break;
       case 'PHOTO':
       case 'photo':
       case 'IMG':
       case 'img':
-        bbCodeTag.img = bbcode.length;
+        bbCodeTag.img.add(bbcode.length);
         break;
       case 'MASK':
       case 'mask':
-        bbCodeTag.masked = bbcode.length;
+        bbCodeTag.masked.add(bbcode.length);
         break;
       case 'SIZE':
       case 'size':
-        bbCodeTag.size = bbcode.length;
+        bbCodeTag.size.add(bbcode.length);
         break;
       case 'COLOR':
       case 'color':
-        bbCodeTag.color = bbcode.length;
+        bbCodeTag.color.add(bbcode.length);
         break;
       default:
         KazumiLogger().e(
@@ -74,63 +72,92 @@ class BBCodeBaseListener implements BBCodeListener {
     switch (tagName) {
       case 'URL':
       case 'url':
-        if (bbcode.isNotEmpty && bbcode[bbCodeTag.link!] is BBCodeText) {
-          if (ctx.attr != null) {
-            bbcode[bbCodeTag.link!].link = ctx.attr!.text;
-          } else {
-            bbcode[bbCodeTag.link!].link = bbcode[bbCodeTag.link!].text;
+        {
+          if (bbCodeTag.link.isEmpty) break;
+          final start = bbCodeTag.link.removeLast();
+          if (start < bbcode.length && bbcode[start] is BBCodeText) {
+            if (ctx.attr != null) {
+              bbcode[start].link = ctx.attr!.text;
+            } else {
+              bbcode[start].link = bbcode[start].text;
+            }
           }
         }
         break;
       case 'USER':
       case 'user':
-        if (bbcode.isNotEmpty &&
-            ctx.attr != null &&
-            bbcode[bbCodeTag.link!] is BBCodeText) {
-          bbcode[bbCodeTag.link!].link =
-              'https://bangumi.tv/user/${ctx.attr!.text}';
-          bbcode[bbCodeTag.link!].text = '@${bbcode[bbCodeTag.link!].text}';
+        {
+          if (bbCodeTag.link.isEmpty) break;
+          final start = bbCodeTag.link.removeLast();
+          if (start < bbcode.length &&
+              ctx.attr != null &&
+              bbcode[start] is BBCodeText) {
+            bbcode[start].link = 'https://bangumi.tv/user/${ctx.attr!.text}';
+            bbcode[start].text = '@${bbcode[start].text}';
+          }
         }
         break;
       case 'QUOTE':
       case 'quote':
-        for (int i = bbCodeTag.quoted!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].quoted = true;
+        {
+          if (bbCodeTag.quoted.isEmpty) break;
+          final start = bbCodeTag.quoted.removeLast();
+          for (int i = start; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].quoted = true;
+            }
+          }
+          // Add icon to the end of quoted text (仅最外层引用补图标，嵌套不再重复)
+          if (bbCodeTag.quoted.isEmpty) {
+            bbcode.add(const Icon(Icons.format_quote));
           }
         }
-        // Add icon to the end of quoted text
-        bbcode.add(const Icon(Icons.format_quote));
         break;
       case 'B':
       case 'b':
-        for (int i = bbCodeTag.bold!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].bold = true;
+        {
+          if (bbCodeTag.bold.isEmpty) break;
+          final start = bbCodeTag.bold.removeLast();
+          for (int i = start; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].bold = true;
+            }
           }
         }
         break;
       case 'I':
       case 'i':
-        for (int i = bbCodeTag.italic!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].italic = true;
+        {
+          if (bbCodeTag.italic.isEmpty) break;
+          final start = bbCodeTag.italic.removeLast();
+          for (int i = start; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].italic = true;
+            }
           }
         }
         break;
       case 'S':
       case 's':
-        for (int i = bbCodeTag.strikeThrough!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].strikeThrough = true;
+        {
+          if (bbCodeTag.strikeThrough.isEmpty) break;
+          final start = bbCodeTag.strikeThrough.removeLast();
+          for (int i = start; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].strikeThrough = true;
+            }
           }
         }
         break;
       case 'U':
       case 'u':
-        for (int i = bbCodeTag.underline!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].underline = true;
+        {
+          if (bbCodeTag.underline.isEmpty) break;
+          final start = bbCodeTag.underline.removeLast();
+          for (int i = start; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].underline = true;
+            }
           }
         }
         break;
@@ -138,38 +165,53 @@ class BBCodeBaseListener implements BBCodeListener {
       case 'photo':
       case 'IMG':
       case 'img':
-        if (bbCodeTag.img! < bbcode.length &&
-            bbcode.isNotEmpty &&
-            bbcode[bbCodeTag.img!] is BBCodeText) {
-          bbcode[bbCodeTag.img!] =
-              BBCodeImg(imageUrl: bbcode[bbCodeTag.img!].text);
+        {
+          if (bbCodeTag.img.isEmpty) break;
+          final start = bbCodeTag.img.removeLast();
+          if (start < bbcode.length &&
+              bbcode.isNotEmpty &&
+              bbcode[start] is BBCodeText) {
+            bbcode[start] = BBCodeImg(imageUrl: bbcode[start].text);
+          }
         }
         break;
       case 'MASK':
       case 'mask':
-        for (int i = bbCodeTag.masked!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].masked = true;
+        {
+          if (bbCodeTag.masked.isEmpty) break;
+          final start = bbCodeTag.masked.removeLast();
+          for (int i = start; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].masked = true;
+            }
           }
         }
         break;
       case 'SIZE':
       case 'size':
-        // attr 是可选的（如 "[size]"），且可能不是纯数字，解析失败时忽略该标签而不是抛异常。
-        final size = int.tryParse(ctx.attr?.text ?? '');
-        if (size != null) {
-          for (int i = bbCodeTag.size!; i < bbcode.length; i++) {
-            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-              bbcode[i].size = size;
+        {
+          // attr 是可选的（如 "[size]"），且可能不是纯数字，解析失败时忽略该标签而不是抛异常。
+          final size = int.tryParse(ctx.attr?.text ?? '');
+          if (size != null) {
+            if (bbCodeTag.size.isEmpty) break;
+            final start = bbCodeTag.size.removeLast();
+            for (int i = start; i < bbcode.length; i++) {
+              if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+                bbcode[i].size = size;
+              }
             }
           }
         }
         break;
       case 'COLOR':
       case 'color':
-        for (int i = bbCodeTag.color!; i < bbcode.length; i++) {
-          if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
-            bbcode[i].color = ctx.attr?.text;
+        {
+          if (bbCodeTag.color.isEmpty) break;
+          final start = bbCodeTag.color.removeLast();
+          for (int i = start; i < bbcode.length; i++) {
+            if (bbcode.isNotEmpty && bbcode[i] is BBCodeText) {
+              bbcode[i].color = ctx.attr?.text;
+            }
           }
         }
         break;
