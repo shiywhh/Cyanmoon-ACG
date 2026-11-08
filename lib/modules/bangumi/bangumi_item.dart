@@ -97,7 +97,8 @@ class BangumiItem {
       }
       final json = jsonData['rating']['count'];
       if (json is Map<String, dynamic>) {
-        return List<int>.generate(10, (i) => json['${i + 1}'] as int);
+        return List<int>.generate(
+            10, (i) => (json['${i + 1}'] as num?)?.toInt() ?? 0);
       }
       if (json is List<dynamic>) {
         return json.map((e) => e as int).toList();
@@ -126,6 +127,9 @@ class BangumiItem {
 
     final rawTags = json['tags'] as List? ?? [];
     final tagList = rawTags.map((tag) => BangumiTag.fromJson(tag)).toList();
+    // rating 在 Bangumi v0 里是可空字段（未开播/零评分条目），访问前必须判空。
+    final rating = json['rating'] is Map ? json['rating'] as Map : const {};
+    final ratingScoreRaw = rating['score'];
     final rawMetaTags = json['metaTags'];
     BangumiInterest? interest;
     final interestRaw = json['interest'];
@@ -146,7 +150,7 @@ class BangumiItem {
       airDate: airDateStr,
       airWeekday:
           dateStringToWeekday(airDateStr.isEmpty ? '2000-11-11' : airDateStr),
-      rank: json['rating']['rank'] ?? 0,
+      rank: rating['rank'] ?? 0,
       images: Map<String, String>.from(
         json['images'] ??
             {
@@ -160,8 +164,9 @@ class BangumiItem {
       tags: tagList,
       alias: parseBangumiAliases(json),
       ratingScore: double.parse(
-          (json['rating']['score'] ?? 0.0).toDouble().toStringAsFixed(1)),
-      votes: json['rating']['total'] ?? 0,
+          (ratingScoreRaw is num ? ratingScoreRaw.toDouble() : 0.0)
+              .toStringAsFixed(1)),
+      votes: rating['total'] ?? 0,
       votesCount: parseBangumiVoteCount(json),
       info: json['info'] ?? '',
       metaTags: rawMetaTags is List

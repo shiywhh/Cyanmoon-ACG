@@ -48,7 +48,8 @@ class User {
       id: json['id'] ?? 0,
       username: json['username'] ?? '',
       nickname: json['nickname'] ?? '',
-      avatar: UserAvatar.fromJson(json['avatar'] as Map<String, dynamic>),
+      avatar: UserAvatar.fromJson(
+          json['avatar'] is Map<String, dynamic> ? json['avatar'] : const {}),
       sign: json['sign'] ?? '',
       joinedAt: json['joinedAt'] ?? 0,
     );
@@ -105,7 +106,10 @@ class CommentItem {
 
   factory CommentItem.fromJson(Map<String, dynamic> json) {
     return CommentItem(
-      user: User.fromJson(json['user']),
+      // 已注销/删除的用户 user 可为 null，回退到空用户。
+      user: json['user'] is Map<String, dynamic>
+          ? User.fromJson(json['user'])
+          : User.fromJson(const {}),
       comment: Comment.fromJson(json),
     );
   }
@@ -153,7 +157,7 @@ class EpisodeCommentItem {
   EpisodeCommentItem({required this.comment, required this.replies});
 
   factory EpisodeCommentItem.fromJson(Map<String, dynamic> json) {
-    var list = json['replies'] as List;
+    final list = json['replies'] as List? ?? [];
     List<EpisodeComment> tempList =
         list.map((i) => EpisodeComment.fromJson(i)).toList();
     return EpisodeCommentItem(
@@ -181,7 +185,9 @@ class CharacterComment {
 
   factory CharacterComment.fromJson(Map<String, dynamic> json) {
     return CharacterComment(
-      user: User.fromJson(json['user']),
+      user: json['user'] is Map<String, dynamic>
+          ? User.fromJson(json['user'])
+          : User.fromJson(const {}),
       comment: json['content'] ?? '',
       createdAt: json['createdAt'] ?? 0,
     );
@@ -203,7 +209,7 @@ class CharacterCommentItem {
   CharacterCommentItem({required this.comment, required this.replies});
 
   factory CharacterCommentItem.fromJson(Map<String, dynamic> json) {
-    var list = json['replies'] as List;
+    final list = json['replies'] as List? ?? [];
     List<CharacterComment> tempList =
         list.map((i) => CharacterComment.fromJson(i)).toList();
     return CharacterCommentItem(

@@ -27,6 +27,12 @@ class BangumiInfoCardV extends StatefulWidget {
 class _BangumiInfoCardVState extends State<BangumiInfoCardV> {
   int touchedIndex = -1;
 
+  // votesCount 可能不足 10 项（旧数据/接口精简响应），votes 可能为 0（无评分条目）。
+  int _voteCountAt(int index) {
+    final counts = widget.bangumiItem.votesCount;
+    return index >= 0 && index < counts.length ? counts[index] : 0;
+  }
+
   Widget get voteBarChart {
     return Flexible(
       child: Column(
@@ -61,12 +67,12 @@ class _BangumiInfoCardVState extends State<BangumiInfoCardV> {
                     getTooltipColor: (_) =>
                         Theme.of(context).colorScheme.inverseSurface,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                      var percentage =
-                          widget.bangumiItem.votesCount[groupIndex] /
-                              widget.bangumiItem.votes *
-                              100;
+                      final votes = widget.bangumiItem.votes;
+                      final count = _voteCountAt(groupIndex);
+                      final percentage =
+                          votes > 0 ? count / votes * 100 : 0.0;
                       return BarTooltipItem(
-                        '${percentage.toStringAsFixed(2)}% (${widget.bangumiItem.votesCount[groupIndex]}人)',
+                        '${percentage.toStringAsFixed(2)}% ($count人)',
                         TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface),
@@ -80,7 +86,7 @@ class _BangumiInfoCardVState extends State<BangumiInfoCardV> {
                     x: i + 1,
                     barRods: [
                       BarChartRodData(
-                        toY: widget.bangumiItem.votesCount[i].toDouble(),
+                        toY: _voteCountAt(i).toDouble(),
                         color: touchedIndex == i
                             ? Theme.of(context).colorScheme.primary
                             : Theme.of(context).disabledColor,

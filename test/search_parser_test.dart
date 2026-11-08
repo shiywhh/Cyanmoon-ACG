@@ -32,8 +32,9 @@ void main() {
       final state = parser.toFilterState();
 
       expect(state.season, '2026Q1');
+      // Q1 = [2026-01-01, 2026-04-01)，窗口与季度精确对齐（此前实现整体前移一个月）。
       expect(state.effectiveDateRange,
-          const SearchDateRange(start: '2025-12-01', end: '2026-03-01'));
+          const SearchDateRange(start: '2026-01-01', end: '2026-04-01'));
     });
 
     test('parses custom date range', () {
