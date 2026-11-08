@@ -302,13 +302,9 @@ class _InfoPageState extends State<InfoPage>
 
   void _startWatching() {
     if (widget.pluginsController.pluginList.isEmpty) {
+      // 规则编辑器已随原版页面移除：仅提示，不再提供指向死路由的入口。
       KazumiDialog.showToast(
-        message: '还没有规则，无法开始观看',
-        showActionButton: true,
-        actionLabel: '添加规则',
-        onActionPressed: () {
-          if (mounted) context.pushNamed('/settings/plugin/');
-        },
+        message: '还没有可用规则，请先订阅规则仓库',
         duration: const Duration(seconds: 4),
       );
       return;
