@@ -607,7 +607,6 @@ abstract class _VideoPageController with Store implements Disposable {
       pageUrl: resolvedEpisode.pageUrl,
       sortNumber: resolvedEpisode.sortNumber,
       httpHeaders: {},
-      adBlockerEnabled: false,
       episodeTitle: resolvedEpisode.displayTitle,
       referer: '',
       currentRoad: resolvedEpisode.roadIndex,
@@ -787,9 +786,6 @@ abstract class _VideoPageController with Store implements Disposable {
             : 'VideoPageController: video URL resolved',
       );
 
-      final bool forceAdBlocker = GStorage.getSetting(
-        SettingsKeys.forceAdBlocker,
-      );
 
       var resumeOffset = source.offset;
       final identity = SiteEntry.fromLegacy(bangumiItem.id);
@@ -823,7 +819,6 @@ abstract class _VideoPageController with Store implements Disposable {
           if (currentPlugin.referer.isNotEmpty)
             'referer': currentPlugin.referer,
         },
-        adBlockerEnabled: forceAdBlocker || currentPlugin.adBlocker,
         episodeTitle: resolvedEpisode.displayTitle,
         referer: currentPlugin.referer,
         currentRoad: resolvedEpisode.roadIndex,

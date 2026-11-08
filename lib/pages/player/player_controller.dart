@@ -212,7 +212,6 @@ class PlayerController implements Disposable {
     try {
       player = await playback.createVideoController(
         params.httpHeaders,
-        params.adBlockerEnabled,
         canInstall: () => initialization.isActive,
         offset: params.offset,
         videoSourceFormat: params.videoSourceFormat,

@@ -636,8 +636,6 @@ abstract class _DownloadController with Store {
       await _startBackgroundServiceIfNeeded();
 
       final httpHeaders = plugin.buildHttpHeaders();
-      bool adBlockerEnabled =
-          _repository.getForceAdBlocker() || plugin.adBlocker;
 
       await _downloadManager.enqueue(DownloadRequest(
         recordKey: request.recordKey,
@@ -646,7 +644,6 @@ abstract class _DownloadController with Store {
         episodeNumber: request.episodeNumber,
         m3u8Url: m3u8Url,
         httpHeaders: httpHeaders,
-        adBlockerEnabled: adBlockerEnabled,
         episode: freshEpisode,
       ));
     } finally {
@@ -817,8 +814,6 @@ abstract class _DownloadController with Store {
       await _startBackgroundServiceIfNeeded();
 
       final httpHeaders = plugin.buildHttpHeaders();
-      bool adBlockerEnabled =
-          _repository.getForceAdBlocker() || plugin.adBlocker;
 
       await _downloadManager.enqueue(DownloadRequest(
         recordKey: recordKey,
@@ -827,7 +822,6 @@ abstract class _DownloadController with Store {
         episodeNumber: episodeNumber,
         m3u8Url: episode.networkM3u8Url,
         httpHeaders: httpHeaders,
-        adBlockerEnabled: adBlockerEnabled,
         episode: episode,
       ));
     } else {
@@ -937,8 +931,6 @@ abstract class _DownloadController with Store {
       await _startBackgroundServiceIfNeeded();
 
       final httpHeaders = plugin.buildHttpHeaders();
-      bool adBlockerEnabled =
-          _repository.getForceAdBlocker() || plugin.adBlocker;
 
       await _downloadManager.enqueuePriority(DownloadRequest(
         recordKey: recordKey,
@@ -947,7 +939,6 @@ abstract class _DownloadController with Store {
         episodeNumber: episodeNumber,
         m3u8Url: episode.networkM3u8Url,
         httpHeaders: httpHeaders,
-        adBlockerEnabled: adBlockerEnabled,
         episode: episode,
       ));
     } else {

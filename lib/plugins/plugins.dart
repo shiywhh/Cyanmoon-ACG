@@ -34,7 +34,6 @@ class Plugin {
   bool useNativePlayer;
   bool usePost;
   bool useLegacyParser;
-  bool adBlocker;
   String userAgent;
   String baseUrl;
   String searchURL;
@@ -60,7 +59,6 @@ class Plugin {
     required this.useNativePlayer,
     required this.usePost,
     required this.useLegacyParser,
-    required this.adBlocker,
     required this.userAgent,
     required this.baseUrl,
     required this.searchURL,
@@ -90,7 +88,6 @@ class Plugin {
       useNativePlayer: json['useNativePlayer'] as bool? ?? true,
       usePost: json['usePost'] ?? false,
       useLegacyParser: json['useLegacyParser'] ?? false,
-      adBlocker: json['adBlocker'] ?? false,
       userAgent: json['userAgent'] as String? ?? '',
       baseUrl: json['baseURL'] as String? ?? '',
       searchURL: json['searchURL'] as String? ?? '',
@@ -131,7 +128,6 @@ class Plugin {
       useNativePlayer: true,
       usePost: false,
       useLegacyParser: false,
-      adBlocker: false,
       userAgent: '',
       baseUrl: '',
       searchURL: '',
@@ -160,7 +156,6 @@ class Plugin {
       'useNativePlayer': useNativePlayer,
       'usePost': usePost,
       'useLegacyParser': useLegacyParser,
-      'adBlocker': adBlocker,
       'userAgent': userAgent,
       'baseURL': baseUrl,
       'searchURL': searchURL,

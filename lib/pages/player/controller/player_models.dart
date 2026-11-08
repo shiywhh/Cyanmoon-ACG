@@ -14,7 +14,6 @@ class PlaybackInitParams {
   /// Parsed title number online, downloaded episode number offline.
   final int? sortNumber;
   final Map<String, String> httpHeaders;
-  final bool adBlockerEnabled;
   final String episodeTitle;
   final String referer;
   final int currentRoad;
@@ -30,7 +29,6 @@ class PlaybackInitParams {
     required this.episode,
     required this.danmakuEpisodeNumber,
     required this.httpHeaders,
-    required this.adBlockerEnabled,
     required this.episodeTitle,
     required this.referer,
     required this.currentRoad,

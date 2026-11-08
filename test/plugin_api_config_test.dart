@@ -221,7 +221,6 @@ final Map<String, dynamic> _legacyRule = {
   'useNativePlayer': true,
   'usePost': false,
   'useLegacyParser': false,
-  'adBlocker': false,
   'userAgent': '',
   'baseURL': 'https://example.com/',
   'searchURL': 'https://example.com/search?q=@keyword',

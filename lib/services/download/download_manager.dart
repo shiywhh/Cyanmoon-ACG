@@ -6,7 +6,6 @@ import 'package:cyanmoon_acg/modules/download/download_module.dart';
 import 'package:cyanmoon_acg/request/clients/download_http_client.dart';
 import 'package:cyanmoon_acg/request/core/network_exception.dart';
 import 'package:cyanmoon_acg/utils/m3u8_parser.dart';
-import 'package:cyanmoon_acg/utils/m3u8_ad_filter.dart';
 import 'package:cyanmoon_acg/utils/format.dart' as fmt;
 import 'package:cyanmoon_acg/utils/file_system.dart';
 import 'package:cyanmoon_acg/services/logging/logger.dart';
@@ -76,7 +75,6 @@ class DownloadRequest {
   final int episodeNumber;
   final String m3u8Url;
   final Map<String, String> httpHeaders;
-  final bool adBlockerEnabled;
   final DownloadEpisode episode;
 
   const DownloadRequest({
@@ -86,7 +84,6 @@ class DownloadRequest {
     required this.episodeNumber,
     required this.m3u8Url,
     required this.httpHeaders,
-    required this.adBlockerEnabled,
     required this.episode,
   });
 }
@@ -265,7 +262,6 @@ class DownloadManager implements IDownloadManager {
     required String pluginName,
     required String m3u8Url,
     required Map<String, String> httpHeaders,
-    required bool adBlockerEnabled,
     required DownloadEpisode episode,
   }) {
     final key = _taskKey(task.recordKey, task.episodeNumber);
@@ -275,7 +271,6 @@ class DownloadManager implements IDownloadManager {
       pluginName: pluginName,
       m3u8Url: m3u8Url,
       httpHeaders: httpHeaders,
-      adBlockerEnabled: adBlockerEnabled,
       episode: episode,
     );
     _activeWorkers[key] = future;
@@ -322,7 +317,6 @@ class DownloadManager implements IDownloadManager {
         pluginName: request.pluginName,
         m3u8Url: request.m3u8Url,
         httpHeaders: request.httpHeaders,
-        adBlockerEnabled: request.adBlockerEnabled,
         episode: request.episode,
       );
     } else {
@@ -365,7 +359,6 @@ class DownloadManager implements IDownloadManager {
       pluginName: request.pluginName,
       m3u8Url: request.m3u8Url,
       httpHeaders: request.httpHeaders,
-      adBlockerEnabled: request.adBlockerEnabled,
       episode: request.episode,
     );
   }
@@ -399,7 +392,6 @@ class DownloadManager implements IDownloadManager {
         pluginName: request.pluginName,
         m3u8Url: request.m3u8Url,
         httpHeaders: request.httpHeaders,
-        adBlockerEnabled: request.adBlockerEnabled,
         episode: request.episode,
       );
     } else {
@@ -441,7 +433,6 @@ class DownloadManager implements IDownloadManager {
         pluginName: request.pluginName,
         m3u8Url: request.m3u8Url,
         httpHeaders: request.httpHeaders,
-        adBlockerEnabled: request.adBlockerEnabled,
         episode: request.episode,
       );
     }
@@ -453,7 +444,6 @@ class DownloadManager implements IDownloadManager {
     required String pluginName,
     required String m3u8Url,
     required Map<String, String> httpHeaders,
-    required bool adBlockerEnabled,
     required DownloadEpisode episode,
   }) async {
     final key = _taskKey(task.recordKey, task.episodeNumber);
@@ -524,10 +514,7 @@ class DownloadManager implements IDownloadManager {
         return;
       }
 
-      List<M3u8Segment> segments = resolvedPlaylist.segments;
-      if (adBlockerEnabled) {
-        segments = M3u8AdFilter.filterAds(segments);
-      }
+      final segments = resolvedPlaylist.segments;
 
       final keys = M3u8Parser.extractUniqueKeys(
         M3u8MediaPlaylist(
@@ -689,9 +676,7 @@ class DownloadManager implements IDownloadManager {
         return;
       }
 
-      final targetDuration = adBlockerEnabled
-          ? M3u8AdFilter.calculateTargetDuration(segments)
-          : resolvedPlaylist.targetDuration;
+      final targetDuration = resolvedPlaylist.targetDuration;
       final localM3u8 = M3u8Parser.buildLocalM3u8(
         segments,
         targetDuration: targetDuration,

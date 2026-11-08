@@ -267,8 +267,7 @@ abstract class _PlayerPlaybackController with Store {
   }
 
   Future<Player?> createVideoController(
-    Map<String, String> httpHeaders,
-    bool adBlockerEnabled, {
+    Map<String, String> httpHeaders, {
     required bool Function() canInstall,
     int offset = 0,
     VideoSourceFormat videoSourceFormat = VideoSourceFormat.auto,
@@ -295,7 +294,6 @@ abstract class _PlayerPlaybackController with Store {
           // 值来自存储，历史/损坏数据可能越界：钳制避免 RangeError 被吞成静默黑屏。
           logLevel: MPVLogLevel.values[
               debug.playerLogLevel.clamp(0, MPVLogLevel.values.length - 1)],
-          adBlocker: adBlockerEnabled,
         ),
       ),
     );

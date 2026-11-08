@@ -474,11 +474,6 @@ class SettingsKeys {
     false,
     group: SettingGroup.theme,
   );
-  static const forceAdBlocker = SettingKey<bool>(
-    _SettingBoxKey.forceAdBlocker,
-    false,
-    group: SettingGroup.player,
-  );
   static const backgroundPlayback = SettingKey<bool>(
     _SettingBoxKey.backgroundPlayback,
     false,
@@ -692,7 +687,6 @@ class SettingsKeys {
     timelineNotShowWatchedBangumis,
     timelineOnlyShowWatchingBangumis,
     useSystemFont,
-    forceAdBlocker,
     backgroundPlayback,
     proxyEnable,
     proxyConfigured,
@@ -802,7 +796,6 @@ class _SettingBoxKey {
       timelineNotShowWatchedBangumis = 'timelineNotShowWatchedBangumis',
       timelineOnlyShowWatchingBangumis = 'timelineOnlyShowWatchingBangumis',
       useSystemFont = 'useSystemFont',
-      forceAdBlocker = 'forceAdBlocker',
       backgroundPlayback = 'backgroundPlayback',
       proxyEnable = 'proxyEnable',
       proxyConfigured = 'proxyConfigured',

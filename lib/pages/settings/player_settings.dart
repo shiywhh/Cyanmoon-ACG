@@ -36,7 +36,6 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
   late bool privateMode;
   late bool playerDebugMode;
   late bool playerDisableAnimations;
-  late bool forceAdBlocker;
   late bool autoPlayNext;
   late bool backgroundPlayback;
   late bool brightnessVolumeGesture;
@@ -73,7 +72,6 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
         GStorage.getSetting<bool>(SettingsKeys.backgroundPlayback);
     playerDisableAnimations =
         GStorage.getSetting<bool>(SettingsKeys.playerDisableAnimations);
-    forceAdBlocker = GStorage.getSetting<bool>(SettingsKeys.forceAdBlocker);
     playerLogLevel = GStorage.getSetting<int>(SettingsKeys.playerLogLevel);
 
     brightnessVolumeGesture =
@@ -356,18 +354,6 @@ class _PlayerSettingsPageState extends State<PlayerSettingsPage> {
                   description: Text('切到后台时，自动进入画中画'),
                   initialValue: androidAutoEnterPIP,
                 ),
-              SettingsTile.switchTile(
-                leading: Icons.block_rounded,
-                onToggle: (value) async {
-                  forceAdBlocker = value ?? !forceAdBlocker;
-                  await GStorage.putSetting<bool>(
-                      SettingsKeys.forceAdBlocker, forceAdBlocker);
-                  setState(() {});
-                },
-                title: Text('广告过滤'),
-                description: Text('强制启用HLS广告过滤，忽略规则设置'),
-                initialValue: forceAdBlocker,
-              ),
               SettingsTile.switchTile(
                 leading: Icons.animation_rounded,
                 onToggle: (value) async {

@@ -65,7 +65,6 @@ void main() {
       episode: 1,
       danmakuEpisodeNumber: 13,
       httpHeaders: {},
-      adBlockerEnabled: false,
       episodeTitle: '第13话',
       referer: '',
       currentRoad: 0,

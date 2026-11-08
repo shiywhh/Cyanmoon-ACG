@@ -14,7 +14,6 @@ abstract class IDownloadRepository {
   Future<void> updateEpisode(
       String recordKey, int episodeNumber, DownloadEpisode episode);
   Future<void> deleteEpisode(String recordKey, int episodeNumber);
-  bool getForceAdBlocker();
 
   /// 获取指定番剧的下载记录
   ///
@@ -186,10 +185,6 @@ class DownloadRepository implements IDownloadRepository {
   }
 
   @override
-  bool getForceAdBlocker() {
-    return GStorage.getSetting(SettingsKeys.forceAdBlocker);
-  }
-
   @override
   Future<void> deleteEpisode(String recordKey, int episodeNumber) async {
     try {
