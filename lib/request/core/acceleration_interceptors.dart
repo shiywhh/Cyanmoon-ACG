@@ -16,12 +16,6 @@ class BangumiAccelerationInterceptor extends Interceptor {
           options.path = uri.replace(scheme: 'https').toString();
           options.queryParameters = {};
           options.requireEch();
-        case BangumiAcceleration.mirror:
-          options.path =
-              ApiEndpoints.bangumiMirrorDomain +
-              uri.path +
-              (uri.hasQuery ? '?${uri.query}' : '');
-          options.queryParameters = {};
       }
     }
     handler.next(options);

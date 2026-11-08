@@ -1,14 +1,9 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:cyanmoon_acg/request/config/api_endpoints.dart';
 import 'package:cyanmoon_acg/request/core/dio_factory.dart';
 import 'package:cyanmoon_acg/request/core/network_error_mapper.dart';
-import 'package:cyanmoon_acg/services/network/bangumi_acceleration.dart';
 import 'package:cyanmoon_acg/services/storage/storage.dart';
-import 'package:cyanmoon_acg/utils/bangumi_mirror_credentials.dart';
 import 'package:cyanmoon_acg/utils/constants.dart';
-import 'package:cyanmoon_acg/utils/crypto.dart';
 
 class BangumiClient {
   BangumiClient._();
@@ -88,36 +83,8 @@ class BangumiClient {
     if ((requiresAuth || bangumiSyncEnable) && token.isNotEmpty) {
       headers['Authorization'] = 'Bearer $token';
     }
-    if (_shouldSignProtectedMirrorRequest(url, method)) {
-      final timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      final body = data == null ? '' : jsonEncode(data);
-      headers['X-AppId'] = bangumiMirrorCredentials['id'];
-      headers['X-Timestamp'] = timestamp;
-      headers['X-Signature'] = generateBangumiMirrorSearchSignature(
-        method: method,
-        path: Uri.parse(url).path,
-        body: body,
-        timestamp: timestamp,
-      );
-    }
     return headers;
   }
 
-  bool _shouldSignProtectedMirrorRequest(String url, String method) {
-    final uri = Uri.parse(url);
-    if (BangumiAcceleration.current != BangumiAcceleration.mirror ||
-        !ApiEndpoints.bangumiPublicApiHosts.contains(uri.host)) {
-      return false;
-    }
-    final path = uri.path;
-    if (method == 'POST' && path == '/v0/search/subjects') {
-      return true;
-    }
-    if (method != 'GET') {
-      return false;
-    }
-    return path.startsWith('/p1/subjects/') && path.endsWith('/comments') ||
-        path.startsWith('/p1/episodes/') && path.endsWith('/comments') ||
-        path.startsWith('/p1/characters/') && path.endsWith('/comments');
-  }
+
 }

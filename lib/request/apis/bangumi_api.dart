@@ -121,35 +121,6 @@ class BangumiApi {
     ).toString();
   }
 
-  static Future<List<List<BangumiItem>>> getBangumiMirrorSeasonCalendar(
-      List<String> dateRange) async {
-    List<List<BangumiItem>> bangumiCalendar = [];
-    try {
-      final jsonData = await _client.get(
-        ApiEndpoints.bangumiMirrorDomain +
-            buildBangumiMirrorSeasonCalendarPath(dateRange),
-      );
-      for (int i = 1; i <= 7; i++) {
-        List<BangumiItem> bangumiList = [];
-        final jsonList = jsonData['$i'] ?? [];
-        for (dynamic jsonItem in jsonList) {
-          try {
-            final subject =
-                jsonItem is Map<String, dynamic> ? jsonItem['subject'] : null;
-            if (subject is Map<String, dynamic>) {
-              bangumiList.add(BangumiItem.fromJson(subject));
-            }
-          } catch (_) {}
-        }
-        bangumiCalendar.add(bangumiList);
-      }
-    } catch (e) {
-      CyanmoonLogger().e('Network: resolve bangumi mirror season calendar failed',
-          error: e);
-    }
-    return bangumiCalendar;
-  }
-
   static Future<List<BangumiItem>> getBangumiList(
       {int rank = 2, String tag = ''}) async {
     List<BangumiItem> bangumiList = [];
@@ -217,49 +188,6 @@ class BangumiApi {
       }
     } catch (e) {
       CyanmoonLogger().e('Network: resolve bangumi trends list failed', error: e);
-    }
-    return bangumiList;
-  }
-
-  static String buildBangumiMirrorPopularPath({
-    String tag = '',
-    int limit = 24,
-    int offset = 0,
-  }) {
-    return Uri(
-      path: ApiEndpoints.bangumiMirrorPopularSubjects,
-      queryParameters: {
-        if (tag.isNotEmpty) 'tag': tag,
-        'limit': limit.toString(),
-        'offset': offset.toString(),
-      },
-    ).toString();
-  }
-
-  static Future<List<BangumiItem>> getBangumiMirrorPopularSubjects({
-    String tag = '',
-    int limit = 24,
-    int offset = 0,
-  }) async {
-    List<BangumiItem> bangumiList = [];
-    try {
-      final jsonData = await _client.get(
-        ApiEndpoints.bangumiMirrorDomain +
-            buildBangumiMirrorPopularPath(
-              tag: tag,
-              limit: limit,
-              offset: offset,
-            ),
-      );
-      final jsonList = jsonData is List ? jsonData : jsonData['data'];
-      for (dynamic jsonItem in jsonList) {
-        if (jsonItem is Map<String, dynamic>) {
-          bangumiList.add(BangumiItem.fromJson(jsonItem));
-        }
-      }
-    } catch (e) {
-      CyanmoonLogger()
-          .e('Network: resolve bangumi mirror popular list failed', error: e);
     }
     return bangumiList;
   }

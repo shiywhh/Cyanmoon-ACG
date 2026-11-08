@@ -33,20 +33,8 @@ class UpdateAvailableDialog extends StatefulWidget {
 
 class _UpdateAvailableDialogState extends State<UpdateAvailableDialog> {
   final _notesController = ScrollController();
-  // 本仓库的 GitHub 资产不带镜像直链：仅当选中安装类型的资产提供
-  // mirror_download_url 时才提供镜像源，默认走 GitHub。
-  bool get _mirrorAvailable {
-    final asset = getUpdateAssetForType(
-      widget.updateInfo.assets,
-      _type,
-    );
-    return (asset?['mirror_download_url'] != null);
-  }
-
-  UpdateDownloadSource get _initialSource => _mirrorAvailable
-      ? UpdateDownloadSource.mirror
-      : UpdateDownloadSource.github;
-  late var _source = _initialSource;
+  // 下载源仅剩 GitHub（镜像层已移除），保留枚举以支撑下载参数传递。
+  static const _source = UpdateDownloadSource.github;
   late var _type = widget.updateInfo.recommendedInstallationType;
   var _disableAutoUpdate = false;
 
@@ -234,34 +222,17 @@ class _UpdateAvailableDialogState extends State<UpdateAvailableDialog> {
 
   Widget _buildDownloadOptions() {
     final types = widget.updateInfo.availableInstallationTypes;
+    if (types.length <= 1) return const SizedBox.shrink();
     return SettingsSection(
       margin: EdgeInsets.zero,
       tiles: [
-        SettingsDropdownTile<UpdateDownloadSource>(
-          leading: Icons.cloud_download_rounded,
-          title: const Text('下载源'),
-          value: _source,
-          options: {
-            for (final source in UpdateDownloadSource.values)
-              if (source != UpdateDownloadSource.mirror || _mirrorAvailable)
-                source: source.label,
-          },
-          onChanged: (source) => setState(() => _source = source),
+        SettingsDropdownTile<InstallationType>(
+          leading: Icons.inventory_2_rounded,
+          title: const Text('安装类型'),
+          value: _type,
+          options: {for (final type in types) type: type.label},
+          onChanged: (type) => setState(() => _type = type),
         ),
-        if (types.length > 1)
-          SettingsDropdownTile<InstallationType>(
-            leading: Icons.inventory_2_rounded,
-            title: const Text('安装类型'),
-            value: _type,
-            options: {for (final type in types) type: type.label},
-            onChanged: (type) => setState(() {
-              _type = type;
-              // 新安装类型的资产无镜像直链时，回落 GitHub 源。
-              if (!_mirrorAvailable && _source == UpdateDownloadSource.mirror) {
-                _source = UpdateDownloadSource.github;
-              }
-            }),
-          ),
       ],
     );
   }

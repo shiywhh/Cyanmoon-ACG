@@ -82,7 +82,7 @@ void main() {
     expect(GStorage.getSetting(SettingsKeys.bangumiSyncEnable), isTrue);
   });
 
-  test('ECH image acceleration preserves Bangumi API mirror routing', () async {
+  test('ECH acceleration keeps official Bangumi API hosts', () async {
     final previousMode = GStorage.getSetting<String>(
       SettingsKeys.imageAcceleration,
     );
@@ -91,15 +91,13 @@ void main() {
     );
     await GStorage.putSetting(SettingsKeys.imageAcceleration, 'ech');
     await GStorage.putSetting(SettingsKeys.enableBangumiProxy, true);
+    // 镜像层已移除：加速模式不再改写请求域名，官方 host 原样保留。
     for (final url in [
       'https://api.bgm.tv/v0/subjects/1',
       'https://next.bgm.tv/p1/subjects/1?test=value',
     ]) {
       await BangumiClient.instance.get(url);
-      expect(
-        adapter.requests.last.uri,
-        Uri.parse(url).replace(host: 'api.kazumi.fyi'),
-      );
+      expect(adapter.requests.last.uri, Uri.parse(url));
     }
   });
 

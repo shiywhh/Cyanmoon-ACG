@@ -9,10 +9,7 @@ import 'package:cyanmoon_acg/utils/crypto.dart';
 
 String getUpdateDownloadUrlFromAsset(
     Map<String, dynamic>? asset, UpdateDownloadSource source) {
-  final url = asset?[switch (source) {
-    UpdateDownloadSource.mirror => 'mirror_download_url',
-    UpdateDownloadSource.github => 'browser_download_url',
-  }];
+  final url = asset?['browser_download_url'];
   return url is String ? url.trim() : '';
 }
 
