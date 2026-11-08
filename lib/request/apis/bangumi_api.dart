@@ -40,7 +40,8 @@ class BangumiApi {
       );
       for (int i = 1; i <= 7; i++) {
         List<BangumiItem> bangumiList = [];
-        final jsonList = jsonData['$i'];
+        // 缺失的天键按空处理，不让单键缺失毁掉整张时间表。
+        final jsonList = jsonData['$i'] ?? [];
         for (dynamic jsonItem in jsonList) {
           try {
             BangumiItem bangumiItem = BangumiItem.fromJson(jsonItem['subject']);
@@ -51,6 +52,8 @@ class BangumiApi {
       }
     } catch (e) {
       KazumiLogger().e('Resolve calendar failed', error: e);
+      // 失败向上抛出：调用方进入错误态并可重试，而不是静默展示残缺时间表。
+      rethrow;
     }
     return bangumiCalendar;
   }
@@ -88,6 +91,8 @@ class BangumiApi {
       }
     } catch (e) {
       KazumiLogger().e('Resolve bangumi list failed', error: e);
+      // 页失败向上抛出：由调用方进入错误态并可重试，而不是静默丢掉该季度的这一页。
+      rethrow;
     }
     try {
       for (int weekday = 1; weekday <= 7; weekday++) {

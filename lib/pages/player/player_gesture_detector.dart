@@ -24,11 +24,15 @@ class PlayerGestureDetector extends StatefulWidget {
 
 class _PlayerGestureDetectorState extends State<PlayerGestureDetector> {
   bool? _cancelPending;
+  final Set<int> _downPointers = {};
+  int? _lastDownPointer;
+  int? _seekPointer;
 
   void _endSeek({bool cancelled = false}) {
     final cancelPending = _cancelPending;
     if (cancelPending == null) return;
     _cancelPending = null;
+    _seekPointer = null;
     widget.onSeekEnd(cancelled || cancelPending);
   }
 
@@ -45,10 +49,28 @@ class _PlayerGestureDetectorState extends State<PlayerGestureDetector> {
         return Listener(
           behavior: HitTestBehavior.translucent,
           // Flutter reports pointer cancellation as onEnd for accepted drags.
-          onPointerCancel: (_) => _endSeek(cancelled: true),
+          onPointerDown: (event) {
+            _downPointers.add(event.pointer);
+            _lastDownPointer = event.pointer;
+          },
+          onPointerUp: (event) => _downPointers.remove(event.pointer),
+          onPointerCancel: (event) {
+            _downPointers.remove(event.pointer);
+            // 仅当被取消的是发起 seek 的那根指针时才结束 seek；
+            // 第二根手指被系统/手势抢占取消不应误结束进行中的横向 seek。
+            if (_seekPointer == null || _seekPointer == event.pointer) {
+              _endSeek(cancelled: true);
+            }
+          },
           child: GestureDetector(
             onHorizontalDragStart: (details) {
               _cancelPending = isAtEdge(details.localPosition);
+              // 发起 seek 的指针取最近按下且仍存活的指针（拖拽回调不携带 pointer id）。
+              final candidate = _lastDownPointer;
+              _seekPointer =
+                  candidate != null && _downPointers.contains(candidate)
+                      ? candidate
+                      : null;
               widget.onSeekStart();
             },
             onHorizontalDragUpdate: (details) {

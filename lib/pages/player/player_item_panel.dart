@@ -7,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kazumi/bean/widget/kazumi_menu.dart';
 import 'package:kazumi/bean/widget/play_pause_icon.dart';
+import 'package:kazumi/services/logging/logger.dart';
 import 'package:kazumi/pages/player/player_adjustment_hud.dart';
 import 'package:kazumi/pages/player/danmaku_destination_sheet.dart';
 import 'package:kazumi/pages/player/controller/player_aspect_ratio.dart';
@@ -883,16 +884,30 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
                 child: dtb.DragToMoveArea(
                   child: compact
                       ? const SizedBox(height: 40)
-                      : Text(
-                          ' ${videoPageController.title} [${videoPageController.roadList[videoPageController.selectedEpisode.road].identifier[videoPageController.selectedEpisode.episode - 1]}]',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: Theme.of(
-                              context,
-                            ).textTheme.titleMedium!.fontSize,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                      : Builder(builder: (context) {
+                          // identifier 与 data 等长仅靠插件自觉维护，构建期防裸索引红屏。
+                          final controller = videoPageController;
+                          final road = controller.selectedEpisode.road;
+                          final identifier =
+                              road >= 0 && road < controller.roadList.length
+                                  ? controller.roadList[road].identifier
+                                  : const <String>[];
+                          final episode = controller.selectedEpisode.episode;
+                          final episodeName =
+                              episode >= 1 && episode <= identifier.length
+                                  ? identifier[episode - 1]
+                                  : '';
+                          return Text(
+                            ' ${controller.title} [$episodeName]',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: Theme.of(
+                                context,
+                              ).textTheme.titleMedium!.fontSize,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }),
                 ),
               ),
               _forwardButton(),
@@ -908,15 +923,21 @@ class _PlayerItemPanelState extends State<PlayerItemPanel> {
                 IconButton(
                   onPressed: () async {
                     if (isDesktop()) {
-                      if (videoPageController.isPip) {
-                        await PipUtils.exitDesktopPIPWindow();
-                      } else {
-                        await PipUtils.enterDesktopPIPWindow(
-                          width: playerController.debug.playerWidth,
-                          height: playerController.debug.playerHeight,
-                        );
+                      try {
+                        if (videoPageController.isPip) {
+                          await PipUtils.exitDesktopPIPWindow();
+                        } else {
+                          await PipUtils.enterDesktopPIPWindow(
+                            width: playerController.debug.playerWidth,
+                            height: playerController.debug.playerHeight,
+                          );
+                        }
+                        // 仅在窗口操作成功后翻转状态，失败时按钮语义不再反向。
+                        videoPageController.isPip = !videoPageController.isPip;
+                      } catch (e) {
+                        KazumiLogger()
+                            .w('PlayerPanel: desktop PiP failed', error: e);
                       }
-                      videoPageController.isPip = !videoPageController.isPip;
                       return;
                     }
                     await widget.enterAndroidPictureInPicture();

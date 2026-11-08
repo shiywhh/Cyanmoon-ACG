@@ -396,6 +396,10 @@ class _PlayerItemState extends State<PlayerItem>
     if (videoPageController.loading) return;
     final selection = videoPageController.selectedEpisode;
     final currentRoad = selection.road;
+    // 键盘 N/P 与音频服务通知可能早于路线列表就绪触发，防裸索引越界。
+    if (currentRoad < 0 || currentRoad >= videoPageController.roadList.length) {
+      return;
+    }
     final episodes = videoPageController.roadList[currentRoad].data;
     int targetEpisode;
     if (direction == 'next') {
@@ -1225,13 +1229,18 @@ class _PlayerItemState extends State<PlayerItem>
         );
       }
       final playingSelection = videoPageController.playbackEpisode;
+      // roadList 与 selection 可能存在不同步窗口（加载失败/换源），防每秒 tick 裸索引越界。
       final playingRoadData =
-          videoPageController.roadList[playingSelection.road];
+          playingSelection.road >= 0 &&
+                  playingSelection.road < videoPageController.roadList.length
+              ? videoPageController.roadList[playingSelection.road]
+              : null;
       if (playerController.playback.completed && !videoPageController.loading) {
         if (playerController.playback.resumedNearEnd) {
           // Replay stale near-end resumes instead of advancing to the next episode.
           unawaited(playerController.playback.restartFromBeginning());
-        } else if (playingSelection.episode < playingRoadData.data.length &&
+        } else if (playingRoadData != null &&
+            playingSelection.episode < playingRoadData.data.length &&
             autoPlayNext) {
           final nextSelection = VideoEpisodeSelection(
             episode: playingSelection.episode + 1,
@@ -1507,6 +1516,17 @@ class _PlayerItemState extends State<PlayerItem>
                           setPlaybackSpeed(longPressPlaySpeed);
                         },
                         onLongPressEnd: (_) {
+                          if (playerController.panel.lockPanel) {
+                            return;
+                          }
+                          setState(() {
+                            playerController.panel.showPlaySpeed = false;
+                          });
+                          setPlaybackSpeed(lastPlayerSpeed);
+                        },
+                        // 指针被系统取消（来电/切窗/手势抢占）时只回调 Cancel 不回调 End，
+                        // 不处理会导致倍速永久卡在长按倍速值。
+                        onLongPressCancel: (_) {
                           if (playerController.panel.lockPanel) {
                             return;
                           }
